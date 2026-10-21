@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Strings the design system itself renders. Feature screens own their own text; only labels a
+  component shows on its own (a dialog's dismiss button) belong here, so they are translated
+  once instead of in every feature.
+-->
+<resources>
+    <string name="action_cancel">Cancel</string>
+</resources>

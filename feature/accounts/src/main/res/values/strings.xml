@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="accounts_title">Accounts</string>
+    <string name="accounts_add">Add account</string>
+    <string name="accounts_empty_title">No accounts yet</string>
+    <string name="accounts_empty_message">Add your cash, bank account or card to start tracking.</string>
+    <string name="accounts_total_balance">Total balance</string>
+    <plurals name="accounts_foreign_currency_note">
+        <item quantity="one">%d account in another currency is not included in this total.</item>
+        <item quantity="other">%d accounts in another currency are not included in this total.</item>
+    </plurals>
+    <string name="account_subtitle_included">%1$s · in total</string>
+    <string name="account_subtitle_excluded">%1$s · not in total</string>
+    <string name="account_deleted">%1$s deleted</string>
+    <string name="account_delete_title">Delete “%1$s”?</string>
+    <string name="account_delete_message">This account has no transactions.</string>
+    <plurals name="account_delete_message_with_transactions">
+        <item quantity="one">%d transaction on this account will be deleted as well. This cannot be undone.</item>
+        <item quantity="other">%d transactions on this account will be deleted as well. This cannot be undone.</item>
+    </plurals>
+
+    <string name="account_editor_title_new">New account</string>
+    <string name="account_editor_title_edit">Edit account</string>
+    <string name="account_field_name">Name</string>
+    <string name="account_field_type">Type</string>
+    <string name="account_field_currency">Currency</string>
+    <string name="account_field_initial_balance">Opening balance</string>
+    <string name="account_field_included_in_total">Include in total balance</string>
+    <string name="account_field_color">Colour</string>
+    <string name="account_error_empty_name">Give the account a name</string>
+    <string name="account_error_name_too_long">Keep the name under 40 characters</string>
+    <string name="account_error_invalid_balance">Enter a valid amount</string>
+
+    <string name="account_type_cash">Cash</string>
+    <string name="account_type_bank">Bank</string>
+    <string name="account_type_card">Card</string>
+    <string name="account_type_wallet">Wallet</string>
+    <string name="account_type_crypto">Crypto</string>
+    <string name="account_type_other">Other</string>
+
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="error_not_found">That entry no longer exists</string>
+    <string name="error_storage">Could not save. Please try again.</string>
+    <string name="error_unknown">Something went wrong</string>
+</resources>
