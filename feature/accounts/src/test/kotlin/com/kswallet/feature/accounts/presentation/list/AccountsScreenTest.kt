@@ -49,7 +49,7 @@ class AccountsScreenTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
     private val currency = Currency.INR
-    private val intents = mutableListOf<AccountsAction>()
+    private val actions = mutableListOf<AccountsAction>()
 
     @Test
     fun `a list still loading shows a spinner, not the empty state`() {
@@ -98,7 +98,7 @@ class AccountsScreenTest {
         composeRule.onNodeWithText(money("850.25")).assertIsDisplayed()
 
         composeRule.onNodeWithText("Savings").performClick()
-        assertEquals(listOf(AccountsAction.AccountClicked(AccountId(7))), intents)
+        assertEquals(listOf(AccountsAction.AccountClicked(AccountId(7))), actions)
     }
 
     @Test
@@ -115,7 +115,7 @@ class AccountsScreenTest {
         show(state(accounts = listOf(account())))
 
         composeRule.onNodeWithContentDescription(str(R.string.accounts_add)).performClick()
-        assertEquals(listOf(AccountsAction.AddAccountClicked), intents)
+        assertEquals(listOf(AccountsAction.AddAccountClicked), actions)
     }
 
     @Test
@@ -123,7 +123,7 @@ class AccountsScreenTest {
         show(state(accounts = listOf(account(id = 4))))
 
         composeRule.onNodeWithContentDescription(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(AccountsAction.DeleteClicked(AccountId(4))), intents)
+        assertEquals(listOf(AccountsAction.DeleteClicked(AccountId(4))), actions)
     }
 
     @Test
@@ -141,7 +141,7 @@ class AccountsScreenTest {
         ).assertIsDisplayed()
 
         composeRule.onNodeWithText(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(AccountsAction.DeleteConfirmed), intents)
+        assertEquals(listOf(AccountsAction.DeleteConfirmed), actions)
     }
 
     @Test
@@ -152,7 +152,7 @@ class AccountsScreenTest {
         composeRule.onNodeWithText(str(R.string.account_delete_message)).assertIsDisplayed()
 
         composeRule.onNodeWithText(CancelLabel).performClick()
-        assertEquals(listOf(AccountsAction.DeleteDismissed), intents)
+        assertEquals(listOf(AccountsAction.DeleteDismissed), actions)
     }
 
     // --- plumbing ------------------------------------------------------------------------_
@@ -160,7 +160,7 @@ class AccountsScreenTest {
     private fun show(state: AccountsState) {
         composeRule.setContent {
             KsWalletTheme {
-                AccountsScreen(state = state, onAction = { intents += it })
+                AccountsScreen(state = state, onAction = { actions += it })
             }
         }
     }

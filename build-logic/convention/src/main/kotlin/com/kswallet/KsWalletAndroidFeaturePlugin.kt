@@ -18,6 +18,7 @@ class KsWalletAndroidFeaturePlugin : Plugin<Project> {
         applyPlugins(
             "kswallet-android-library-compose",
             "kswallet-android-di",
+            "kotlin-serialization",
         )
 
         // Allowed core dependencies - anything else must be added on purpose.

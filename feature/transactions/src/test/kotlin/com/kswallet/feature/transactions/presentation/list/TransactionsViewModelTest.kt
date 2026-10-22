@@ -43,7 +43,7 @@ import kotlin.time.Instant
  * The ledger ViewModel: filter -> re-query, row -> editor, delete -> repository.
  *
  * The list itself is the mapper's job (tested separately), so this test only pins the
- * wiring between intents, the data streams and the effects.
+ * wiring between actions, the data streams and the effects.
  */
 @OptIn(ExperimentalTime::class, ExperimentalCoroutinesApi::class)
 class TransactionsViewModelTest {

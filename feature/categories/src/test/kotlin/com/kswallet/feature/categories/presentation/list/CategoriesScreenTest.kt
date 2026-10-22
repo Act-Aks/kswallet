@@ -40,7 +40,7 @@ class CategoriesScreenTest {
     val composeRule = createComposeRule()
 
     private val context: Context = ApplicationProvider.getApplicationContext()
-    private val intents = mutableListOf<CategoriesAction>()
+    private val actions = mutableListOf<CategoriesAction>()
 
     @Test
     fun `a list still loading shows a spinner, not the empty state`() {
@@ -58,7 +58,7 @@ class CategoriesScreenTest {
         composeRule.onNodeWithText(str(R.string.categories_empty_message)).assertIsDisplayed()
 
         composeRule.onNodeWithContentDescription(str(R.string.categories_add)).performClick()
-        assertEquals(listOf(CategoriesAction.AddCategoryClicked), intents)
+        assertEquals(listOf(CategoriesAction.AddCategoryClicked), actions)
     }
 
     @Test
@@ -73,7 +73,7 @@ class CategoriesScreenTest {
         show(state())
 
         composeRule.onNodeWithText(str(R.string.category_type_income)).performClick()
-        assertEquals(listOf(CategoriesAction.TypeSelected(CategoryType.INCOME)), intents)
+        assertEquals(listOf(CategoriesAction.TypeSelected(CategoryType.INCOME)), actions)
     }
 
     @Test
@@ -84,7 +84,7 @@ class CategoriesScreenTest {
         composeRule.onNodeWithText(plural(R.plurals.category_transaction_count, 3, 3)).assertIsDisplayed()
 
         composeRule.onNodeWithText("Groceries").performClick()
-        assertEquals(listOf(CategoriesAction.CategoryClicked(CategoryId(5))), intents)
+        assertEquals(listOf(CategoriesAction.CategoryClicked(CategoryId(5))), actions)
     }
 
     @Test
@@ -92,7 +92,7 @@ class CategoriesScreenTest {
         show(state(categories = listOf(category(id = 2))))
 
         composeRule.onNodeWithContentDescription(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(CategoriesAction.DeleteClicked(CategoryId(2))), intents)
+        assertEquals(listOf(CategoriesAction.DeleteClicked(CategoryId(2))), actions)
     }
 
     @Test
@@ -105,7 +105,7 @@ class CategoriesScreenTest {
         ).assertIsDisplayed()
 
         composeRule.onNodeWithText(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(CategoriesAction.DeleteConfirmed), intents)
+        assertEquals(listOf(CategoriesAction.DeleteConfirmed), actions)
     }
 
     @Test
@@ -116,7 +116,7 @@ class CategoriesScreenTest {
         composeRule.onNodeWithText(str(R.string.category_delete_message)).assertIsDisplayed()
 
         composeRule.onNodeWithText(CancelLabel).performClick()
-        assertEquals(listOf(CategoriesAction.DeleteDismissed), intents)
+        assertEquals(listOf(CategoriesAction.DeleteDismissed), actions)
     }
 
     // --- plumbing ------------------------------------------------------------------------_
@@ -124,7 +124,7 @@ class CategoriesScreenTest {
     private fun show(state: CategoriesState) {
         composeRule.setContent {
             KsWalletTheme {
-                CategoriesScreen(state = state, onAction = { intents += it })
+                CategoriesScreen(state = state, onAction = { actions += it })
             }
         }
     }

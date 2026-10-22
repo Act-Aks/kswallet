@@ -31,7 +31,8 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "KsWallet"
 
-//include(":app")
+include(":app")
+
 include(":core:common")
 include(":core:database")
 include(":core:datastore")

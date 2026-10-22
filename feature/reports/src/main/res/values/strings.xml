@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reports_title">Reports</string>
+    <string name="reports_previous_month">Previous month</string>
+    <string name="reports_next_month">Next month</string>
+
+    <string name="reports_spent">Spent</string>
+    <string name="reports_income">Income</string>
+    <string name="reports_net">Net</string>
+    <string name="reports_in_progress">Day %1$d of %2$d</string>
+    <string name="reports_average_per_day">About %1$s a day</string>
+
+    <string name="reports_change_up">%1$s more than last month</string>
+    <string name="reports_change_down">%1$s less than last month</string>
+    <string name="reports_change_same">About the same as last month</string>
+    <string name="reports_no_comparison">Nothing was recorded last month, so there is nothing to compare</string>
+
+    <string name="reports_daily_title">Daily spending</string>
+    <string name="reports_where_it_went">Where it went</string>
+    <string name="reports_uncategorised">Uncategorised</string>
+    <string name="reports_share_of_spending">%1$d%% of spending</string>
+
+    <plurals name="reports_entry_count">
+        <item quantity="one">%d entry</item>
+        <item quantity="other">%d entries</item>
+    </plurals>
+
+    <string name="reports_empty_title">Nothing recorded</string>
+    <string name="reports_empty_message">No income or expenses in %1$s.</string>
+    <string name="reports_error_load">Could not load this month\'s report</string>
+</resources>

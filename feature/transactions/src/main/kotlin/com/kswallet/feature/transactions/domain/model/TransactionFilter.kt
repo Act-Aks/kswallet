@@ -8,7 +8,7 @@ import com.kswallet.core.model.TransactionType
  * What the list screen filters on.
  *
  * The filter is a plain value object: it lives in the state, the user changes it with
- * intents, and the use case turns it into query parameters. No filter logic in the UI.
+ * actions, and the use case turns it into query parameters. No filter logic in the UI.
  */
 data class TransactionFilter(
     val type: TransactionType? = null,

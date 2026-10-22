@@ -41,7 +41,7 @@ class BudgetsScreenTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
     private val currency = Currency.INR
-    private val intents = mutableListOf<BudgetsAction>()
+    private val actions = mutableListOf<BudgetsAction>()
 
     /**
      * The label of a Material 3 extended FAB lives behind `clearAndSetSemantics` inside the
@@ -61,7 +61,7 @@ class BudgetsScreenTest {
 
         // The empty state owns the call to action, so the FAB would be a second one.
         fabLabel().assertDoesNotExist()
-        assertEquals(listOf(BudgetsAction.AddBudgetClicked), intents)
+        assertEquals(listOf(BudgetsAction.AddBudgetClicked), actions)
     }
 
     @Test
@@ -72,7 +72,7 @@ class BudgetsScreenTest {
         composeRule.onNodeWithText(str(R.string.budgets_empty_title)).assertDoesNotExist()
 
         fabLabel().performClick()
-        assertEquals(listOf(BudgetsAction.AddBudgetClicked), intents)
+        assertEquals(listOf(BudgetsAction.AddBudgetClicked), actions)
     }
 
     @Test
@@ -86,7 +86,7 @@ class BudgetsScreenTest {
         composeRule.onNodeWithText(str(R.string.budget_left, money("600.00"))).assertIsDisplayed()
 
         composeRule.onNodeWithText("Groceries").performClick()
-        assertEquals(listOf(BudgetsAction.BudgetClicked(BudgetId(7))), intents)
+        assertEquals(listOf(BudgetsAction.BudgetClicked(BudgetId(7))), actions)
     }
 
     @Test
@@ -117,7 +117,7 @@ class BudgetsScreenTest {
         show(stateWith(row(id = 3, limit = "1000.00", spent = "400.00")))
 
         composeRule.onNodeWithContentDescription(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(BudgetsAction.DeleteClicked(BudgetId(3))), intents)
+        assertEquals(listOf(BudgetsAction.DeleteClicked(BudgetId(3))), actions)
     }
 
     @Test
@@ -128,7 +128,7 @@ class BudgetsScreenTest {
         composeRule.onNodeWithText(str(R.string.budget_delete_message)).assertIsDisplayed()
 
         composeRule.onNodeWithText(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(BudgetsAction.DeleteConfirmed), intents)
+        assertEquals(listOf(BudgetsAction.DeleteConfirmed), actions)
     }
 
     @Test
@@ -137,7 +137,7 @@ class BudgetsScreenTest {
 
         composeRule.onNodeWithText(CancelLabel).performClick()
 
-        assertEquals(listOf(BudgetsAction.DeleteDismissed), intents)
+        assertEquals(listOf(BudgetsAction.DeleteDismissed), actions)
     }
 
     @Test
@@ -153,7 +153,7 @@ class BudgetsScreenTest {
     private fun show(state: BudgetsState) {
         composeRule.setContent {
             KsWalletTheme {
-                BudgetsScreen(state = state, onAction = { intents += it })
+                BudgetsScreen(state = state, onAction = { actions += it })
             }
         }
     }

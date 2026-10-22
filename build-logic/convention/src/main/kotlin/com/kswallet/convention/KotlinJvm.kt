@@ -9,7 +9,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 internal fun Project.configureKotlinJvm() {
     extensions.configure<KotlinJvmProjectExtension> {
         compilerOptions {
-            jvmTarget.set(jvmTarget)
+            jvmTarget.set(this@configureKotlinJvm.jvmTarget)
             freeCompilerArgs.add("-Xjsr305=strict")
         }
     }

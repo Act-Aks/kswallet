@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-   Sample backup rules file; uncomment and customize as necessary.
-   See https://developer.android.com/guide/topics/data/autobackup
-   for details.
-   Note: This file is ignored for devices older than API 31
-   See https://developer.android.com/about/versions/12/backup-restore
+  The ledger is the user's data, so the database is what gets backed up.
+  Writing an <include> element at all means "nothing else is included": the DataStore
+  preferences (theme mode, base currency) are recreated from defaults on a new device, so
+  they are deliberately left out instead of being listed as an exclusion.
 -->
 <full-backup-content>
-    <!--
-   <include domain="sharedpref" path="."/>
-   <exclude domain="sharedpref" path="device.xml"/>
--->
+    <include
+        domain="database"
+        path="kswallet.db" />
 </full-backup-content>
