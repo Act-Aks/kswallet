@@ -9,6 +9,6 @@ android {
 dependencies {
     // Home is an aggregator: it reads the accounts and transactions *domain* layers and
     // renders a dashboard. It never touches their data or presentation code.
-    implementation(project(":feature:accounts"))
-    implementation(project(":feature:transactions"))
+    implementation(projects.feature.accounts)
+    implementation(projects.feature.transactions)
 }

@@ -1,7 +1,7 @@
 package com.kswallet.feature.categories.presentation.error
 
 import com.kswallet.core.common.result.DomainError
-import com.kswallet.core.mvi.UiMessage
+import com.kswallet.core.ui.util.UiMessage
 import com.kswallet.feature.categories.R
 import com.kswallet.feature.categories.domain.validation.CategoryFormError
 import com.kswallet.feature.categories.presentation.editor.CategoryEditorError

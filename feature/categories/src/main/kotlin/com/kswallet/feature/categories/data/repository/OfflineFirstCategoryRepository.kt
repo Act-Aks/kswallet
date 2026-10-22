@@ -3,7 +3,6 @@ package com.kswallet.feature.categories.data.repository
 import com.kswallet.core.common.result.Outcome
 import com.kswallet.core.common.result.map
 import com.kswallet.core.common.result.outcomeOfSuspend
-import com.kswallet.core.common.result.outcomeOf
 import com.kswallet.core.database.dao.CategoryDao
 import com.kswallet.core.model.Category
 import com.kswallet.core.model.CategoryId

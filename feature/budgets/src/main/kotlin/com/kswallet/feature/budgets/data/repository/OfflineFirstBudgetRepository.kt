@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.map
  * clock, and the flows are re-subscribed when the day changes - which is what makes a budget
  * quietly roll over to the new month without the process being restarted.
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class OfflineFirstBudgetRepository(
     private val budgetDao: BudgetDao,
     private val timeProvider: TimeProvider,

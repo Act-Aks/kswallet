@@ -3,17 +3,17 @@ package com.kswallet.feature.budgets.presentation.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.kswallet.core.navigation.KsDestination
+import com.kswallet.core.navigation.KsWalletDestination
 import com.kswallet.feature.budgets.presentation.editor.BudgetEditorRoute
 import com.kswallet.feature.budgets.presentation.list.BudgetsRoute
 import kotlinx.serialization.Serializable
 
 /** Destinations owned by the budgets feature. */
 @Serializable
-data object BudgetsDestination : KsDestination
+data object BudgetsDestination : KsWalletDestination
 
 @Serializable
-data class BudgetEditorDestination(val budgetId: Long? = null) : KsDestination
+data class BudgetEditorDestination(val budgetId: Long? = null) : KsWalletDestination
 
 fun NavGraphBuilder.budgetsScreen(
     onNavigateBack: () -> Unit,

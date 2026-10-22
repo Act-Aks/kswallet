@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transactions_title">Transactions</string>
+    <string name="transactions_add">Add transaction</string>
+    <string name="transactions_empty_title">Nothing here yet</string>
+    <string name="transactions_empty_message">Add your first income or expense and it will show up here.</string>
+    <string name="transactions_income">Income</string>
+    <string name="transactions_expense">Expense</string>
+    <string name="transactions_filter_all">All</string>
+    <string name="transaction_deleted">Transaction deleted</string>
+    <string name="transaction_delete_title">Delete transaction</string>
+    <string name="transaction_delete_message">“%1$s” will be removed from the ledger. This cannot be undone.</string>
+
+    <string name="transaction_editor_title_new">New transaction</string>
+    <string name="transaction_editor_title_edit">Edit transaction</string>
+    <string name="transaction_field_amount">Amount</string>
+    <string name="transaction_field_account">Account</string>
+    <string name="transaction_field_transfer_target">To account</string>
+    <string name="transaction_field_category">Category</string>
+    <string name="transaction_field_note">Note</string>
+    <string name="transaction_field_none">None</string>
+
+    <string name="transaction_type_income">Income</string>
+    <string name="transaction_type_expense">Expense</string>
+    <string name="transaction_type_transfer">Transfer</string>
+
+    <string name="period_this_month">This month</string>
+    <string name="period_last_30_days">Last 30 days</string>
+    <string name="period_this_year">This year</string>
+    <string name="period_all_time">All time</string>
+
+    <string name="transaction_error_invalid_amount">Enter a valid amount</string>
+    <string name="transaction_error_amount_not_positive">The amount must be greater than zero</string>
+    <string name="transaction_error_account_missing">Pick an account</string>
+    <string name="transaction_error_transfer_missing">Pick the account to transfer to</string>
+    <string name="transaction_error_transfer_same">Pick a different target account</string>
+    <string name="transaction_error_category_missing">Pick a category</string>
+    <string name="transaction_error_currency_mismatch">Transfers need both accounts in the same currency</string>
+
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="error_not_found">That entry no longer exists</string>
+    <string name="error_storage">Could not save. Please try again.</string>
+    <string name="error_unknown">Something went wrong</string>
+</resources>

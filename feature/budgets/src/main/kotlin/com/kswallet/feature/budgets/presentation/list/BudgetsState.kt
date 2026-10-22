@@ -9,4 +9,3 @@ data class BudgetsState(
 ) : ScreenState {
     val isEmpty: Boolean get() = !isLoading && budgets.isEmpty()
 }
-

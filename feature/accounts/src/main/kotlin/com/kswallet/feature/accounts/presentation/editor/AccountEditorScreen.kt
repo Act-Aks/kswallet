@@ -78,7 +78,7 @@ fun AccountEditorRoute(
 
     AccountEditorScreen(
         state = state,
-        onIntent = viewModel::onAction,
+        onAction = viewModel::onAction,
         snackbarHostState = snackbarHostState,
     )
 }
@@ -87,7 +87,7 @@ fun AccountEditorRoute(
 @Composable
 fun AccountEditorScreen(
     state: AccountEditorState,
-    onIntent: (AccountEditorAction) -> Unit,
+    onAction: (AccountEditorAction) -> Unit,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState? = null,
 ) {
@@ -95,7 +95,7 @@ fun AccountEditorScreen(
         title = stringResource(
             if (state.isNew) R.string.account_editor_title_new else R.string.account_editor_title_edit,
         ),
-        onNavigateBack = { onIntent(AccountEditorAction.BackClicked) },
+        onNavigateBack = { onAction(AccountEditorAction.BackClicked) },
         snackbarHostState = snackbarHostState,
         modifier = modifier,
     ) { padding ->
@@ -114,7 +114,7 @@ fun AccountEditorScreen(
         ) {
             OutlinedTextField(
                 value = state.name,
-                onValueChange = { onIntent(AccountEditorAction.NameChanged(it)) },
+                onValueChange = { onAction(AccountEditorAction.NameChanged(it)) },
                 label = { Text(stringResource(R.string.account_field_name)) },
                 isError = state.nameError != null,
                 supportingText = state.nameError?.let { error -> { Text(error.toUiMessage().asText()) } },
@@ -127,7 +127,7 @@ fun AccountEditorScreen(
                 AccountType.entries.take(3).forEach { type ->
                     FilterChip(
                         selected = state.type == type,
-                        onClick = { onIntent(AccountEditorAction.TypeChanged(type)) },
+                        onClick = { onAction(AccountEditorAction.TypeChanged(type)) },
                         leadingIcon = { androidx.compose.material3.Icon(type.icon(), contentDescription = null) },
                         label = { Text(type.label()) },
                     )
@@ -137,7 +137,7 @@ fun AccountEditorScreen(
                 AccountType.entries.drop(3).forEach { type ->
                     FilterChip(
                         selected = state.type == type,
-                        onClick = { onIntent(AccountEditorAction.TypeChanged(type)) },
+                        onClick = { onAction(AccountEditorAction.TypeChanged(type)) },
                         leadingIcon = { androidx.compose.material3.Icon(type.icon(), contentDescription = null) },
                         label = { Text(type.label()) },
                     )
@@ -164,7 +164,7 @@ fun AccountEditorScreen(
                         DropdownMenuItem(
                             text = { Text("${currency.code} (${currency.symbol})") },
                             onClick = {
-                                onIntent(AccountEditorAction.CurrencyChanged(currency))
+                                onAction(AccountEditorAction.CurrencyChanged(currency))
                                 currencyExpanded = false
                             },
                         )
@@ -174,7 +174,7 @@ fun AccountEditorScreen(
 
             OutlinedTextField(
                 value = state.initialBalanceText,
-                onValueChange = { onIntent(AccountEditorAction.InitialBalanceChanged(it)) },
+                onValueChange = { onAction(AccountEditorAction.InitialBalanceChanged(it)) },
                 label = { Text(stringResource(R.string.account_field_initial_balance)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 isError = state.balanceError != null,
@@ -194,7 +194,7 @@ fun AccountEditorScreen(
                 )
                 Switch(
                     checked = state.includedInTotal,
-                    onCheckedChange = { onIntent(AccountEditorAction.IncludedInTotalChanged(it)) },
+                    onCheckedChange = { onAction(AccountEditorAction.IncludedInTotalChanged(it)) },
                 )
             }
 
@@ -210,13 +210,13 @@ fun AccountEditorScreen(
                                 color = MaterialTheme.colorScheme.onSurface,
                                 shape = CircleShape,
                             )
-                            .clickable { onIntent(AccountEditorAction.ColorChanged(colorValue)) },
+                            .clickable { onAction(AccountEditorAction.ColorChanged(colorValue)) },
                     )
                 }
             }
 
             Button(
-                onClick = { onIntent(AccountEditorAction.SaveClicked) },
+                onClick = { onAction(AccountEditorAction.SaveClicked) },
                 enabled = !state.isSaving,
                 modifier = Modifier.fillMaxWidth(),
             ) {

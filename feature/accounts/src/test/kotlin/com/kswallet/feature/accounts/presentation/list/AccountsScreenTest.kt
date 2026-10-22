@@ -160,7 +160,7 @@ class AccountsScreenTest {
     private fun show(state: AccountsState) {
         composeRule.setContent {
             KsWalletTheme {
-                AccountsScreen(state = state, onIntent = { intents += it })
+                AccountsScreen(state = state, onAction = { intents += it })
             }
         }
     }

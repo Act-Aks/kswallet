@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="categories_title">Categories</string>
+    <string name="categories_add">Add category</string>
+    <string name="categories_empty_title">No categories yet</string>
+    <string name="categories_empty_message">Categories are how KsWallet groups your spending. Create your first one.</string>
+    <string name="category_type_expense">Expense</string>
+    <string name="category_type_income">Income</string>
+    <plurals name="category_transaction_count">
+        <item quantity="one">%d transaction</item>
+        <item quantity="other">%d transactions</item>
+    </plurals>
+    <string name="category_delete_title">Delete “%1$s”?</string>
+    <string name="category_delete_message">This category is not used by any transaction.</string>
+    <plurals name="category_delete_message_with_transactions">
+        <item quantity="one">%d transaction will keep its amount but lose this category.</item>
+        <item quantity="other">%d transactions will keep their amount but lose this category.</item>
+    </plurals>
+    <string name="category_editor_title_new">New category</string>
+    <string name="category_editor_title_edit">Edit category</string>
+    <string name="category_field_name">Name</string>
+    <string name="category_field_icon">Icon</string>
+    <string name="category_field_color">Colour</string>
+    <string name="category_error_empty_name">Give the category a name</string>
+    <string name="category_error_name_too_long">Keep the name under 40 characters</string>
+    <string name="category_error_duplicate">A category with this name already exists</string>
+
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="error_not_found">That entry no longer exists</string>
+    <string name="error_conflict">This change conflicts with existing data</string>
+    <string name="error_storage">Could not save. Please try again.</string>
+    <string name="error_unknown">Something went wrong</string>
+</resources>

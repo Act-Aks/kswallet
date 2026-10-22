@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="budgets_title">Budgets</string>
+    <string name="budgets_empty_title">No budgets yet</string>
+    <string name="budgets_empty_message">Set a limit for a category and KsWallet will track what you spend against it this week, month or year.</string>
+    <string name="budgets_empty_action">Create the first budget</string>
+    <string name="budgets_new">New budget</string>
+    <string name="budget_spent_of_limit">%1$s of %2$s</string>
+    <string name="budget_over_by">%1$s over</string>
+    <string name="budget_left">%1$s left</string>
+    <string name="budget_delete_title">Delete the “%1$s” budget?</string>
+    <string name="budget_delete_message">Your transactions are not affected — only the limit disappears.</string>
+    <string name="budget_deleted">“%1$s” budget deleted</string>
+
+    <string name="budget_editor_title_new">New budget</string>
+    <string name="budget_editor_title_edit">Edit budget</string>
+    <string name="budget_field_category">Category</string>
+    <string name="budget_field_category_hint">Pick an expense category</string>
+    <string name="budget_field_limit">Limit (%1$s)</string>
+    <string name="budget_field_period">Period</string>
+    <string name="budget_period_weekly">Week</string>
+    <string name="budget_period_monthly">Month</string>
+    <string name="budget_period_yearly">Year</string>
+    <string name="budget_spent_this_week">%1$s spent this week</string>
+    <string name="budget_spent_this_month">%1$s spent this month</string>
+    <string name="budget_spent_this_year">%1$s spent this year</string>
+
+    <string name="budget_error_category_missing">Pick a category for this budget</string>
+    <string name="budget_error_invalid_limit">Enter a limit like 5000</string>
+    <string name="budget_error_limit_not_positive">The limit must be more than zero</string>
+
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+
+    <string name="error_storage">Could not save. Please try again.</string>
+    <string name="error_unknown">Something went wrong</string>
+    <string name="error_not_found">That entry no longer exists</string>
+</resources>

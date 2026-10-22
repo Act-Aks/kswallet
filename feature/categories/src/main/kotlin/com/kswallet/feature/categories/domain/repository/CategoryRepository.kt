@@ -1,4 +1,3 @@
-
 package com.kswallet.feature.categories.domain.repository
 
 import com.kswallet.core.common.result.Outcome

@@ -1,7 +1,7 @@
 package com.kswallet.feature.budgets.presentation.error
 
 import com.kswallet.core.common.result.DomainError
-import com.kswallet.core.mvi.UiMessage
+import com.kswallet.core.ui.util.UiMessage
 import com.kswallet.feature.budgets.R
 import com.kswallet.feature.budgets.domain.validation.BudgetFormError
 import com.kswallet.feature.budgets.presentation.editor.BudgetEditorError

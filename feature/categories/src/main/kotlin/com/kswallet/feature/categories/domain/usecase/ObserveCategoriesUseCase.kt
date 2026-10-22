@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
 /** Every use case is a tiny class with an `invoke` operator: readable, injectable, testable. */
-
 class ObserveCategoriesUseCase(
     private val repository: CategoryRepository,
 ) {
@@ -19,4 +18,3 @@ class ObserveCategoriesUseCase(
         }
     }
 }
-

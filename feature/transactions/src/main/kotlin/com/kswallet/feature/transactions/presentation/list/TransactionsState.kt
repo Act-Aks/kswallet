@@ -16,4 +16,3 @@ data class TransactionsState(
 ) : ScreenState {
     val isEmpty: Boolean get() = !isLoading && dayGroups.isEmpty()
 }
-

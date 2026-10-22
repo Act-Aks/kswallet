@@ -2,9 +2,8 @@ package com.kswallet.feature.budgets.presentation.list
 
 import androidx.lifecycle.viewModelScope
 import com.kswallet.core.common.result.Outcome
-import com.kswallet.core.mvi.MviViewModel
-import com.kswallet.core.mvi.UiMessage
-import com.kswallet.core.model.BudgetId
+import com.kswallet.core.ui.screen.ScreenViewModel
+import com.kswallet.core.ui.util.UiMessage
 import com.kswallet.feature.budgets.R
 import com.kswallet.feature.budgets.domain.model.BudgetPeriod
 import com.kswallet.feature.budgets.domain.usecase.DeleteBudgetUseCase
@@ -24,7 +23,7 @@ import kotlinx.coroutines.launch
 class BudgetsViewModel(
     observeBudgets: ObserveBudgetsUseCase,
     private val deleteBudget: DeleteBudgetUseCase,
-) : MviViewModel<BudgetsUiState, BudgetsIntent, BudgetsEffect>(BudgetsUiState()) {
+) : ScreenViewModel<BudgetsState, BudgetsAction, BudgetsEvent>(BudgetsState()) {
 
     init {
         observeBudgets()
@@ -55,42 +54,42 @@ class BudgetsViewModel(
             .launchIn(viewModelScope)
     }
 
-    override fun onIntent(intent: BudgetsIntent) {
-        when (intent) {
-            BudgetsIntent.AddBudgetClicked -> emitEffect(BudgetsEffect.OpenEditor(null))
+    override fun onAction(action: BudgetsAction) {
+        when (action) {
+            BudgetsAction.AddBudgetClicked -> sendEvent(BudgetsEvent.OpenEditor(null))
 
-            is BudgetsIntent.BudgetClicked -> emitEffect(BudgetsEffect.OpenEditor(intent.id))
+            is BudgetsAction.BudgetClicked -> sendEvent(BudgetsEvent.OpenEditor(action.id))
 
-            is BudgetsIntent.DeleteClicked -> {
-                val row = currentState.budgets.firstOrNull { it.id == intent.id } ?: return
+            is BudgetsAction.DeleteClicked -> {
+                val row = currentState.budgets.firstOrNull { it.id == action.id } ?: return
                 setState { copy(pendingDelete = PendingBudgetDelete(row.id, row.categoryName)) }
             }
 
-            BudgetsIntent.DeleteConfirmed -> {
+            BudgetsAction.DeleteConfirmed -> {
                 val pending = currentState.pendingDelete ?: return
                 setState { copy(pendingDelete = null) }
                 viewModelScope.launch { confirmDelete(pending) }
             }
 
-            BudgetsIntent.DeleteDismissed -> setState { copy(pendingDelete = null) }
+            BudgetsAction.DeleteDismissed -> setState { copy(pendingDelete = null) }
         }
     }
 
     private suspend fun confirmDelete(pending: PendingBudgetDelete) {
         when (val result = deleteBudget(pending.id)) {
-            is Outcome.Success -> emitEffect(
-                BudgetsEffect.ShowMessage(
+            is Outcome.Success -> sendEvent(
+                BudgetsEvent.ShowMessage(
                     UiMessage.Resource(R.string.budget_deleted, listOf(pending.categoryName)),
                 ),
             )
 
-            is Outcome.Failure -> emitEffect(BudgetsEffect.ShowMessage(result.error.toUiMessage()))
+            is Outcome.Failure -> sendEvent(BudgetsEvent.ShowMessage(result.error.toUiMessage()))
         }
     }
+}
 
-    private fun BudgetPeriod.toLabel(): BudgetPeriodLabel = when (this) {
-        BudgetPeriod.WEEKLY -> BudgetPeriodLabel.WEEKLY
-        BudgetPeriod.MONTHLY -> BudgetPeriodLabel.MONTHLY
-        BudgetPeriod.YEARLY -> BudgetPeriodLabel.YEARLY
-    }
+private fun BudgetPeriod.toLabel(): BudgetPeriodLabel = when (this) {
+    BudgetPeriod.WEEKLY -> BudgetPeriodLabel.WEEKLY
+    BudgetPeriod.MONTHLY -> BudgetPeriodLabel.MONTHLY
+    BudgetPeriod.YEARLY -> BudgetPeriodLabel.YEARLY
 }

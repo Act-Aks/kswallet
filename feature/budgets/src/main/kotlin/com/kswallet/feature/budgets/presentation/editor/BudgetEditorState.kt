@@ -20,4 +20,3 @@ data class BudgetEditorState(
     val categoryName: String?
         get() = categories.firstOrNull { it.id == categoryId }?.name
 }
-

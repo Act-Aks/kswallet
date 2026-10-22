@@ -3,17 +3,17 @@ package com.kswallet.feature.categories.presentation.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.kswallet.core.navigation.KsDestination
+import com.kswallet.core.navigation.KsWalletDestination
 import com.kswallet.feature.categories.presentation.editor.CategoryEditorRoute
 import com.kswallet.feature.categories.presentation.list.CategoriesRoute
 import kotlinx.serialization.Serializable
 
 /** Destinations owned by the categories feature. */
 @Serializable
-data object CategoriesDestination : KsDestination
+data object CategoriesDestination : KsWalletDestination
 
 @Serializable
-data class CategoryEditorDestination(val categoryId: Long? = null) : KsDestination
+data class CategoryEditorDestination(val categoryId: Long? = null) : KsWalletDestination
 
 /**
  * The feature's whole public navigation surface: the app (or another feature) can reach

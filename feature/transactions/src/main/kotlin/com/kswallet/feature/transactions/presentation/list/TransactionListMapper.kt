@@ -3,7 +3,7 @@ package com.kswallet.feature.transactions.presentation.list
 import com.kswallet.core.model.Currency
 import com.kswallet.core.model.Money
 import com.kswallet.core.model.TransactionType
-import com.kswallet.core.ui.format.DateFormatter
+import com.kswallet.core.ui.util.DateFormatter
 import com.kswallet.feature.transactions.domain.model.TransactionDetails
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone

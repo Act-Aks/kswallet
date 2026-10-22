@@ -76,7 +76,7 @@ fun AccountsRoute(
 
     AccountsScreen(
         state = state,
-        onIntent = viewModel::onAction,
+        onAction = viewModel::onAction,
         snackbarHostState = snackbarHostState,
     )
 }
@@ -84,7 +84,7 @@ fun AccountsRoute(
 @Composable
 internal fun AccountsScreen(
     state: AccountsState,
-    onIntent: (AccountsAction) -> Unit,
+    onAction: (AccountsAction) -> Unit,
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState? = null,
 ) {
@@ -93,7 +93,7 @@ internal fun AccountsScreen(
         snackbarHostState = snackbarHostState,
         modifier = modifier,
         floatingActionButton = {
-            FloatingActionButton(onClick = { onIntent(AccountsAction.AddAccountClicked) }) {
+            FloatingActionButton(onClick = { onAction(AccountsAction.AddAccountClicked) }) {
                 Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.accounts_add))
             }
         },
@@ -152,8 +152,8 @@ internal fun AccountsScreen(
                 items(items = state.accounts, key = { it.id.value }) { account ->
                     AccountCard(
                         account = account,
-                        onClick = { onIntent(AccountsAction.AccountClicked(account.id)) },
-                        onDelete = { onIntent(AccountsAction.DeleteClicked(account.id)) },
+                        onClick = { onAction(AccountsAction.AccountClicked(account.id)) },
+                        onDelete = { onAction(AccountsAction.DeleteClicked(account.id)) },
                     )
                 }
             }
@@ -173,8 +173,8 @@ internal fun AccountsScreen(
                 )
             },
             confirmLabel = stringResource(R.string.action_delete),
-            onConfirm = { onIntent(AccountsAction.DeleteConfirmed) },
-            onDismiss = { onIntent(AccountsAction.DeleteDismissed) },
+            onConfirm = { onAction(AccountsAction.DeleteConfirmed) },
+            onDismiss = { onAction(AccountsAction.DeleteDismissed) },
             destructive = true,
         )
     }

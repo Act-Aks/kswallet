@@ -1,7 +1,6 @@
 package com.kswallet.feature.transactions.presentation.error
 
 import com.kswallet.core.common.result.DomainError
-import com.kswallet.core.mvi.UiMessage
 import com.kswallet.core.ui.util.UiMessage
 import com.kswallet.feature.transactions.R
 import com.kswallet.feature.transactions.presentation.editor.TransactionEditorError
