@@ -11,7 +11,7 @@ import com.kswallet.core.model.Transaction
 import com.kswallet.core.model.TransactionId
 import com.kswallet.core.model.TransactionType
 import com.kswallet.core.testing.FixedTimeProvider
-import com.kswallet.core.testing.MainDispatcherRule
+import com.kswallet.core.testing.MainDispatcherExtension
 import com.kswallet.feature.accounts.domain.repository.AccountRepository
 import com.kswallet.feature.accounts.domain.usecase.CountAccountsUseCase
 import com.kswallet.feature.accounts.domain.usecase.ObserveTotalBalanceUseCase
@@ -29,10 +29,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.RegisterExtension
 import kotlin.time.Instant
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -40,8 +40,8 @@ class HomeViewModelTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule(testDispatcher)
+    @RegisterExtension
+    val mainDispatcher = MainDispatcherExtension(testDispatcher)
 
     private val accountRepository = mockk<AccountRepository>()
     private val transactionRepository = mockk<TransactionRepository>()

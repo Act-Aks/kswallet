@@ -40,7 +40,7 @@ class SettingsScreenTest {
     val composeRule = createComposeRule()
 
     private val context: Context = ApplicationProvider.getApplicationContext()
-    private val actions = mutableListOf<SettingsAction>()
+    private val intents = mutableListOf<SettingsAction>()
 
     @Test
     fun `a screen still loading shows a spinner, not empty sections`() {
@@ -92,7 +92,7 @@ class SettingsScreenTest {
         show(state())
 
         composeRule.onNodeWithText(str(R.string.settings_theme_dark)).performClick()
-        assertEquals(listOf(SettingsAction.ThemeSelected(ThemeMode.DARK)), actions)
+        assertEquals(listOf(SettingsAction.ThemeSelected(ThemeMode.DARK)), intents)
     }
 
     @Test
@@ -102,7 +102,7 @@ class SettingsScreenTest {
         // The switch is the only Switch-role control on the screen; the currency
         // rows are radio buttons, so the role is what tells them apart.
         composeRule.onNode(switchRole()).performClick()
-        assertEquals(listOf(SettingsAction.DynamicColorToggled(true)), actions)
+        assertEquals(listOf(SettingsAction.DynamicColorToggled(true)), intents)
     }
 
     @Test
@@ -113,7 +113,7 @@ class SettingsScreenTest {
 
         scrollTo("USD · $")
         composeRule.onNodeWithText("USD · $").performClick()
-        assertEquals(listOf(SettingsAction.CurrencySelected(Currency.USD)), actions)
+        assertEquals(listOf(SettingsAction.CurrencySelected(Currency.USD)), intents)
     }
 
     @Test
@@ -129,7 +129,7 @@ class SettingsScreenTest {
     private fun show(state: SettingsState) {
         composeRule.setContent {
             KsWalletTheme {
-                SettingsScreen(state = state, onAction = { actions += it })
+                SettingsScreen(state = state, onAction = { intents += it })
             }
         }
     }

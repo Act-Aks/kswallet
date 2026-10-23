@@ -1,4 +1,4 @@
-package com.kswallet.feature.reports.data.repository
+package com.kswallet.feature.reports.data
 
 import com.kswallet.core.common.time.TimeProvider
 import com.kswallet.core.database.dao.TransactionDao
@@ -8,6 +8,7 @@ import com.kswallet.core.database.model.CategorySpendWithDetailsRow
 import com.kswallet.core.model.Currency
 import com.kswallet.core.model.Money
 import com.kswallet.core.testing.FixedTimeProvider
+import com.kswallet.feature.reports.data.repository.OfflineFirstReportRepository
 import com.kswallet.feature.reports.domain.model.ReportMonth
 import io.mockk.every
 import io.mockk.mockk
@@ -16,12 +17,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.TimeZone
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Test
-import java.time.Instant
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -140,7 +140,7 @@ class OfflineFirstReportRepositoryTest {
     fun `instants are rolled into days in the user's zone, not in UTC`() = runTest {
         // 2026-10-05T20:00Z is already the 6th in Kolkata (+05:30): the report must count it
         // as the 6th, or a late-evening expense would land on the wrong day of the chart.
-        val instant = Instant.parse("2026-10-05T20:00:00Z").toEpochMilli()
+        val instant = java.time.Instant.parse("2026-10-05T20:00:00Z").toEpochMilli()
         stubDao(points = listOf(CashFlowPointRow(instant, incomeMinor = 0, expenseMinor = 99_00)))
 
         val report = repository().observeMonthlyReport(ReportMonth(2026, 10), currency).first()

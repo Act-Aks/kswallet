@@ -1,10 +1,8 @@
 package com.kswallet.feature.transactions.presentation.navigation
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.kswallet.core.navigation.KsWalletDestination
-import com.kswallet.core.navigation.TransactionEditorDestination
 import com.kswallet.feature.transactions.presentation.editor.TransactionEditorRoute
 import com.kswallet.feature.transactions.presentation.list.TransactionsRoute
 import kotlinx.serialization.Serializable
@@ -13,6 +11,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object TransactionsDestination : KsWalletDestination
 
+/** Serializable contract for the "open the transaction editor" hand-off between features. */
+@Serializable
+data class TransactionEditorDestination(val transactionId: Long? = null) : KsWalletDestination
+
 /**
  * The feature's public navigation surface.
  *
@@ -20,16 +22,15 @@ data object TransactionsDestination : KsWalletDestination
  * because other features (home, accounts) also open it - a single shared contract instead of
  * one destination type per module.
  */
-fun NavGraphBuilder.transactionsScreen(
+fun EntryProviderScope<NavKey>.transactionsEntries(
     onNavigateBack: () -> Unit,
     onNavigateToEditor: (transactionId: Long?) -> Unit,
 ) {
-    composable<TransactionsDestination> {
+    entry<TransactionsDestination> {
         TransactionsRoute(onOpenEditor = { id -> onNavigateToEditor(id?.value) })
     }
 
-    composable<TransactionEditorDestination> { backStackEntry ->
-        val destination = backStackEntry.toRoute<TransactionEditorDestination>()
+    entry<TransactionEditorDestination> { destination ->
         TransactionEditorRoute(
             transactionIdValue = destination.transactionId ?: 0L,
             onNavigateBack = onNavigateBack,

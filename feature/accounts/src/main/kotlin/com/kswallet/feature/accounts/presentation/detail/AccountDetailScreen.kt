@@ -1,4 +1,4 @@
-package com.kswallet.app.ui
+package com.kswallet.feature.accounts.presentation.detail
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.kswallet.app.R
 import com.kswallet.core.designsystem.component.KsWalletLoadingState
 import com.kswallet.core.designsystem.component.KsWalletScreenScaffold
 import com.kswallet.core.designsystem.theme.KsWalletSpacing
@@ -25,6 +24,7 @@ import com.kswallet.core.model.Account
 import com.kswallet.core.model.AccountId
 import com.kswallet.core.model.AccountType
 import com.kswallet.core.ui.util.MoneyFormatter
+import com.kswallet.feature.accounts.R
 import com.kswallet.feature.accounts.domain.usecase.ObserveAccountUseCase
 import org.koin.compose.koinInject
 

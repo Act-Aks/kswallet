@@ -14,8 +14,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.KoinViewModel
 
 @OptIn(ExperimentalCoroutinesApi::class)
+@KoinViewModel
 class CategoriesViewModel(
     private val observeCategories: ObserveCategoriesUseCase,
     private val deleteCategory: DeleteCategoryUseCase,

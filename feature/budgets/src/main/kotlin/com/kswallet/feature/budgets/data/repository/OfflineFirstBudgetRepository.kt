@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import org.koin.core.annotation.Single
 
 /**
  * Budgets, backed by the ledger.
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.map
  * quietly roll over to the new month without the process being restarted.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
+@Single(binds = [BudgetRepository::class])
 class OfflineFirstBudgetRepository(
     private val budgetDao: BudgetDao,
     private val timeProvider: TimeProvider,

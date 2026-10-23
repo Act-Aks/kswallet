@@ -1,8 +1,7 @@
 package com.kswallet.feature.budgets.presentation.navigation
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.kswallet.core.navigation.KsWalletDestination
 import com.kswallet.feature.budgets.presentation.editor.BudgetEditorRoute
 import com.kswallet.feature.budgets.presentation.list.BudgetsRoute
@@ -15,19 +14,18 @@ data object BudgetsDestination : KsWalletDestination
 @Serializable
 data class BudgetEditorDestination(val budgetId: Long? = null) : KsWalletDestination
 
-fun NavGraphBuilder.budgetsScreen(
+fun EntryProviderScope<NavKey>.budgetsEntries(
     onNavigateBack: () -> Unit,
     onNavigateToEditor: (budgetId: Long?) -> Unit,
 ) {
-    composable<BudgetsDestination> {
+    entry<BudgetsDestination> {
         BudgetsRoute(
             onAddBudget = { onNavigateToEditor(null) },
             onEditBudget = { id -> onNavigateToEditor(id.value) },
         )
     }
 
-    composable<BudgetEditorDestination> { backStackEntry ->
-        val destination = backStackEntry.toRoute<BudgetEditorDestination>()
+    entry<BudgetEditorDestination> { destination ->
         BudgetEditorRoute(
             budgetIdValue = destination.budgetId ?: 0L,
             onNavigateBack = onNavigateBack,

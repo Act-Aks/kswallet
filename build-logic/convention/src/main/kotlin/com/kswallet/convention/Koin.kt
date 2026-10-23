@@ -17,5 +17,4 @@ internal fun Project.configureKoin() {
     implementation("koin-annotations")
     implementation("koin-compose")
     implementation("koin-compose-viewmodel")
-    testImplementation("koin-test-junit4")
 }

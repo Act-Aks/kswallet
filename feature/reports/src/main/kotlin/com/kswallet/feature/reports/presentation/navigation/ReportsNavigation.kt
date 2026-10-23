@@ -1,7 +1,7 @@
 package com.kswallet.feature.reports.presentation.navigation
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.kswallet.core.navigation.KsWalletDestination
 import com.kswallet.feature.reports.presentation.reports.ReportsRoute
 import kotlinx.serialization.Serializable
@@ -10,8 +10,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object ReportsDestination : KsWalletDestination
 
-fun NavGraphBuilder.reportsScreen(onNavigateBack: () -> Unit) {
-    composable<ReportsDestination> {
+fun EntryProviderScope<NavKey>.reportsEntries(onNavigateBack: () -> Unit) {
+    entry<ReportsDestination> {
         ReportsRoute(onNavigateBack = onNavigateBack)
     }
 }

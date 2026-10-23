@@ -27,7 +27,7 @@ import com.kswallet.core.database.entity.TransactionEntity
  *
  * Version 2 adds `budgets`. Because that release only *adds* a table and an index, it is an
  * `@AutoMigration`: Room derives the statements from the two exported schemas (`schemas/1.json`
- * and `schemas/2.json`) and verifies the result at compile time, so there is no handwritten
+ * and `schemas/2.json`) and verifies the result at compile time, so there is no hand-written
  * SQL to get wrong. A migration that rewrites data would go into [WalletMigrations.ALL].
  */
 @Database(

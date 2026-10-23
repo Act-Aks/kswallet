@@ -31,6 +31,15 @@
     <string name="account_error_name_too_long">Keep the name under 40 characters</string>
     <string name="account_error_invalid_balance">Enter a valid amount</string>
 
+    <string name="account_detail_open_ledger">Open ledger</string>
+    <string name="account_detail_currency">Currency</string>
+    <string name="account_detail_opening_balance">Opening balance</string>
+    <string name="account_detail_included_in_total">Included in total balance</string>
+    <string name="account_detail_yes">Yes</string>
+    <string name="account_detail_no">No</string>
+    <string name="account_detail_edit">Edit account</string>
+    <string name="account_detail_missing">That account no longer exists.</string>
+
     <string name="account_type_cash">Cash</string>
     <string name="account_type_bank">Bank</string>
     <string name="account_type_card">Card</string>

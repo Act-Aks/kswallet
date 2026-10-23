@@ -11,7 +11,7 @@ import com.kswallet.core.model.Transaction
 import com.kswallet.core.model.TransactionId
 import com.kswallet.core.model.TransactionType
 import com.kswallet.core.testing.FixedTimeProvider
-import com.kswallet.core.testing.MainDispatcherRule
+import com.kswallet.core.testing.MainDispatcherExtension
 import com.kswallet.feature.transactions.domain.model.CashFlow
 import com.kswallet.feature.transactions.domain.model.PeriodOption
 import com.kswallet.feature.transactions.domain.model.TransactionDetails
@@ -30,28 +30,27 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.TimeZone
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Rule
-import org.junit.Test
-import kotlin.time.ExperimentalTime
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.RegisterExtension
 import kotlin.time.Instant
 
 /**
  * The ledger ViewModel: filter -> re-query, row -> editor, delete -> repository.
  *
  * The list itself is the mapper's job (tested separately), so this test only pins the
- * wiring between actions, the data streams and the effects.
+ * wiring between intents, the data streams and the effects.
  */
-@OptIn(ExperimentalTime::class, ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class TransactionsViewModelTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule(testDispatcher)
+    @RegisterExtension
+    val mainDispatcher = MainDispatcherExtension(testDispatcher)
 
     private val zone = TimeZone.of("Asia/Kolkata")
     private val timeProvider = FixedTimeProvider.of("2026-10-12", zone)
@@ -93,7 +92,8 @@ class TransactionsViewModelTest {
     )
 
     private fun stubHappyPath() {
-        every { settingsRepository.observeSettings() } returns flowOf(UserSettings(defaultCurrency = currency))
+        every { settingsRepository.observeSettings() } returns
+            flowOf(UserSettings(defaultCurrency = currency))
         every { repository.observeTransactions(any(), any(), any(), any(), any()) } returns flowOf(
             listOf(
                 details(1, TransactionType.EXPENSE, "1200.00"),
@@ -126,12 +126,8 @@ class TransactionsViewModelTest {
     fun `an empty ledger is an empty state, not a loading state`() = runTest(testDispatcher) {
         every { settingsRepository.observeSettings() } returns flowOf(UserSettings(defaultCurrency = currency))
         every { repository.observeTransactions(any(), any(), any(), any(), any()) } returns flowOf(emptyList())
-        every { repository.observeCashFlow(any(), currency) } returns flowOf(
-            CashFlow(
-                Money.zero(currency),
-                Money.zero(currency),
-            ),
-        )
+        every { repository.observeCashFlow(any(), currency) } returns
+            flowOf(CashFlow(Money.zero(currency), Money.zero(currency)))
 
         val viewModel = viewModel()
 

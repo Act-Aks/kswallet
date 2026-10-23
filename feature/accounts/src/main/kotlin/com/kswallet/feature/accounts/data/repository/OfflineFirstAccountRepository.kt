@@ -1,6 +1,9 @@
 package com.kswallet.feature.accounts.data.repository
 
+import org.koin.core.annotation.Single
+
 import com.kswallet.core.common.result.Outcome
+import com.kswallet.core.common.result.map
 import com.kswallet.core.common.result.outcomeOfSuspend
 import com.kswallet.core.database.dao.AccountDao
 import com.kswallet.core.model.Account
@@ -14,6 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
+@Single(binds = [AccountRepository::class])
 class OfflineFirstAccountRepository(
     private val accountDao: AccountDao,
 ) : AccountRepository {

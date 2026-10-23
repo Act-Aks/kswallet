@@ -1,9 +1,9 @@
 package com.kswallet.feature.categories.domain.validation
 
 import com.kswallet.core.model.CategoryType
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 /**
  * The rules the category editor depends on. They are pure functions, so they are tested

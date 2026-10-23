@@ -1,9 +1,8 @@
 package com.kswallet.feature.reports.presentation.di
 
-import com.kswallet.feature.reports.presentation.reports.ReportsViewModel
-import org.koin.dsl.module
-import org.koin.plugin.module.dsl.viewModel
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Module
 
-val reportsPresentationModule = module {
-    viewModel<ReportsViewModel>()
-}
+@Module
+@ComponentScan("com.kswallet.feature.reports.presentation")
+class ReportsPresentationModule

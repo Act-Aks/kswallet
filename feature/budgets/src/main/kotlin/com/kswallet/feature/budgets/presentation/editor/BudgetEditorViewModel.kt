@@ -18,6 +18,8 @@ import com.kswallet.feature.categories.domain.usecase.ObserveCategoriesUseCase
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.InjectedParam
+import org.koin.core.annotation.KoinViewModel
 
 /**
  * The budget editor: pick a category, type a limit, choose a period.
@@ -26,8 +28,9 @@ import kotlinx.coroutines.launch
  * The currency is never asked for: a budget is counted in the user's base currency, which the
  * save use case parses the typed amount with.
  */
+@KoinViewModel
 class BudgetEditorViewModel(
-    budgetIdValue: Long,
+    @InjectedParam budgetIdValue: Long,
     observeBudget: ObserveBudgetUseCase,
     observeCategories: ObserveCategoriesUseCase,
     observeBaseCurrency: ObserveBaseCurrencyUseCase,

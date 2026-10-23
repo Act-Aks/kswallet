@@ -11,6 +11,7 @@ import com.kswallet.feature.settings.presentation.error.toUiMessage
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.KoinViewModel
 
 /**
  * The settings screen.
@@ -19,6 +20,7 @@ import kotlinx.coroutines.launch
  * value comes back through the observed flow, so the screen, the theme and the dashboard can
  * never disagree about what the current setting is.
  */
+@KoinViewModel
 class SettingsViewModel(
     observeSettings: ObserveSettingsUseCase,
     private val setThemeMode: SetThemeModeUseCase,

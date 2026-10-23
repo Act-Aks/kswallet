@@ -1,9 +1,8 @@
 package com.kswallet.feature.settings.presentation.di
 
-import com.kswallet.feature.settings.presentation.settings.SettingsViewModel
-import org.koin.dsl.module
-import org.koin.plugin.module.dsl.viewModel
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Module
 
-val settingsPresentationModule = module {
-    viewModel<SettingsViewModel>()
-}
+@Module
+@ComponentScan("com.kswallet.feature.settings.presentation")
+class SettingsPresentationModule

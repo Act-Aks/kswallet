@@ -24,6 +24,8 @@ import com.kswallet.feature.transactions.domain.validation.TransactionFormInput
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toJavaZoneId
+import org.koin.core.annotation.InjectedParam
+import org.koin.core.annotation.KoinViewModel
 
 /**
  * Create/edit one ledger entry.
@@ -33,8 +35,9 @@ import kotlinx.datetime.toJavaZoneId
  * are prefilled exactly once - a running catalog update must not overwrite what the user
  * is typing.
  */
+@KoinViewModel
 class TransactionEditorViewModel(
-    transactionIdValue: Long,
+    @InjectedParam transactionIdValue: Long,
     private val observeAccounts: ObserveAccountsUseCase,
     private val observeCategories: ObserveCategoriesUseCase,
     private val getTransaction: GetTransactionUseCase,

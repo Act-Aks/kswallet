@@ -1,11 +1,8 @@
 package com.kswallet.feature.transactions.data.di
 
-import com.kswallet.feature.transactions.data.repository.OfflineFirstTransactionRepository
-import com.kswallet.feature.transactions.domain.repository.TransactionRepository
-import org.koin.dsl.bind
-import org.koin.dsl.module
-import org.koin.plugin.module.dsl.single
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Module
 
-val transactionsDataModule = module {
-    single<OfflineFirstTransactionRepository>() bind TransactionRepository::class
-}
+@Module
+@ComponentScan("com.kswallet.feature.transactions.data")
+class TransactionsDataModule

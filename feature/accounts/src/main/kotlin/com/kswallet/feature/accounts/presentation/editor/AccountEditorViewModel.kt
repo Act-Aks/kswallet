@@ -15,6 +15,8 @@ import com.kswallet.feature.accounts.domain.validation.AccountFormError
 import com.kswallet.feature.accounts.domain.validation.AccountFormInput
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.InjectedParam
+import org.koin.core.annotation.KoinViewModel
 
 /**
  * Create/edit a wallet.
@@ -22,8 +24,9 @@ import kotlinx.coroutines.launch
  * The screen is intentionally "dumb": it sends what the user typed and renders whatever the
  * state says, including which field is wrong and why.
  */
+@KoinViewModel
 class AccountEditorViewModel(
-    accountIdValue: Long,
+    @InjectedParam accountIdValue: Long,
     private val getAccount: GetAccountUseCase,
     private val saveAccount: SaveAccountUseCase,
     private val settingsRepository: SettingsRepository,

@@ -1,11 +1,11 @@
 package com.kswallet.core.model
 
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 import java.math.BigDecimal
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 class MoneyTest {
 
@@ -42,7 +42,7 @@ class MoneyTest {
         val rupees = Money.of("10.00", Currency.INR)
         val dollars = Money.of("10.00", Currency.USD)
 
-        assertFailsWith<IllegalArgumentException> { rupees + dollars }
+        assertThrows(IllegalArgumentException::class.java) { rupees + dollars }
     }
 
     @Test

@@ -44,7 +44,7 @@ class TransactionsScreenTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
     private val currency = Currency.INR
-    private val actions = mutableListOf<TransactionsAction>()
+    private val intents = mutableListOf<TransactionsAction>()
 
     @Test
     fun `a ledger still loading shows a spinner, not the empty state`() {
@@ -62,7 +62,7 @@ class TransactionsScreenTest {
         composeRule.onNodeWithText(str(R.string.transactions_empty_message)).assertIsDisplayed()
 
         composeRule.onNodeWithContentDescription(str(R.string.transactions_add)).performClick()
-        assertEquals(listOf(TransactionsAction.AddTransactionClicked), actions)
+        assertEquals(listOf(TransactionsAction.AddTransactionClicked), intents)
     }
 
     @Test
@@ -90,7 +90,7 @@ class TransactionsScreenTest {
         show(state())
 
         composeRule.onNodeWithText(str(R.string.period_this_month)).performClick()
-        assertEquals(listOf(TransactionsAction.PeriodSelected(PeriodOption.THIS_MONTH)), actions)
+        assertEquals(listOf(TransactionsAction.PeriodSelected(PeriodOption.THIS_MONTH)), intents)
     }
 
     @Test
@@ -98,7 +98,7 @@ class TransactionsScreenTest {
         show(state(filter = TransactionFilter(type = TransactionType.EXPENSE)))
 
         composeRule.onNodeWithText(str(R.string.transactions_filter_all)).performClick()
-        assertEquals(listOf(TransactionsAction.TypeFilterSelected(null)), actions)
+        assertEquals(listOf(TransactionsAction.TypeFilterSelected(null)), intents)
     }
 
     @Test
@@ -130,7 +130,7 @@ class TransactionsScreenTest {
         show(state(groups = listOf(dayGroup(item(id = 9, title = "Salary")))))
 
         composeRule.onNodeWithText("Salary").performClick()
-        assertEquals(listOf(TransactionsAction.TransactionClicked(TransactionId(9))), actions)
+        assertEquals(listOf(TransactionsAction.TransactionClicked(TransactionId(9))), intents)
     }
 
     @Test
@@ -138,7 +138,7 @@ class TransactionsScreenTest {
         show(state(groups = listOf(dayGroup(item(id = 9)))))
 
         composeRule.onNodeWithContentDescription(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(TransactionsAction.DeleteClicked(TransactionId(9))), actions)
+        assertEquals(listOf(TransactionsAction.DeleteClicked(TransactionId(9))), intents)
     }
 
     @Test
@@ -149,7 +149,7 @@ class TransactionsScreenTest {
         composeRule.onNodeWithText(str(R.string.transaction_delete_message, "Coffee")).assertIsDisplayed()
 
         composeRule.onNodeWithText(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(TransactionsAction.DeleteConfirmed), actions)
+        assertEquals(listOf(TransactionsAction.DeleteConfirmed), intents)
     }
 
     @Test
@@ -157,7 +157,7 @@ class TransactionsScreenTest {
         show(state(pendingDelete = PendingTransactionDelete(TransactionId(9), "Coffee")))
 
         composeRule.onNodeWithText(CancelLabel).performClick()
-        assertEquals(listOf(TransactionsAction.DeleteDismissed), actions)
+        assertEquals(listOf(TransactionsAction.DeleteDismissed), intents)
     }
 
     // --- plumbing ------------------------------------------------------------------------_
@@ -165,7 +165,7 @@ class TransactionsScreenTest {
     private fun show(state: TransactionsState) {
         composeRule.setContent {
             KsWalletTheme {
-                TransactionsScreen(state = state, onAction = { actions += it })
+                TransactionsScreen(state = state, onAction = { intents += it })
             }
         }
     }

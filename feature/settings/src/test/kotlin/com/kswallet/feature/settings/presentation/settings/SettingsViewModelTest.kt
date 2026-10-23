@@ -5,7 +5,7 @@ import com.kswallet.core.datastore.domain.model.ThemeMode
 import com.kswallet.core.datastore.domain.model.UserSettings
 import com.kswallet.core.datastore.domain.repository.SettingsRepository
 import com.kswallet.core.model.Currency
-import com.kswallet.core.testing.MainDispatcherRule
+import com.kswallet.core.testing.MainDispatcherExtension
 import com.kswallet.core.ui.util.UiMessage
 import com.kswallet.feature.settings.R
 import com.kswallet.feature.settings.domain.usecase.ObserveSettingsUseCase
@@ -22,10 +22,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.RegisterExtension
 import java.io.IOException
 
 /**
@@ -37,8 +37,8 @@ class SettingsViewModelTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule(testDispatcher)
+    @RegisterExtension
+    val mainDispatcher = MainDispatcherExtension(testDispatcher)
 
     private val repository = mockk<SettingsRepository>(relaxed = true)
     private val stored = MutableStateFlow(UserSettings())

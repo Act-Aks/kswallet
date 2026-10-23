@@ -1,7 +1,7 @@
 package com.kswallet.feature.settings.presentation.navigation
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.kswallet.core.navigation.KsWalletDestination
 import com.kswallet.feature.settings.presentation.settings.SettingsRoute
 import kotlinx.serialization.Serializable
@@ -10,10 +10,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object SettingsDestination : KsWalletDestination
 
-fun NavGraphBuilder.settingsScreen(
+fun EntryProviderScope<NavKey>.settingsEntries(
     onNavigateBack: () -> Unit,
 ) {
-    composable<SettingsDestination> {
+    entry<SettingsDestination> {
         SettingsRoute(onNavigateBack = onNavigateBack)
     }
 }

@@ -11,7 +11,6 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.kswallet.core.designsystem.theme.KsWalletTheme
 import com.kswallet.core.model.AccountId
 import com.kswallet.core.model.AccountType
@@ -22,8 +21,6 @@ import com.kswallet.feature.accounts.R
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 
 /**
  * The accounts screen, rendered and driven like a user would.
@@ -36,12 +33,6 @@ import org.robolectric.annotation.Config
  * the account left out of the total say so in words, and does a tap produce the intent the
  * ViewModel expects.
  */
-@RunWith(AndroidJUnit4::class)
-// SDK 35, not 36: Robolectric 4.17's Android 16 runtime fails to boot inside a host JVM
-// (`ApplicationSharedMemory.create` reaches for `FileDescriptor` internals that the JRE no
-// longer exposes, with or without `--add-opens`). The tests are about this app's screens, not
-// about the platform version it is compiled against, so the newest *working* runtime wins.
-@Config(sdk = [35])
 class AccountsScreenTest {
 
     @get:Rule
@@ -49,7 +40,7 @@ class AccountsScreenTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
     private val currency = Currency.INR
-    private val actions = mutableListOf<AccountsAction>()
+    private val intents = mutableListOf<AccountsAction>()
 
     @Test
     fun `a list still loading shows a spinner, not the empty state`() {
@@ -98,7 +89,7 @@ class AccountsScreenTest {
         composeRule.onNodeWithText(money("850.25")).assertIsDisplayed()
 
         composeRule.onNodeWithText("Savings").performClick()
-        assertEquals(listOf(AccountsAction.AccountClicked(AccountId(7))), actions)
+        assertEquals(listOf(AccountsAction.AccountClicked(AccountId(7))), intents)
     }
 
     @Test
@@ -115,7 +106,7 @@ class AccountsScreenTest {
         show(state(accounts = listOf(account())))
 
         composeRule.onNodeWithContentDescription(str(R.string.accounts_add)).performClick()
-        assertEquals(listOf(AccountsAction.AddAccountClicked), actions)
+        assertEquals(listOf(AccountsAction.AddAccountClicked), intents)
     }
 
     @Test
@@ -123,7 +114,7 @@ class AccountsScreenTest {
         show(state(accounts = listOf(account(id = 4))))
 
         composeRule.onNodeWithContentDescription(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(AccountsAction.DeleteClicked(AccountId(4))), actions)
+        assertEquals(listOf(AccountsAction.DeleteClicked(AccountId(4))), intents)
     }
 
     @Test
@@ -141,7 +132,7 @@ class AccountsScreenTest {
         ).assertIsDisplayed()
 
         composeRule.onNodeWithText(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(AccountsAction.DeleteConfirmed), actions)
+        assertEquals(listOf(AccountsAction.DeleteConfirmed), intents)
     }
 
     @Test
@@ -152,7 +143,7 @@ class AccountsScreenTest {
         composeRule.onNodeWithText(str(R.string.account_delete_message)).assertIsDisplayed()
 
         composeRule.onNodeWithText(CancelLabel).performClick()
-        assertEquals(listOf(AccountsAction.DeleteDismissed), actions)
+        assertEquals(listOf(AccountsAction.DeleteDismissed), intents)
     }
 
     // --- plumbing ------------------------------------------------------------------------_
@@ -160,7 +151,7 @@ class AccountsScreenTest {
     private fun show(state: AccountsState) {
         composeRule.setContent {
             KsWalletTheme {
-                AccountsScreen(state = state, onAction = { actions += it })
+                AccountsScreen(state = state, onAction = { intents += it })
             }
         }
     }

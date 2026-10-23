@@ -10,7 +10,6 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.kswallet.core.designsystem.theme.KsWalletTheme
 import com.kswallet.core.model.BudgetId
 import com.kswallet.core.model.Currency
@@ -20,8 +19,6 @@ import com.kswallet.feature.budgets.R
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.annotation.Config
 
 /**
  * The budgets screen, rendered and driven like a user would.
@@ -32,8 +29,6 @@ import org.robolectric.annotation.Config
  * screen - that deleting cannot happen without the confirmation dialog, because a budget is
  * deleted by a tap that is easy to make by accident.
  */
-@RunWith(AndroidJUnit4::class)
-@Config(sdk = [35])
 class BudgetsScreenTest {
 
     @get:Rule
@@ -41,7 +36,7 @@ class BudgetsScreenTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
     private val currency = Currency.INR
-    private val actions = mutableListOf<BudgetsAction>()
+    private val intents = mutableListOf<BudgetsAction>()
 
     /**
      * The label of a Material 3 extended FAB lives behind `clearAndSetSemantics` inside the
@@ -61,7 +56,7 @@ class BudgetsScreenTest {
 
         // The empty state owns the call to action, so the FAB would be a second one.
         fabLabel().assertDoesNotExist()
-        assertEquals(listOf(BudgetsAction.AddBudgetClicked), actions)
+        assertEquals(listOf(BudgetsAction.AddBudgetClicked), intents)
     }
 
     @Test
@@ -72,7 +67,7 @@ class BudgetsScreenTest {
         composeRule.onNodeWithText(str(R.string.budgets_empty_title)).assertDoesNotExist()
 
         fabLabel().performClick()
-        assertEquals(listOf(BudgetsAction.AddBudgetClicked), actions)
+        assertEquals(listOf(BudgetsAction.AddBudgetClicked), intents)
     }
 
     @Test
@@ -86,7 +81,7 @@ class BudgetsScreenTest {
         composeRule.onNodeWithText(str(R.string.budget_left, money("600.00"))).assertIsDisplayed()
 
         composeRule.onNodeWithText("Groceries").performClick()
-        assertEquals(listOf(BudgetsAction.BudgetClicked(BudgetId(7))), actions)
+        assertEquals(listOf(BudgetsAction.BudgetClicked(BudgetId(7))), intents)
     }
 
     @Test
@@ -117,7 +112,7 @@ class BudgetsScreenTest {
         show(stateWith(row(id = 3, limit = "1000.00", spent = "400.00")))
 
         composeRule.onNodeWithContentDescription(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(BudgetsAction.DeleteClicked(BudgetId(3))), actions)
+        assertEquals(listOf(BudgetsAction.DeleteClicked(BudgetId(3))), intents)
     }
 
     @Test
@@ -128,7 +123,7 @@ class BudgetsScreenTest {
         composeRule.onNodeWithText(str(R.string.budget_delete_message)).assertIsDisplayed()
 
         composeRule.onNodeWithText(str(R.string.action_delete)).performClick()
-        assertEquals(listOf(BudgetsAction.DeleteConfirmed), actions)
+        assertEquals(listOf(BudgetsAction.DeleteConfirmed), intents)
     }
 
     @Test
@@ -137,7 +132,7 @@ class BudgetsScreenTest {
 
         composeRule.onNodeWithText(CancelLabel).performClick()
 
-        assertEquals(listOf(BudgetsAction.DeleteDismissed), actions)
+        assertEquals(listOf(BudgetsAction.DeleteDismissed), intents)
     }
 
     @Test
@@ -153,7 +148,7 @@ class BudgetsScreenTest {
     private fun show(state: BudgetsState) {
         composeRule.setContent {
             KsWalletTheme {
-                BudgetsScreen(state = state, onAction = { actions += it })
+                BudgetsScreen(state = state, onAction = { intents += it })
             }
         }
     }

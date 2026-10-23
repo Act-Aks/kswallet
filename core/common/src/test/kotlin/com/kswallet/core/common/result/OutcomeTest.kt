@@ -1,9 +1,9 @@
 package com.kswallet.core.common.result
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
-import kotlin.test.assertNull
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertInstanceOf
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Test
 
 class OutcomeTest {
 
@@ -38,6 +38,6 @@ class OutcomeTest {
 
         Outcome.Failure(DomainError.NotFound).onFailure { called++ }
         assertEquals(1, called)
-        assertIs<Outcome.Failure>(Outcome.Failure(DomainError.NotFound))
+        assertInstanceOf(Outcome.Failure::class.java, Outcome.Failure(DomainError.NotFound))
     }
 }

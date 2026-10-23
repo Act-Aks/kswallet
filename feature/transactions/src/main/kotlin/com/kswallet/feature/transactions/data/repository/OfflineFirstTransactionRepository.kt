@@ -18,7 +18,9 @@ import com.kswallet.feature.transactions.domain.model.TransactionDetails
 import com.kswallet.feature.transactions.domain.repository.TransactionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.koin.core.annotation.Single
 
+@Single(binds = [TransactionRepository::class])
 class OfflineFirstTransactionRepository(
     private val transactionDao: TransactionDao,
     private val accountDao: AccountDao,

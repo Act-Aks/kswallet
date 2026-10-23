@@ -57,6 +57,7 @@ class KsWalletAndroidApplicationPlugin : Plugin<Project> {
         }
 
         implementation("androidx-core-ktx")
+        implementation("androidx-lifecycle-viewmodel-navigation3")
 
         configureCoroutines()
         configureComposeDependencies()

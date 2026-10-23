@@ -1,9 +1,8 @@
 package com.kswallet.feature.home.presentation.di
 
-import com.kswallet.feature.home.presentation.home.HomeViewModel
-import org.koin.dsl.module
-import org.koin.plugin.module.dsl.viewModel
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Module
 
-val homePresentationModule = module {
-    viewModel<HomeViewModel>()
-}
+@Module
+@ComponentScan("com.kswallet.feature.home.presentation")
+class HomePresentationModule

@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.KoinViewModel
 
 /**
  * The ledger screen.
@@ -33,6 +34,7 @@ import kotlinx.coroutines.launch
  * flicker while the new query runs.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
+@KoinViewModel
 class TransactionsViewModel(
     private val observeTransactions: ObserveTransactionsUseCase,
     private val observeCashFlow: ObserveCashFlowUseCase,

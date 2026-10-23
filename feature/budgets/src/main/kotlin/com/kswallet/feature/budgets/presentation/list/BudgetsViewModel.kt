@@ -12,6 +12,7 @@ import com.kswallet.feature.budgets.presentation.error.toUiMessage
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.KoinViewModel
 
 /**
  * The budgets screen.
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
  * repository); deleting asks for confirmation first and reports the outcome, like the
  * categories and accounts screens do.
  */
+@KoinViewModel
 class BudgetsViewModel(
     observeBudgets: ObserveBudgetsUseCase,
     private val deleteBudget: DeleteBudgetUseCase,

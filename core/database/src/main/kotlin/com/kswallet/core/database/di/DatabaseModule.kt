@@ -2,23 +2,30 @@ package com.kswallet.core.database.di
 
 import com.kswallet.core.database.WalletDatabase
 import com.kswallet.core.database.WalletDatabaseFactory
-import org.koin.dsl.module
-import org.koin.plugin.module.dsl.single
+import com.kswallet.core.database.dao.AccountDao
+import com.kswallet.core.database.dao.BudgetDao
+import com.kswallet.core.database.dao.CategoryDao
+import com.kswallet.core.database.dao.TransactionDao
+import org.koin.core.annotation.ComponentScan
+import org.koin.core.annotation.Module
+import org.koin.core.annotation.Single
 
-/**
- * Koin definitions for the storage layer.
- *
- * `singleOf(::WalletDatabaseFactory)` is resolved by the Koin compiler plugin at build
- * time, so a missing `Context` provider fails compilation instead of the first query.
- * Everything is lazy: Koin creates the database on first injection, and `single` keeps
- * exactly one instance for the whole app.
- */
-val databaseModule = module {
-    single<WalletDatabaseFactory>()
-    single<WalletDatabase> { get<WalletDatabaseFactory>().create() }
+/** Room database and DAO providers. */
+@Module
+@ComponentScan("com.kswallet.core.database")
+class DatabaseModule {
+    @Single
+    fun provideWalletDatabase(factory: WalletDatabaseFactory): WalletDatabase = factory.create()
 
-    single { get<WalletDatabase>().accountDao() }
-    single { get<WalletDatabase>().categoryDao() }
-    single { get<WalletDatabase>().transactionDao() }
-    single { get<WalletDatabase>().budgetDao() }
+    @Single
+    fun provideAccountDao(database: WalletDatabase): AccountDao = database.accountDao()
+
+    @Single
+    fun provideCategoryDao(database: WalletDatabase): CategoryDao = database.categoryDao()
+
+    @Single
+    fun provideTransactionDao(database: WalletDatabase): TransactionDao = database.transactionDao()
+
+    @Single
+    fun provideBudgetDao(database: WalletDatabase): BudgetDao = database.budgetDao()
 }

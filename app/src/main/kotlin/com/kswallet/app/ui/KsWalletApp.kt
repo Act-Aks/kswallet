@@ -10,37 +10,42 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.kswallet.app.navigation.KsWalletNavHost
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberNavBackStack
+import com.kswallet.app.navigation.KsNavHost
 import com.kswallet.app.navigation.KsWalletTopLevelDestination
-import com.kswallet.app.navigation.navigateTopLevelTo
 import com.kswallet.core.datastore.domain.model.ThemeMode
 import com.kswallet.core.datastore.domain.model.UserSettings
 import com.kswallet.core.designsystem.theme.KsWalletTheme
 import com.kswallet.core.navigation.isOnDestination
+import com.kswallet.feature.accounts.presentation.navigation.AccountsDestination
+import com.kswallet.feature.budgets.presentation.navigation.BudgetsDestination
+import com.kswallet.feature.categories.presentation.navigation.CategoriesDestination
+import com.kswallet.feature.home.presentation.navigation.HomeDestination
+import com.kswallet.feature.reports.presentation.navigation.ReportsDestination
 import com.kswallet.feature.settings.domain.usecase.ObserveSettingsUseCase
+import com.kswallet.feature.transactions.presentation.navigation.TransactionsDestination
 import org.koin.compose.koinInject
 
 /**
- * The app shell: theme, bottom navigation and the navigation graph.
+ * The app shell: theme, bottom navigation, and Navigation 3 state.
  *
- * The bottom bar appears only on top-level destinations, so the editors and the account
- * detail are full-screen. Insets are left to the screens themselves (`KsScreen` uses a
- * top app bar), which is why the shell Scaffold declares empty window insets - one owner
- * per inset, never two.
+ * Each top-level tab owns a savable back stack so switching tabs retains that tab's place.
+ * Screens pushed above a tab root hide the bottom bar; system back pops that stack, then
+ * returns to Home when a non-Home stack reaches its root.
  */
 @Composable
 fun KsWalletApp(
     modifier: Modifier = Modifier,
     observeSettings: ObserveSettingsUseCase = koinInject(),
 ) {
-    // The settings are read *above* the theme: a change of theme mode or of the base currency
-    // re-composes the whole app from here, which is the only place that has to know about it.
     val settings by observeSettings().collectAsStateWithLifecycle(initialValue = UserSettings())
 
     KsWalletTheme(
@@ -51,27 +56,38 @@ fun KsWalletApp(
         },
         dynamicColor = settings.dynamicColor,
     ) {
-        val navController = rememberNavController()
-        // Reading the back stack entry is what makes the bar follow navigation:
-        // `isOnDestination` alone would not recompose when the destination changes.
-        val backStackEntry by navController.currentBackStackEntryAsState()
-        val selected = remember(backStackEntry) {
-            KsWalletTopLevelDestination.entries.firstOrNull { navController.isOnDestination(it.route) }
+        val homeBackStack = rememberNavBackStack(HomeDestination)
+        val transactionsBackStack = rememberNavBackStack(TransactionsDestination)
+        val reportsBackStack = rememberNavBackStack(ReportsDestination)
+        val budgetsBackStack = rememberNavBackStack(BudgetsDestination)
+        val accountsBackStack = rememberNavBackStack(AccountsDestination)
+        val categoriesBackStack = rememberNavBackStack(CategoriesDestination)
+
+        var selectedTabName by rememberSaveable { mutableStateOf(KsWalletTopLevelDestination.HOME.name) }
+        val selectedTab = KsWalletTopLevelDestination.valueOf(selectedTabName)
+        val backStack: NavBackStack<NavKey> = when (selectedTab) {
+            KsWalletTopLevelDestination.HOME -> homeBackStack
+            KsWalletTopLevelDestination.TRANSACTIONS -> transactionsBackStack
+            KsWalletTopLevelDestination.REPORTS -> reportsBackStack
+            KsWalletTopLevelDestination.BUDGETS -> budgetsBackStack
+            KsWalletTopLevelDestination.ACCOUNTS -> accountsBackStack
+            KsWalletTopLevelDestination.CATEGORIES -> categoriesBackStack
+        }
+        val selectedDestination = KsWalletTopLevelDestination.entries.firstOrNull {
+            backStack.isOnDestination(it.route)
         }
 
         Scaffold(
             modifier = modifier,
             contentWindowInsets = WindowInsets(0, 0, 0, 0),
             bottomBar = {
-                if (selected != null) {
+                if (selectedDestination != null) {
                     NavigationBar {
                         KsWalletTopLevelDestination.entries.forEach { destination ->
                             NavigationBarItem(
-                                selected = destination == selected,
-                                onClick = { navController.navigateTopLevelTo(destination) },
-                                icon = {
-                                    Icon(imageVector = destination.icon, contentDescription = null)
-                                },
+                                selected = destination == selectedDestination,
+                                onClick = { selectedTabName = destination.name },
+                                icon = { Icon(imageVector = destination.icon, contentDescription = null) },
                                 label = { Text(text = stringResource(destination.labelRes)) },
                             )
                         }
@@ -79,8 +95,14 @@ fun KsWalletApp(
                 }
             },
         ) { padding ->
-            KsWalletNavHost(
-                navController = navController,
+            KsNavHost(
+                backStack = backStack,
+                onNavigateTopLevel = { destination -> selectedTabName = destination.name },
+                onBackAtRoot = {
+                    if (selectedTab != KsWalletTopLevelDestination.HOME) {
+                        selectedTabName = KsWalletTopLevelDestination.HOME.name
+                    }
+                },
                 modifier = Modifier.padding(padding),
             )
         }

@@ -4,7 +4,7 @@ import com.kswallet.core.common.result.Outcome
 import com.kswallet.core.model.Category
 import com.kswallet.core.model.CategoryId
 import com.kswallet.core.model.CategoryType
-import com.kswallet.core.testing.MainDispatcherRule
+import com.kswallet.core.testing.MainDispatcherExtension
 import com.kswallet.feature.categories.domain.repository.CategoryRepository
 import com.kswallet.feature.categories.domain.usecase.DeleteCategoryUseCase
 import com.kswallet.feature.categories.domain.usecase.ObserveCategoriesUseCase
@@ -16,11 +16,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.RegisterExtension
 import kotlin.time.Instant
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -28,8 +28,8 @@ class CategoriesViewModelTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule(testDispatcher)
+    @RegisterExtension
+    val mainDispatcher = MainDispatcherExtension(testDispatcher)
 
     private val repository = mockk<CategoryRepository>()
 

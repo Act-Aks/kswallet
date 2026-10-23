@@ -1,19 +1,16 @@
 package com.kswallet.core.navigation
 
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavOptionsBuilder
-import kotlinx.serialization.Serializable
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 
 /**
- * Every destination in KsWallet is a serializable type - no string routes anywhere.
+ * Every destination in KsWallet is a serializable Navigation 3 key - no string routes.
  *
- * A feature declares its destinations in `presentation/navigation/<Feature>Navigation.kt`
- * and exposes one `NavGraphBuilder.<feature>Screen(...)` extension plus a `navigate`
- * helper. The app module assembles those graphs; features never know about each other's
- * screens, only about [KsWalletDestination] contracts they need to reach.
+ * Features own their keys and contribute `EntryProviderScope<NavKey>` entry builders. The app
+ * composes those builders and owns the back stack; feature modules only depend on contracts
+ * they need to reach.
  */
-interface KsWalletDestination
+interface KsWalletDestination : NavKey
 
 /** Marks a destination reachable from the bottom navigation bar. */
 interface TopLevelDestination : KsWalletDestination {
@@ -21,29 +18,18 @@ interface TopLevelDestination : KsWalletDestination {
     val labelRes: Int
 }
 
-/** Navigates to a typed destination, ignoring rapid double taps. */
-fun NavController.navigateTo(destination: KsWalletDestination, builder: NavOptionsBuilder.() -> Unit = {}) {
-    navigate(destination, builder)
+/** Pushes a typed key onto the back stack, avoiding a duplicate rapid tap on the current key. */
+fun NavBackStack<NavKey>.navigateTo(destination: KsWalletDestination) {
+    if (lastOrNull() != destination) add(destination)
 }
 
-/**
- * True when [destination] (or one of its parents) is the current destination.
- *
- * The comparison is made on the serialized route name rather than on
- * `NavDestination.hasRoute(KClass)`: navigation 2.9 declares a *member*
- * `hasRoute(String, Bundle)` which shadows that extension, so the route string is the
- * reliable way to ask the question (and it is what the destination is matched on anyway).
- * A route with arguments looks like `com.x.MyDestination/{id}`, hence the prefix comparison.
- */
-fun NavController.isOnDestination(destination: KsWalletDestination): Boolean {
-    val routeName = destination::class.qualifiedName ?: return false
-    return currentDestination?.hierarchy?.any { it.route?.substringBefore('/') == routeName } == true
+/** Pops one entry without ever removing the root of a tab's stack. */
+fun NavBackStack<NavKey>.popBackStack(): Boolean {
+    if (size <= 1) return false
+    removeLastOrNull()
+    return true
 }
 
-/** Serializable contract for the "open the transaction editor" hand-off between features. */
-@Serializable
-data class TransactionEditorDestination(val transactionId: Long? = null) : KsWalletDestination
-
-/** Serializable contract for the "open the account detail" hand-off between features. */
-@Serializable
-data class AccountDetailDestination(val accountId: Long) : KsWalletDestination
+/** True when [destination] is the currently visible entry. */
+fun NavBackStack<NavKey>.isOnDestination(destination: KsWalletDestination): Boolean =
+    lastOrNull()?.let { it::class == destination::class } == true

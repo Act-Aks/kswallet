@@ -15,18 +15,18 @@ android {
  */
 dependencies {
     implementation(projects.core.common)
-    implementation(projects.core.model)
-    implementation(projects.core.designsystem)
-    implementation(projects.core.ui)
-    implementation(projects.core.navigation)
     implementation(projects.core.database)
     implementation(projects.core.datastore)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.model)
+    implementation(projects.core.navigation)
+    implementation(projects.core.ui)
 
-    implementation(projects.feature.home)
     implementation(projects.feature.accounts)
-    implementation(projects.feature.transactions)
     implementation(projects.feature.budgets)
-    implementation(projects.feature.reports)
     implementation(projects.feature.categories)
+    implementation(projects.feature.home)
+    implementation(projects.feature.reports)
     implementation(projects.feature.settings)
+    implementation(projects.feature.transactions)
 }

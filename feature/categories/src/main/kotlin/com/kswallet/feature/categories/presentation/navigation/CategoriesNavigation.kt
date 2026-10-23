@@ -1,8 +1,7 @@
 package com.kswallet.feature.categories.presentation.navigation
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 import com.kswallet.core.navigation.KsWalletDestination
 import com.kswallet.feature.categories.presentation.editor.CategoryEditorRoute
 import com.kswallet.feature.categories.presentation.list.CategoriesRoute
@@ -19,19 +18,18 @@ data class CategoryEditorDestination(val categoryId: Long? = null) : KsWalletDes
  * The feature's whole public navigation surface: the app (or another feature) can reach
  * every screen without knowing any composable of this module.
  */
-fun NavGraphBuilder.categoriesScreen(
+fun EntryProviderScope<NavKey>.categoriesEntries(
     onNavigateBack: () -> Unit,
     onNavigateToEditor: (categoryId: Long?) -> Unit,
 ) {
-    composable<CategoriesDestination> {
+    entry<CategoriesDestination> {
         CategoriesRoute(
             onAddCategory = { onNavigateToEditor(null) },
             onEditCategory = { categoryId -> onNavigateToEditor(categoryId.value) },
         )
     }
 
-    composable<CategoryEditorDestination> { backStackEntry ->
-        val destination = backStackEntry.toRoute<CategoryEditorDestination>()
+    entry<CategoryEditorDestination> { destination ->
         CategoryEditorRoute(
             categoryIdValue = destination.categoryId ?: 0L,
             onNavigateBack = onNavigateBack,

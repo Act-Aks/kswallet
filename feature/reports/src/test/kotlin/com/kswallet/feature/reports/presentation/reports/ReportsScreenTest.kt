@@ -46,7 +46,7 @@ class ReportsScreenTest {
 
     private val context: Context = ApplicationProvider.getApplicationContext()
     private val currency = Currency.INR
-    private val actions = mutableListOf<ReportsAction>()
+    private val intents = mutableListOf<ReportsAction>()
 
     private val october = ReportMonth(2026, 10)
 
@@ -111,13 +111,13 @@ class ReportsScreenTest {
     }
 
     @Test
-    fun `the arrows send the navigation actions, and the future one is disabled on the current month`() {
+    fun `the arrows send the navigation intents, and the future one is disabled on the current month`() {
         show(state(isLoading = false, expense = "800.00", canGoNext = false))
 
         composeRule.onNodeWithContentDescription(str(R.string.reports_next_month)).assertIsNotEnabled()
 
         composeRule.onNodeWithContentDescription(str(R.string.reports_previous_month)).performClick()
-        assertEquals(listOf(ReportsAction.PreviousMonthClicked), actions)
+        assertEquals(listOf(ReportsAction.PreviousMonthClicked), intents)
     }
 
     @Test
@@ -126,7 +126,7 @@ class ReportsScreenTest {
 
         composeRule.onNodeWithContentDescription(str(R.string.reports_next_month)).performClick()
 
-        assertEquals(listOf(ReportsAction.NextMonthClicked), actions)
+        assertEquals(listOf(ReportsAction.NextMonthClicked), intents)
     }
 
     @Test
@@ -165,7 +165,7 @@ class ReportsScreenTest {
 
         composeRule.onNodeWithText(str(R.string.reports_error_load)).assertIsDisplayed()
         composeRule.onNodeWithText(RetryLabel).performClick()
-        assertTrue(actions.any { it == ReportsAction.RetryClicked })
+        assertTrue(intents.any { it == ReportsAction.RetryClicked })
     }
 
     // --- plumbing -------------------------------------------------------------------------
@@ -173,7 +173,7 @@ class ReportsScreenTest {
     private fun show(state: ReportsState) {
         composeRule.setContent {
             KsWalletTheme {
-                ReportsScreen(state = state, onAction = { actions += it })
+                ReportsScreen(state = state, onAction = { intents += it })
             }
         }
     }

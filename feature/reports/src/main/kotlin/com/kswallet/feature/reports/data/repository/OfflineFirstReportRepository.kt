@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
+import org.koin.core.annotation.Single
 
 /**
  * The report, assembled from four queries over the ledger.
@@ -24,6 +25,7 @@ import kotlinx.datetime.minus
  * user thinks in, so that a mixed-currency ledger reports in one currency instead of adding
  * rupees to dollars.
  */
+@Single(binds = [ReportRepository::class])
 class OfflineFirstReportRepository(
     private val transactionDao: TransactionDao,
     private val timeProvider: TimeProvider,

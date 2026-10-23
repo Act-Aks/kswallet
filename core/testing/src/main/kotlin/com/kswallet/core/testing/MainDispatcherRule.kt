@@ -6,27 +6,33 @@ import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
+import org.junit.jupiter.api.extension.AfterEachCallback
+import org.junit.jupiter.api.extension.BeforeEachCallback
+import org.junit.jupiter.api.extension.ExtensionContext
 
 /**
  * Replaces `Dispatchers.Main` for the duration of a JVM unit test, which is what
  * `viewModelScope` in every MVI ViewModel needs.
  *
  * ```kotlin
- * @get:Rule val mainDispatcherRule = MainDispatcherRule()
+ * @RegisterExtension
+ * val mainDispatcher = MainDispatcherExtension(testDispatcher)
  * ```
+ *
+ * A JUnit Jupiter extension rather than a JUnit 4 rule, because that is what
+ * the unit-test suite runs on (the Compose screen tests are the JUnit 4
+ * holdouts - Compose ships no Jupiter test rule).
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-class MainDispatcherRule(
-    val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
-) : TestWatcher() {
+class MainDispatcherExtension(
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
+) : BeforeEachCallback, AfterEachCallback {
 
-    override fun starting(description: Description) {
+    override fun beforeEach(context: ExtensionContext) {
         Dispatchers.setMain(testDispatcher)
     }
 
-    override fun finished(description: Description) {
+    override fun afterEach(context: ExtensionContext) {
         Dispatchers.resetMain()
     }
 }

@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import org.koin.core.annotation.KoinViewModel
 
 /**
  * The reports screen.
@@ -28,6 +29,7 @@ import kotlinx.coroutines.flow.update
  * query, not a result of it.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
+@KoinViewModel
 class ReportsViewModel(
     timeProvider: TimeProvider,
     observeBaseCurrency: ObserveBaseCurrencyUseCase,

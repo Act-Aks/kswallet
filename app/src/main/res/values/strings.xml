@@ -8,13 +8,4 @@
     <string name="destination_budgets">Budgets</string>
     <string name="destination_accounts">Accounts</string>
     <string name="destination_categories">Categories</string>
-
-    <string name="account_detail_open_ledger">Open ledger</string>
-    <string name="account_detail_currency">Currency</string>
-    <string name="account_detail_opening_balance">Opening balance</string>
-    <string name="account_detail_included_in_total">Included in total balance</string>
-    <string name="account_detail_yes">Yes</string>
-    <string name="account_detail_no">No</string>
-    <string name="account_detail_edit">Edit account</string>
-    <string name="account_detail_missing">That account no longer exists.</string>
 </resources>

@@ -2,9 +2,9 @@ package com.kswallet.feature.budgets.domain.validation
 
 import com.kswallet.core.model.CategoryId
 import com.kswallet.core.model.Currency
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
 
 /**
  * The rules of a budget form. They are the part of the feature that is finished, so they are

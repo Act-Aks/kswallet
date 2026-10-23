@@ -10,7 +10,15 @@ import com.kswallet.core.datastore.domain.repository.SettingsRepository
 import com.kswallet.core.model.Currency
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.koin.core.annotation.Single
 
+/**
+ * DataStore-backed settings.
+ *
+ * DataStore is used instead of SharedPreferences because it is asynchronous, transactional
+ * and exposes changes as a Flow - the theme can therefore be observed like any other state.
+ */
+@Single(binds = [SettingsRepository::class])
 class OfflineFirstSettingsRepository(
     private val context: Context,
 ) : SettingsRepository {

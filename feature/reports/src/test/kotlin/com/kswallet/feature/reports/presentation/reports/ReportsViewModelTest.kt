@@ -7,7 +7,7 @@ import com.kswallet.core.model.CategoryId
 import com.kswallet.core.model.Currency
 import com.kswallet.core.model.Money
 import com.kswallet.core.testing.FixedTimeProvider
-import com.kswallet.core.testing.MainDispatcherRule
+import com.kswallet.core.testing.MainDispatcherExtension
 import com.kswallet.core.ui.util.UiMessage
 import com.kswallet.feature.reports.R
 import com.kswallet.feature.reports.domain.model.CategoryReportRow
@@ -26,12 +26,12 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.TimeZone
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.RegisterExtension
 import java.io.IOException
 
 /**
@@ -44,8 +44,8 @@ class ReportsViewModelTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
 
-    @get:Rule
-    val mainDispatcherRule = MainDispatcherRule(testDispatcher)
+    @RegisterExtension
+    val mainDispatcher = MainDispatcherExtension(testDispatcher)
 
     private val currency = Currency.INR
     private val repository = mockk<ReportRepository>()
@@ -175,7 +175,10 @@ class ReportsViewModelTest {
             val viewModel = viewModel()
 
             viewModel.onAction(ReportsAction.NextMonthClicked)
-            assertEquals("the current month may not be left to the right", october, viewModel.state.value.month)
+            assertEquals(
+                october, viewModel.state.value.month,
+                "the current month may not be left to the right",
+            )
 
             viewModel.onAction(ReportsAction.PreviousMonthClicked)
             assertEquals(september, viewModel.state.value.month)

@@ -14,6 +14,8 @@ import com.kswallet.feature.categories.domain.validation.CategoryFormInput
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.InjectedParam
+import org.koin.core.annotation.KoinViewModel
 
 /**
  * Editor for a single category.
@@ -21,8 +23,9 @@ import kotlinx.coroutines.launch
  * The id arrives as a plain `Long` (0 = new) because Koin passes it as a parameter, and
  * `koinViewModel { parametersOf(...) }` keeps the graph free of "current id" globals.
  */
+@KoinViewModel
 class CategoryEditorViewModel(
-    categoryIdValue: Long,
+    @InjectedParam categoryIdValue: Long,
     private val observeCategory: ObserveCategoryUseCase,
     private val saveCategory: SaveCategoryUseCase,
 ) : ScreenViewModel<CategoryEditorState, CategoryEditorAction, CategoryEditorEvent>(

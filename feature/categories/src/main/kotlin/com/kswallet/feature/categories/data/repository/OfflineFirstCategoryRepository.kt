@@ -12,11 +12,13 @@ import com.kswallet.feature.categories.data.mapper.toEntity
 import com.kswallet.feature.categories.domain.repository.CategoryRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.koin.core.annotation.Single
 
 /**
  * The repository is deliberately thin: it maps, it guards, it forwards to the DAO.
  * Anything smarter belongs in a use case, where it can be tested without a database.
  */
+@Single(binds = [CategoryRepository::class])
 class OfflineFirstCategoryRepository(
     private val categoryDao: CategoryDao,
 ) : CategoryRepository {

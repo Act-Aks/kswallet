@@ -5,6 +5,6 @@ plugins {
 dependencies {
     api(projects.core.common)
     api(projects.core.model)
-    api(libs.junit4)
+    api(libs.junit.jupiter)
     api(libs.kotlinx.coroutines.test)
 }

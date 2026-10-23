@@ -10,8 +10,8 @@ import com.kswallet.core.model.TransactionType
 import com.kswallet.feature.transactions.domain.model.TransactionDetails
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import kotlin.time.Instant
 
 /**
