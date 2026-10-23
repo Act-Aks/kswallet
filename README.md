@@ -1,115 +1,256 @@
+<div align="center">
+
 # KsWallet
 
-A personal-finance app for Android, written in Kotlin: a multi-module, MVI-architected rebuild
-of [IvyWallet](https://github.com/philipplackner/IvyWallet-PL_Version) with its own Material 3 design system, its own
-package structure and a build that enforces the architecture instead of documenting it.
+### Your finances. A thoughtfully engineered Android experience.
 
-* **Language / UI:** Kotlin 2.4, Jetpack Compose (Material 3), Android only.
-* **Architecture:** MVI, one module per feature, three layers per feature (`data` / `domain` / `presentation`) as
-  packages.
-* **DI:** Koin 4.2 annotations (`@Single`, `@Factory`, `@KoinViewModel`) plus the Kotlin compiler plugin; the explicit
-  `@KoinApplication` graph is validated at **compile time**.
-* **Navigation:** Jetpack Navigation 3 (stable 1.2.0) with serializable keys and per-tab back stacks.
-* **Persistence:** Room 3 (`androidx.room3`) on a bundled SQLite driver, DataStore for settings.
-* **Build:** Gradle 9.8 with convention plugins in `build-logic`, one version catalog.
+A Kotlin-first personal-finance app built with Jetpack Compose, Material 3, and a build-enforced modular architecture.
 
-```bash
-./gradlew :app:assembleDebug      # debug APK
-./gradlew testDebugUnitTest       # unit tests (no device needed)
-./gradlew verifyLayerBoundaries   # architecture check on its own
-./gradlew check                   # tests + layer boundaries + Android lint
-```
+![Platform](https://img.shields.io/badge/Platform-Android-3DDC84?logo=android&logoColor=white)
+![Kotlin](https://img.shields.io/badge/Kotlin-2.4-7F52FF?logo=kotlin&logoColor=white)
+![UI](https://img.shields.io/badge/UI-Jetpack_Compose-4285F4?logo=jetpackcompose&logoColor=white)
+![Architecture](https://img.shields.io/badge/Architecture-MVI-6750A4)
+![Gradle](https://img.shields.io/badge/Gradle-9.8-02303A?logo=gradle&logoColor=white)
 
-## Status
+[Features](#features) · [Getting started](#getting-started) · [Architecture](#architecture) · [Testing](#testing) · [Roadmap](#roadmap)
 
-| Area                                                                                       | State                                                                                                                                                                  |
-|--------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Build logic (`build-logic`, version catalog, convention plugins)                           | complete                                                                                                                                                               |
-| `:core:*` (common, model, mvi, designsystem, ui, navigation, database, datastore, testing) | complete                                                                                                                                                               |
-| Accounts                                                                                   | implemented end-to-end (list, editor, dashboard contract, delete-with-warning)                                                                                         |
-| Transactions                                                                               | implemented end-to-end (ledger with filters, editor, transfers, delete)                                                                                                |
-| Categories                                                                                 | implemented end-to-end (list with usage counts, editor, delete)                                                                                                        |
-| Home                                                                                       | implemented (balance, month cash-flow, recent activity, quick actions)                                                                                                 |
-| Settings                                                                                   | implemented (theme mode, wallpaper colours, base currency) — the screen the DataStore exists for                                                                       |
-| Budgets                                                                                    | implemented end-to-end (per-category limits over a week/month/year, live spend, progress, editor, delete)                                                              |
-| Reports                                                                                    | implemented end-to-end (month picker, income/expense/net summary, daily chart, spending per category with shares, month-over-month comparison, retry on a failed read) |
-| Still missing (onboarding, CSV import/export, attachments)                                 | not started — the patterns and modules to copy are in place                                                                                                            |
+</div>
 
-`./gradlew :app:assembleDebug` produces `app/build/outputs/apk/debug/app-debug.apk` (≈26 MB).
-`./gradlew testDebugUnitTest` plus `:core:common:test` and `:core:model:test` runs 181 tests:
-128 unit tests on JUnit 6 (Jupiter) plus 53 Compose UI tests that **Robolectric hosts on the JVM**, so no emulator is
-involved. The UI tests are written against the JUnit 4 API because Compose ships its test rule only for JUnit 4; the
-vintage engine keeps them discoverable, and this box runs them through `tools/run-ui-test.sh` (below). On a machine
-where a second JVM does not fit next to the build JVM, `-Pkswallet.skipUiTests=true` keeps the screen tests out of the
-Gradle run and `tools/run-ui-test.sh` starts them itself — one JVM, no Gradle.
+---
 
-On a small machine, drive the build through `tools/gbuild.sh` rather than calling Gradle directly: it picks one of three
-measured memory profiles, runs a single target per JVM, and keeps the full log. See [
-`docs/ARCHITECTURE.md` §12](docs/ARCHITECTURE.md) for the numbers.
+## Overview
 
-## Module map
+KsWallet is an Android personal-finance app for managing accounts, tracking transactions, setting budgets, and reviewing spending.
 
-```
-:app                     composition root: annotated Koin graph, navigation graph, bottom bar
-:core
-  :common                Outcome/DomainError, DateRange, TimeProvider - pure Kotlin
-  :model                 Money, Currency, Account, Category, Transaction, ids - pure Kotlin
-  :mvi                   MviViewModel<S, I, E>, ObserveAsEvents, UiMessage - pure Kotlin
-  :designsystem          KsWalletTheme, colour/type/spacing tokens, KsScreen & state components
-  :ui                    formatting (money, dates, colours) and shared leaf components
-  :navigation            typed destinations + cross-feature navigation contracts
-  :database              Room 3 entities, DAOs, migrations, database factory
-  :datastore             user settings (base currency, theme) on Preferences DataStore — also the
-                         data layer of :feature:settings, which is why that feature has no data/
-  :testing               MainDispatcherExtension, FixedTimeProvider - pure Kotlin test doubles
-:feature
-  :home                  dashboard built from the accounts + transactions domains
-  :transactions          ledger + editor
-  :budgets               per-category limits with live spend (reads :feature:categories' domain)
-  :reports               month-by-month analysis: aggregates over the ledger, own DAO queries
-  :accounts              accounts list + editor
-  :categories            categories list + editor
-  :settings              theme mode, wallpaper colours and base currency
-```
+It is a multi-module, MVI-architected rebuild of [IvyWallet — PL Version](https://github.com/philipplackner/IvyWallet-PL_Version), with its own Material 3 design system, package structure, and architecture checks enforced by the build—not just documented in a guide.
 
-Each `:feature:*` module contains
+## Features
 
-```
-data/           repository implementations, mappers to/from Room entities, DI module
-domain/         models, validators, use cases, repository interfaces, DI module
-presentation/   MVI contract, ViewModel, Compose screen, navigation entry point, DI module
-```
+| Feature | What is implemented |
+| --- | --- |
+| Home | Balance overview, monthly cash flow, recent activity, and quick actions. |
+| Accounts | Account list and editor, dashboard integration, and deletion with a warning. |
+| Transactions | Filterable ledger, transaction editor, transfers, and deletion. |
+| Categories | Category list with usage counts, editor, and deletion. |
+| Budgets | Weekly, monthly, and yearly per-category limits, live spending, progress, editor, and deletion. |
+| Reports | Month picker, income/expense/net summaries, daily chart, category spending shares, month-over-month comparison, and retry on failed reads. |
+| Settings | Theme mode, wallpaper colours, and base currency. |
 
-## Where to read next
+Onboarding, CSV import/export, and attachments are not implemented yet. See the [roadmap](#roadmap).
 
-* [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — the layers, the rules the build enforces, the MVI contract, the DI
-  graph, the Room 3 setup and the navigation route idiom.
-* [`build-logic/`](build-logic) — the convention plugins every module applies.
+## Tech stack
 
-## Requirements
+| Area | Technology |
+| --- | --- |
+| Language | Kotlin 2.4 |
+| UI | Jetpack Compose and Material 3 |
+| Architecture | MVI; one module per feature with package-level layers |
+| Dependency injection | Koin 4.2 annotations and Kotlin compiler plugin |
+| Navigation | Jetpack Navigation 3, stable 1.2.0; serializable keys and per-tab back stacks |
+| Database | Room 3 (`androidx.room3`) with a bundled SQLite driver |
+| Preferences | Preferences DataStore |
+| Build | Gradle 9.8, convention plugins in `build-logic`, and one version catalog |
+| Testing | JUnit 6/Jupiter, JUnit 4/Vintage, and Robolectric-hosted Compose UI tests |
 
-JDK 17+ (the build runs on 21), Android SDK with platform 37 and build-tools 37. Point
-`local.properties` at your SDK (`sdk.dir=...`) or export `ANDROID_HOME`.
+The explicit `@KoinApplication` dependency graph is validated at compile time. Dependencies use `@Single`, `@Factory`, and `@KoinViewModel` annotations.
 
-In an ephemeral container (CI, a coding sandbox) the toolchain is not part of the workspace snapshot, so bring it back
-with:
+## Getting started
+
+### Requirements
+
+- JDK 17 or newer; the project build runs on JDK 21.
+- Android SDK platform 37.
+- Android SDK build-tools 37.
+
+### Clone the repository
 
 ```bash
-./tools/bootstrap-toolchain.sh          # downloads JDK 21 + the Android SDK if missing
-source ./tools/bootstrap-toolchain.sh   # ...and exports JAVA_HOME / ANDROID_HOME / GRADLE_USER_HOME
+git clone https://github.com/Act-Aks/kswallet.git
+cd kswallet
 ```
 
-The script writes `local.properties` for you, makes `gradlew` executable again (file modes do not survive a snapshot
-restore) and is safe to re-run.
+### Configure the Android SDK
 
-Then build through the helper, which exists because a ~2 GB container cannot run every Gradle task in one JVM:
+Set the SDK location in your local `local.properties` file:
+
+```properties
+sdk.dir=/absolute/path/to/Android/Sdk
+```
+
+Alternatively, export `ANDROID_HOME` to your Android SDK directory.
+
+### Build a debug APK
 
 ```bash
-KSWALLET_FLAGS="-Pkswallet.skipUiTests=true" \
-  bash tools/gbuild.sh testDebugUnitTest verifyLayerBoundaries \
-  :core:common:test :core:model:test                             # 128 unit tests + §4 import rules
-bash tools/run-ui-test.sh                                        # 53 Compose UI tests, one JVM
+./gradlew :app:assembleDebug
+```
+
+Output:
+
+```text
+app/build/outputs/apk/debug/app-debug.apk
+```
+
+The documented debug APK size is approximately 26 MB; it can vary between builds.
+
+### Common commands
+
+```bash
+# Build the debug APK
+./gradlew :app:assembleDebug
+
+# Run debug unit-test tasks; no device required
+./gradlew testDebugUnitTest
+
+# Run architecture checks independently
+./gradlew verifyLayerBoundaries
+
+# Run checks: tests, layer boundaries, and Android lint
+./gradlew check
+```
+
+For memory-constrained environments, use the helper workflow below instead of running all tasks directly through Gradle.
+
+## Architecture
+
+KsWallet separates features into Gradle modules and separates each feature's responsibilities into packages. Shared infrastructure lives in `:core:*`, while `:app` is the composition root.
+
+### Module map
+
+```text
+:app                       Composition root: Koin graph, navigation graph, bottom bar
+│
+├── :core
+│   ├── :common            Outcome/DomainError, DateRange, TimeProvider
+│   ├── :model             Money, Currency, Account, Category, Transaction, IDs
+│   ├── :mvi               MviViewModel<S, I, E>, ObserveAsEvents, UiMessage
+│   ├── :designsystem      KsWalletTheme, colour/type/spacing tokens, screen/state components
+│   ├── :ui                Money/date/colour formatting and shared leaf components
+│   ├── :navigation        Typed destinations and cross-feature navigation contracts
+│   ├── :database          Room entities, DAOs, migrations, database factory
+│   ├── :datastore         Base currency and theme preferences
+│   └── :testing           MainDispatcherExtension, FixedTimeProvider
+│
+└── :feature
+    ├── :home              Dashboard using accounts and transactions domains
+    ├── :transactions      Ledger and editor
+    ├── :budgets           Category limits and live spending
+    ├── :reports           Ledger aggregates and report-specific DAO queries
+    ├── :accounts          Account list and editor
+    ├── :categories        Category list and editor
+    └── :settings          Theme, wallpaper colours, and base currency
+```
+
+`:core:common`, `:core:model`, `:core:mvi`, and `:core:testing` are pure Kotlin modules.
+
+### Feature structure
+
+Feature layers are packages within a single feature module, not separate Gradle modules:
+
+```text
+feature/<feature>/
+├── data/                  Repository implementations, Room mappers, DI module
+├── domain/                Models, validators, use cases, repository interfaces, DI module
+└── presentation/          MVI contract, ViewModel, Compose screen, navigation entry, DI module
+```
+
+The settings feature is the exception: `:core:datastore` supplies its data layer, so `:feature:settings` has no `data/` package.
+
+### Architectural building blocks
+
+- MVI: screen state, user intents, and effects use the shared `MviViewModel<S, I, E>` foundation.
+- Dependency injection: an explicitly annotated Koin application graph is checked at compile time.
+- Navigation: serializable Navigation 3 keys support typed destinations and separate back stacks per tab.
+- Persistence: Room 3 provides database storage; Preferences DataStore stores user settings.
+- Build enforcement: `verifyLayerBoundaries` checks architectural boundaries independently and as part of the checks workflow.
+
+Read [the architecture guide](docs/ARCHITECTURE.md) for layer rules, MVI contracts, DI configuration, Room setup, and navigation conventions. Shared module configuration lives in [build-logic](build-logic/).
+
+## Testing
+
+The documented suite contains 181 tests:
+
+| Suite | Count | Runtime |
+| --- | --- | --- |
+| Unit tests | 128 | JUnit 6 / Jupiter |
+| Compose UI tests | 53 | Robolectric on the JVM, using JUnit 4 APIs and the Vintage engine |
+
+No emulator is required for these tests. Compose UI tests use JUnit 4 because Compose's test rule is supplied through that API; the Vintage engine keeps them discoverable.
+
+The documented test tasks include:
+
+```bash
+./gradlew testDebugUnitTest :core:common:test :core:model:test
+```
+
+On machines that cannot fit a separate test JVM alongside Gradle, skip UI tests in the Gradle run and execute them through the standalone helper:
+
+```bash
+KSWALLET_FLAGS="-Pkswallet.skipUiTests=true"   bash tools/gbuild.sh testDebugUnitTest verifyLayerBoundaries   :core:common:test :core:model:test
+
+bash tools/run-ui-test.sh
+```
+
+The first command runs the 128 unit tests and layer-boundary checks. The second runs the 53 Compose UI tests in one JVM without Gradle.
+
+## Low-memory and ephemeral environments
+
+### Restore the toolchain
+
+In CI containers or coding sandboxes, the JDK and Android SDK may not survive a workspace snapshot. Restore them with:
+
+```bash
+# Download JDK 21 and the Android SDK if missing
+./tools/bootstrap-toolchain.sh
+
+# Source the script to also export the toolchain environment variables
+source ./tools/bootstrap-toolchain.sh
+```
+
+The script sets up `local.properties`, restores the executable permission on `gradlew`, and can be rerun safely. Sourcing it exports `JAVA_HOME`, `ANDROID_HOME`, and `GRADLE_USER_HOME` into the current shell.
+
+### Use the memory-aware build helper
+
+`tools/gbuild.sh` selects from three measured memory profiles, executes a single target per JVM, and retains the full log. It is intended for small environments, including containers with approximately 2 GB of memory.
+
+```bash
+# Unit tests and architecture checks
+KSWALLET_FLAGS="-Pkswallet.skipUiTests=true"   bash tools/gbuild.sh testDebugUnitTest verifyLayerBoundaries   :core:common:test :core:model:test
+
+# Compose UI tests in a standalone JVM
+bash tools/run-ui-test.sh
+
+# Debug APK
 KSWALLET_PROFILE=packaging bash tools/gbuild.sh :app:assembleDebug
-KSWALLET_PROFILE=packaging KSWALLET_FLAGS=--configuration-cache \
-  bash tools/gbuild.sh :app:lintDebug
+
+# Android lint
+KSWALLET_PROFILE=packaging KSWALLET_FLAGS=--configuration-cache   bash tools/gbuild.sh :app:lintDebug
 ```
+
+See [Architecture §12](docs/ARCHITECTURE.md) for measured memory usage and profile details.
+
+## Roadmap
+
+- [x] Build logic, version catalog, and convention plugins
+- [x] Shared core modules
+- [x] Accounts
+- [x] Transactions and transfers
+- [x] Categories
+- [x] Home dashboard
+- [x] Settings
+- [x] Budgets
+- [x] Reports
+- [ ] Onboarding
+- [ ] CSV import/export
+- [ ] Attachments
+
+## Documentation
+
+| Resource | Contents |
+| --- | --- |
+| [Architecture guide](docs/ARCHITECTURE.md) | Layers, build-enforced rules, MVI, DI, database, navigation, and memory profiles |
+| [Build logic](build-logic/) | Convention plugins shared across modules |
+
+## Acknowledgements
+
+KsWallet rebuilds [IvyWallet — PL Version](https://github.com/philipplackner/IvyWallet-PL_Version) with its own modular structure, Material 3 design system, and build-enforced architecture.
