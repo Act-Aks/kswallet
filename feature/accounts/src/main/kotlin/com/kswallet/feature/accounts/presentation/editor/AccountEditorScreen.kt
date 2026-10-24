@@ -58,7 +58,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun AccountEditorRoute(
+fun AccountEditorRoot(
     accountIdValue: Long,
     onNavigateBack: () -> Unit,
     viewModel: AccountEditorViewModel = koinViewModel(parameters = { parametersOf(accountIdValue) }),

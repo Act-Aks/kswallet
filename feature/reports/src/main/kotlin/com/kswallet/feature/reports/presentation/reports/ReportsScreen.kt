@@ -65,7 +65,7 @@ import kotlin.math.roundToInt
  * less, and a bar chart of a month is exactly what `weight` and `height` are for.
  */
 @Composable
-fun ReportsRoute(
+fun ReportsRoot(
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ReportsViewModel = koinViewModel(),

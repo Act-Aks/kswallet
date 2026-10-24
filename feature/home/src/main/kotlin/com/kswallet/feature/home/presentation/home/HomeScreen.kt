@@ -51,7 +51,7 @@ import com.kswallet.feature.home.R
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun HomeRoute(
+fun HomeRoot(
     onAddTransaction: () -> Unit,
     onOpenTransaction: (Long) -> Unit,
     onAddAccount: () -> Unit,

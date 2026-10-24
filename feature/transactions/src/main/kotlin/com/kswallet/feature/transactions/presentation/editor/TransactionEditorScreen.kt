@@ -52,7 +52,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun TransactionEditorRoute(
+fun TransactionEditorRoot(
     transactionIdValue: Long,
     onNavigateBack: () -> Unit,
     viewModel: TransactionEditorViewModel = koinViewModel(

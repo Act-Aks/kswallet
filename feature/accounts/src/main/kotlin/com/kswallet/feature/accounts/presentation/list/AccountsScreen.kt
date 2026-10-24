@@ -55,7 +55,7 @@ import com.kswallet.feature.accounts.presentation.util.label
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun AccountsRoute(
+fun AccountsRoot(
     onAddAccount: () -> Unit,
     onOpenAccount: (AccountId) -> Unit,
     viewModel: AccountsViewModel = koinViewModel(),

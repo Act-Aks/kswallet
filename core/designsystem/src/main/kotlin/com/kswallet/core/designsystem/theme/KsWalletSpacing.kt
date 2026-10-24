@@ -12,4 +12,7 @@ object KsWalletSpacing {
     val xl = 32.dp
     val listItemVertical = 12.dp
     val screenHorizontal = 16.dp
+
+    val bottomBarItemHeight = 52.dp
+    val bottomBarIconSize = 24.dp
 }

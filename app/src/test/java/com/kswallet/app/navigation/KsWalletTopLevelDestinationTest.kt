@@ -16,7 +16,7 @@ class KsWalletTopLevelDestinationTest {
     fun `the bar shows the six tabs in the order the app is meant to be read`() {
         assertEquals(
             listOf("HOME", "TRANSACTIONS", "REPORTS", "BUDGETS", "ACCOUNTS", "CATEGORIES"),
-            KsWalletTopLevelDestination.entries.map { it.name },
+            KsWalletTopLevelRoute.entries.map { it.name },
         )
     }
 
@@ -24,16 +24,16 @@ class KsWalletTopLevelDestinationTest {
     fun `every tab owns a unique route`() {
         // Navigation 3 routes are serializable keys; duplicate key types would make two tabs
         // indistinguishable to the entry provider.
-        val routes = KsWalletTopLevelDestination.entries.map { it.route::class.qualifiedName }
+        val routes = KsWalletTopLevelRoute.entries.map { it.route::class.qualifiedName }
 
         assertEquals(routes.size, routes.distinct().size)
-        assertEquals(KsWalletTopLevelDestination.entries.size, routes.filterNotNull().size)
+        assertEquals(KsWalletTopLevelRoute.entries.size, routes.filterNotNull().size)
     }
 
     @Test
     fun `every tab owns a unique label and icon`() {
-        val labels = KsWalletTopLevelDestination.entries.map { it.labelRes }
-        val icons = KsWalletTopLevelDestination.entries.map { it.icon }
+        val labels = KsWalletTopLevelRoute.entries.map { it.labelRes }
+        val icons = KsWalletTopLevelRoute.entries.map { it.icon }
 
         assertEquals(labels.size, labels.distinct().size)
         assertEquals(icons.size, icons.distinct().size)

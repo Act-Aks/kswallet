@@ -2,12 +2,8 @@ package com.kswallet.feature.home.presentation.navigation
 
 import androidx.navigation3.runtime.EntryProviderScope
 import androidx.navigation3.runtime.NavKey
-import com.kswallet.core.navigation.KsWalletDestination
-import com.kswallet.feature.home.presentation.home.HomeRoute
-import kotlinx.serialization.Serializable
+import com.kswallet.feature.home.presentation.home.HomeRoot
 
-@Serializable
-data object HomeDestination : KsWalletDestination
 
 /**
  * The dashboard. It needs four hand-offs and owns none of the screens behind them: the app
@@ -21,8 +17,8 @@ fun EntryProviderScope<NavKey>.homeEntries(
     onOpenTransaction: (Long) -> Unit,
     onOpenSettings: () -> Unit,
 ) {
-    entry<HomeDestination> {
-        HomeRoute(
+    entry<HomeRoute> {
+        HomeRoot(
             onAddTransaction = onAddTransaction,
             onOpenTransaction = onOpenTransaction,
             onAddAccount = onAddAccount,

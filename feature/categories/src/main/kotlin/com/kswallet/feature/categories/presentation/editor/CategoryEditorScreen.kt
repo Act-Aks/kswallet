@@ -53,7 +53,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun CategoryEditorRoute(
+fun CategoryEditorRoot(
     categoryIdValue: Long,
     onNavigateBack: () -> Unit,
     viewModel: CategoryEditorViewModel = koinViewModel(parameters = { parametersOf(categoryIdValue) }),

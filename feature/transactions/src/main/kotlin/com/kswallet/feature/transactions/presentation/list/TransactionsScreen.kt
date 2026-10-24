@@ -59,7 +59,7 @@ import com.kswallet.feature.transactions.domain.model.PeriodOption
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun TransactionsRoute(
+fun TransactionsRoot(
     onOpenEditor: (TransactionId?) -> Unit,
     viewModel: TransactionsViewModel = koinViewModel(),
 ) {

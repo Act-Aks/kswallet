@@ -36,7 +36,7 @@ import org.koin.compose.koinInject
  * re-order, per-account statistics) it moves into `:feature:accounts` unchanged.
  */
 @Composable
-fun AccountDetailRoute(
+fun AccountDetailRoot(
     accountIdValue: Long,
     onNavigateBack: () -> Unit,
     onEdit: () -> Unit,

@@ -207,8 +207,8 @@ restart.
 
 KsWallet uses **Jetpack Navigation 3** (`androidx.navigation3`, stable 1.2.0). Every route is a
 `@Serializable` key implementing `NavKey` through the shared `KsDestination` contract; there are no string routes,
-`NavController`, or `NavHost` graph. `:core:navigation` owns cross-feature contracts (`TransactionEditorDestination`,
-`AccountDetailDestination`) and stack operations.
+`NavController`, or `NavHost` graph. `:core:navigation` owns cross-feature contracts (`TransactionEditorRoot`,
+`AccountDetailRoot`) and stack operations.
 
 Each feature declares its route keys and exposes an
 `EntryProviderScope<NavKey>.<feature>Entries()` extension. The app composes those entry builders inside one

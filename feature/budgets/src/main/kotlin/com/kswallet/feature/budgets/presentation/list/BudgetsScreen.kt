@@ -57,7 +57,7 @@ import org.koin.compose.viewmodel.koinViewModel
  * same thing out, so color is never the only signal.
  */
 @Composable
-fun BudgetsRoute(
+fun BudgetsRoot(
     onAddBudget: () -> Unit,
     onEditBudget: (BudgetId) -> Unit,
     modifier: Modifier = Modifier,

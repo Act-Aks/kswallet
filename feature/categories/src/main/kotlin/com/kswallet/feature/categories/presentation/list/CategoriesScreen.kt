@@ -56,7 +56,7 @@ import org.koin.compose.viewmodel.koinViewModel
  * Stateful entry point: it wires the ViewModel to the stateless UI and nothing else.
  */
 @Composable
-fun CategoriesRoute(
+fun CategoriesRoot(
     onAddCategory: () -> Unit,
     onEditCategory: (CategoryId) -> Unit,
     viewModel: CategoriesViewModel = koinViewModel(),

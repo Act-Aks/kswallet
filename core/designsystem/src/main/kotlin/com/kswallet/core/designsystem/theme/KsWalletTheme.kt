@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.Dp
 
 /**
  * The single theme entry point of the app.
@@ -33,7 +32,10 @@ fun KsWalletTheme(
         else -> KsWalletLightColorScheme
     }
 
-    CompositionLocalProvider(LocalKsWalletSpacing provides KsWalletSpacing) {
+    CompositionLocalProvider(
+        LocalKsWalletSpacing provides KsWalletSpacing,
+        LocalKsWalletComponentTokens provides KsWalletComponentTokens(),
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
             typography = KsWalletTypography,
@@ -44,17 +46,9 @@ fun KsWalletTheme(
 }
 
 val LocalKsWalletSpacing = staticCompositionLocalOf { KsWalletSpacing }
+val LocalKsWalletComponentTokens = staticCompositionLocalOf { KsWalletComponentTokens() }
 
 object KsWalletTheme {
-    val spacing: KsWalletSpacingAccessor get() = KsWalletSpacingAccessor
-}
-
-/** Convenience accessor for the spacing scale: `KsTheme.spacing.md`. */
-object KsWalletSpacingAccessor {
-    val xxs: Dp get() = KsWalletSpacing.xxs
-    val xs: Dp get() = KsWalletSpacing.xs
-    val sm: Dp get() = KsWalletSpacing.sm
-    val md: Dp get() = KsWalletSpacing.md
-    val lg: Dp get() = KsWalletSpacing.lg
-    val xl: Dp get() = KsWalletSpacing.xl
+    val spacing: KsWalletSpacing get() = KsWalletSpacing
+    val components: KsWalletComponentTokens get() = KsWalletComponentTokens()
 }

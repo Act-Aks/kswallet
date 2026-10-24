@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-private data object TestHome : KsWalletDestination
-private data object TestEditor : KsWalletDestination
+private data object TestHome : KsWalletRoute
+private data object TestEditor : KsWalletRoute
 
 class KsWalletNavigationTest {
     private fun backStack(): NavBackStack<NavKey> = NavBackStack(TestHome)

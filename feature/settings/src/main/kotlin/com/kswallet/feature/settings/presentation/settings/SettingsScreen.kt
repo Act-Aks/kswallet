@@ -46,7 +46,7 @@ import org.koin.compose.viewmodel.koinViewModel
  * already a module of its own, so the feature is domain use cases plus one screen.
  */
 @Composable
-fun SettingsRoute(
+fun SettingsRoot(
     onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel(),

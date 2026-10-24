@@ -40,7 +40,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun BudgetEditorRoute(
+fun BudgetEditorRoot(
     budgetIdValue: Long,
     onNavigateBack: () -> Unit,
     viewModel: BudgetEditorViewModel = koinViewModel(parameters = { parametersOf(budgetIdValue) }),
