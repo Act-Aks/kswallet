@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Native launch splash, retained until app settings are ready. -->
+    <style name="Theme.KsWallet.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/ks_window_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.KsWallet</item>
+    </style>
+
+    <!-- Compose window theme used after splash installation. -->
     <style name="Theme.KsWallet" parent="android:Theme.Material.NoActionBar">
         <item name="android:windowBackground">@color/ks_window_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
+
 </resources>

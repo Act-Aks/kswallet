@@ -57,6 +57,7 @@ class KsWalletAndroidApplicationPlugin : Plugin<Project> {
         }
 
         implementation("androidx-core-ktx")
+        implementation("androidx-core-splashscreen")
         implementation("androidx-lifecycle-viewmodel-navigation3")
 
         configureCoroutines()

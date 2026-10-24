@@ -1,0 +1,24 @@
+<resources>
+    <string name="onboarding_step">Step %1$d of %2$d</string>
+    <string name="onboarding_welcome_title">Welcome to KsWallet</string>
+    <string name="onboarding_welcome_body">A clearer view of your money starts here. Set a few preferences, then track spending and make your plans with confidence.</string>
+    <string name="onboarding_benefit_budget">Plan budgets and see how much is left.</string>
+    <string name="onboarding_benefit_insights">Understand spending with simple reports.</string>
+    <string name="onboarding_benefit_private">Your wallet stays on your device.</string>
+    <string name="onboarding_currency_title">Choose your currency</string>
+    <string name="onboarding_currency_body">This sets the default currency used when you create accounts and transactions. You can change it later in Settings.</string>
+    <string name="onboarding_appearance_title">Make it feel like yours</string>
+    <string name="onboarding_appearance_body">Choose how KsWallet looks. These preferences can be changed any time in Settings.</string>
+    <string name="onboarding_theme_title">Theme</string>
+    <string name="onboarding_theme_system">System</string>
+    <string name="onboarding_theme_light">Light</string>
+    <string name="onboarding_theme_dark">Dark</string>
+    <string name="onboarding_dynamic_color">Dynamic colour</string>
+    <string name="onboarding_dynamic_color_body">Use colours from your wallpaper when supported by this device.</string>
+    <string name="onboarding_back">Back</string>
+    <string name="onboarding_continue">Continue</string>
+    <string name="onboarding_finish">Start using KsWallet</string>
+    <string name="onboarding_saving">Saving…</string>
+    <string name="onboarding_error_storage">Could not save your setup. Check available storage and try again.</string>
+    <string name="onboarding_error_generic">Could not finish setup. Please try again.</string>
+</resources>

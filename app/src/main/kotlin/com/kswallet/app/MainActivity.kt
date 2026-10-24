@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.kswallet.app.ui.KsWalletApp
 
 /**
@@ -14,11 +15,24 @@ import com.kswallet.app.ui.KsWalletApp
  */
 class MainActivity : ComponentActivity() {
 
+    private var keepSplashScreenVisible = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        splashScreen.setKeepOnScreenCondition {
+            keepSplashScreenVisible
+        }
+
         setContent {
-            KsWalletApp()
+            KsWalletApp(
+                onAppReady = {
+                    keepSplashScreenVisible = false
+                },
+            )
         }
     }
 }

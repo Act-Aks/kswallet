@@ -26,6 +26,7 @@ dependencies {
     implementation(projects.feature.budgets)
     implementation(projects.feature.categories)
     implementation(projects.feature.home)
+    implementation(projects.feature.onboarding)
     implementation(projects.feature.reports)
     implementation(projects.feature.settings)
     implementation(projects.feature.transactions)

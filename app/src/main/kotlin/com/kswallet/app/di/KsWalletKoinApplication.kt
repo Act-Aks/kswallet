@@ -13,6 +13,9 @@ import com.kswallet.feature.categories.domain.di.CategoriesDomainModule
 import com.kswallet.feature.categories.presentation.di.CategoriesPresentationModule
 import com.kswallet.feature.home.domain.di.HomeDomainModule
 import com.kswallet.feature.home.presentation.di.HomePresentationModule
+import com.kswallet.feature.onboarding.data.di.OnboardingDataModule
+import com.kswallet.feature.onboarding.domain.di.OnboardingDomainModule
+import com.kswallet.feature.onboarding.presentation.di.OnboardingPresentationModule
 import com.kswallet.feature.reports.data.di.ReportsDataModule
 import com.kswallet.feature.reports.domain.di.ReportsDomainModule
 import com.kswallet.feature.reports.presentation.di.ReportsPresentationModule
@@ -50,13 +53,17 @@ import org.koin.core.annotation.KoinApplication
         BudgetsDataModule::class,
         BudgetsDomainModule::class,
         BudgetsPresentationModule::class,
-        
+
         ReportsDataModule::class,
         ReportsDomainModule::class,
         ReportsPresentationModule::class,
 
         SettingsDomainModule::class,
         SettingsPresentationModule::class,
+
+        OnboardingDataModule::class,
+        OnboardingDomainModule::class,
+        OnboardingPresentationModule::class,
     ],
 )
 class KsWalletKoinApplication

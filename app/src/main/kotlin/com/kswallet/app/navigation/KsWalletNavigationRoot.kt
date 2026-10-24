@@ -20,25 +20,23 @@ import com.kswallet.core.designsystem.component.KsWalletBottomBarStyle
 import com.kswallet.core.navigation.Navigator
 import com.kswallet.core.navigation.rememberNavigationState
 import com.kswallet.core.navigation.toEntries
-import com.kswallet.feature.accounts.presentation.navigation.AccountDetailRoute
-import com.kswallet.feature.accounts.presentation.navigation.AccountEditorRoute
-import com.kswallet.feature.accounts.presentation.navigation.AccountsRoute
-import com.kswallet.feature.accounts.presentation.navigation.accountsEntries
-import com.kswallet.feature.budgets.presentation.navigation.BudgetEditorRoute
-import com.kswallet.feature.budgets.presentation.navigation.budgetsEntries
-import com.kswallet.feature.categories.presentation.navigation.CategoryEditorRoute
-import com.kswallet.feature.categories.presentation.navigation.categoriesEntries
 import com.kswallet.feature.home.presentation.navigation.HomeRoute
-import com.kswallet.feature.home.presentation.navigation.homeEntries
-import com.kswallet.feature.reports.presentation.navigation.reportsEntries
-import com.kswallet.feature.settings.presentation.navigation.SettingsRoute
-import com.kswallet.feature.settings.presentation.navigation.settingsEntries
-import com.kswallet.feature.transactions.presentation.navigation.TransactionEditorRoute
-import com.kswallet.feature.transactions.presentation.navigation.TransactionsRoute
-import com.kswallet.feature.transactions.presentation.navigation.transactionsEntries
 
+/**
+ * Hosts onboarding and wallet navigation using a single [NavDisplay].
+ *
+ * Wallet navigation state remains remembered while onboarding is displayed.
+ * Once persisted settings report completion, wallet entries replace onboarding
+ * entries without adding onboarding to the wallet's navigation history.
+ *
+ * This composable must be called only after persisted settings have loaded.
+ *
+ * @param onboardingCompleted Persisted onboarding completion state.
+ * @param modifier Modifier applied to the root scaffold.
+ */
 @Composable
 fun KsWalletNavigationRoot(
+    onboardingCompleted: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val navigationState = rememberNavigationState(
@@ -47,12 +45,15 @@ fun KsWalletNavigationRoot(
         configuration = ksWalletSavedStateConfiguration,
     )
 
-    val navigator = remember(navigationState) {
-        Navigator(navigationState)
+    val navigator = remember(navigationState) { Navigator(navigationState) }
+    val ksWalletEntryProvider = entryProvider { ksWalletEntries(navigator) }
+    val activeNavEntries = if (onboardingCompleted) {
+        navigationState.toEntries(ksWalletEntryProvider)
+    } else {
+        rememberOnboardingEntries()
     }
 
-    val currentRoute = navigationState.currentRoute
-    val showBottomBar = currentRoute in topLevelRoutes
+    val showBottomBar = onboardingCompleted && navigationState.currentRoute in topLevelRoutes
 
     Scaffold(
         modifier = modifier,
@@ -72,7 +73,11 @@ fun KsWalletNavigationRoot(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            onBack = navigator::goBack,
+            onBack = {
+                if (onboardingCompleted) {
+                    navigator.goBack()
+                }
+            },
             transitionSpec = {
                 slideInHorizontally { it } + fadeIn() togetherWith slideOutHorizontally { -it } + fadeOut()
             },
@@ -82,44 +87,7 @@ fun KsWalletNavigationRoot(
             predictivePopTransitionSpec = {
                 slideInHorizontally { -it } + fadeIn() togetherWith slideOutHorizontally { it } + fadeOut()
             },
-            entries = navigationState.toEntries(
-                entryProvider {
-                    homeEntries(
-                        onNavigateToTransactions = { navigator.navigate(TransactionsRoute) },
-                        onNavigateToAccounts = { navigator.navigate(AccountsRoute) },
-                        onAddTransaction = { navigator.navigate(TransactionEditorRoute()) },
-                        onAddAccount = { navigator.navigate(AccountEditorRoute()) },
-                        onOpenTransaction = { id -> navigator.navigate(TransactionEditorRoute(id)) },
-                        onOpenSettings = { navigator.navigate(SettingsRoute) },
-                    )
-
-                    transactionsEntries(
-                        onNavigateBack = navigator::goBack,
-                        onNavigateToEditor = { id -> navigator.navigate(TransactionEditorRoute(id)) },
-                    )
-
-                    reportsEntries(onNavigateBack = navigator::goBack)
-
-                    budgetsEntries(
-                        onNavigateBack = navigator::goBack,
-                        onNavigateToEditor = { id -> navigator.navigate(BudgetEditorRoute(id)) },
-                    )
-
-                    settingsEntries(onNavigateBack = navigator::goBack)
-
-                    accountsEntries(
-                        onNavigateBack = navigator::goBack,
-                        onNavigateToEditor = { id -> navigator.navigate(AccountEditorRoute(id)) },
-                        onOpenAccount = { id -> navigator.navigate(AccountDetailRoute(id.value)) },
-                        onOpenLedger = { navigator.navigate(TransactionsRoute) },
-                    )
-
-                    categoriesEntries(
-                        onNavigateBack = navigator::goBack,
-                        onNavigateToEditor = { id -> navigator.navigate(CategoryEditorRoute(id)) },
-                    )
-                },
-            ),
+            entries = activeNavEntries,
         )
     }
 }
