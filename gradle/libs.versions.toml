@@ -11,6 +11,10 @@
 agp = "9.4.1"
 kotlin = "2.4.21"
 
+# Compose ui
+compose = "1.12.1"
+androidxActivity = "1.13.0"
+
 # Testing
 junit = "6.1.3"
 
@@ -32,8 +36,21 @@ projectVersionCode = "1"
 [libraries]
 # --------------------------
 
+# --- Compose core ---
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
+
+# --- Compose previews and tooling ---
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
+
+# --- Activity integration ---
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+
 # --- Gradle Plugins (for Convention plugins) ---
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 
 # --- Testing ---
@@ -48,9 +65,11 @@ junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform
 # --- First-party tool plugins (from Maven repositories) ---
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 # --- Project convention plugins (provided by the included build-logic build) ---
 kswallet-android-application = { id = "kswallet.android.application" }
+kswallet-android-compose = { id = "kswallet.android.compose" }
 kswallet-android-library = { id = "kswallet.android.library" }
 kswallet-kotlin-library = { id = "kswallet.kotlin.library" }

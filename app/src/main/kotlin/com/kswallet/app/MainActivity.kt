@@ -1,21 +1,20 @@
 package com.kswallet.app
 
-import android.app.Activity
 import android.os.Bundle
-import android.view.Gravity
-import android.widget.TextView
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import com.kswallet.app.ui.KsWalletApp
 
-class MainActivity : Activity() {
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val content = TextView(this).apply {
-            text = getString(R.string.foundation_ready)
-            textSize = 24f
-            gravity = Gravity.CENTER
-        }
+        enableEdgeToEdge()
 
-        setContentView(content)
+        setContent {
+            KsWalletApp()
+        }
     }
 }

@@ -1,4 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">KsWallet</string>
-    <string name="foundation_ready">KsWallet foundation is ready</string>
+    <string name="compose_foundation_ready">KsWallet + NeoDesign\nCompose foundation is ready</string>
 </resources>

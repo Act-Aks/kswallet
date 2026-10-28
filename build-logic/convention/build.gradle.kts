@@ -12,6 +12,7 @@ kotlin {
 
 dependencies {
     implementation(libs.android.gradle.plugin)
+    implementation(libs.compose.compiler.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin)
 }
 
@@ -20,6 +21,12 @@ gradlePlugin {
         register("androidApplication") {
             id = "kswallet.android.application"
             implementationClass = "com.kswallet.convention.AndroidApplicationConventionPlugin"
+        }
+
+        register("androidCompose") {
+            id = "kswallet.android.compose"
+            implementationClass =
+                "com.kswallet.convention.AndroidComposeConventionPlugin"
         }
 
         register("androidLibrary") {
