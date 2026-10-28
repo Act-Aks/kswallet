@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="neo_loading">Loading</string>
+    <string name="neo_show_password">Show password</string>
+    <string name="neo_hide_password">Hide password</string>
 </resources>

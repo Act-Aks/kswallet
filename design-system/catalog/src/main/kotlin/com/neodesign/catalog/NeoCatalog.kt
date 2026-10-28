@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -27,12 +28,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.neodesign.component.NeoButton
 import com.neodesign.component.NeoButtonVariant
 import com.neodesign.component.NeoCard
 import com.neodesign.component.NeoCardVariant
 import com.neodesign.component.NeoIconButton
+import com.neodesign.component.NeoSecureTextField
 import com.neodesign.component.NeoSegmentOption
 import com.neodesign.component.NeoSegmentedControl
 import com.neodesign.component.NeoSegmentedControlLayout
@@ -114,6 +118,7 @@ private fun CatalogContent(
         SegmentedControlsSection()
         CardsSection()
         TextFieldsSection()
+        SecureTextFieldsSection()
         TypographySection()
         SurfaceSection()
         SemanticColorsSection()
@@ -508,6 +513,74 @@ private fun TextFieldsSection() {
         NeoTextField(
             state = disabledState,
             label = "Disabled field",
+            enabled = false,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+@Composable
+private fun SecureTextFieldsSection() {
+    val passwordState = remember {
+        TextFieldState()
+    }
+
+    val disabledPasswordState = remember {
+        TextFieldState()
+    }
+
+    var passwordVisible by remember {
+        mutableStateOf(false)
+    }
+
+    var showError by remember {
+        mutableStateOf(false)
+    }
+
+    CatalogSection(title = "Secure text fields") {
+        NeoText(
+            text = "Use sample text only. Do not enter real credentials.",
+            color = NeoTheme.colors.contentSecondary,
+        )
+
+        NeoSecureTextField(
+            state = passwordState,
+            label = "Sample password",
+            passwordVisible = passwordVisible,
+            onPasswordVisibilityChange = {
+                passwordVisible = it
+            },
+            placeholder = "Enter sample text",
+            supportingText = "Visibility is controlled by the caller.",
+            errorMessage = if (showError) {
+                "Review this sample password."
+            } else {
+                null
+            },
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.None,
+                autoCorrectEnabled = false,
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done,
+            ),
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        NeoButton(
+            text = if (showError) {
+                "Clear sample error"
+            } else {
+                "Show sample error"
+            },
+            variant = NeoButtonVariant.Outlined,
+            onClick = { showError = !showError },
+        )
+
+        NeoSecureTextField(
+            state = disabledPasswordState,
+            label = "Disabled secure input",
+            passwordVisible = false,
+            onPasswordVisibilityChange = {},
             enabled = false,
             modifier = Modifier.fillMaxWidth(),
         )
