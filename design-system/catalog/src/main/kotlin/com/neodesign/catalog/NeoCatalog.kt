@@ -6,14 +6,11 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,12 +20,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.neodesign.component.NeoButton
 import com.neodesign.component.NeoButtonVariant
 import com.neodesign.component.NeoIconButton
+import com.neodesign.component.NeoSegmentOption
+import com.neodesign.component.NeoSegmentedControl
+import com.neodesign.component.NeoSegmentedControlLayout
 import com.neodesign.component.NeoSurface
 import com.neodesign.component.NeoText
 import com.neodesign.theme.NeoTheme
@@ -37,6 +35,12 @@ private enum class CatalogThemeMode {
     System,
     Light,
     Dark,
+}
+
+private enum class DemoPeriod {
+    Week,
+    Month,
+    Year,
 }
 
 @Composable
@@ -97,6 +101,7 @@ private fun CatalogContent(
         )
 
         ButtonsSection()
+        SegmentedControlsSection()
         TypographySection()
         SurfaceSection()
         SemanticColorsSection()
@@ -108,52 +113,17 @@ private fun ThemeSelector(
     selectedMode: CatalogThemeMode,
     onModeSelected: (CatalogThemeMode) -> Unit,
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .selectableGroup(),
-        horizontalArrangement = Arrangement.spacedBy(
-            NeoTheme.spacing.small,
-        ),
-    ) {
-        CatalogThemeMode.entries.forEach { mode ->
-            val selected = mode == selectedMode
-
-            val background = if (selected) {
-                NeoTheme.colors.action
-            } else {
-                NeoTheme.colors.surfaceRaised
-            }
-
-            val foreground = if (selected) {
-                NeoTheme.colors.onAction
-            } else {
-                NeoTheme.colors.contentPrimary
-            }
-
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .clip(NeoTheme.shapes.pill)
-                    .background(background)
-                    .selectable(
-                        selected = selected,
-                        role = Role.RadioButton,
-                        onClick = { onModeSelected(mode) },
-                    )
-                    .defaultMinSize(minHeight = 48.dp)
-                    .padding(NeoTheme.spacing.medium),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                NeoText(
-                    text = mode.name,
-                    color = foreground,
-                    style = NeoTheme.typography.label,
-                )
-            }
-        }
-    }
+    NeoSegmentedControl(
+        options = CatalogThemeMode.entries.map { mode ->
+            NeoSegmentOption(
+                key = mode,
+                label = mode.name,
+            )
+        },
+        selectedKey = selectedMode,
+        onSelectionChange = onModeSelected,
+        modifier = Modifier.fillMaxWidth(),
+    )
 }
 
 @Composable
@@ -257,6 +227,102 @@ private fun ButtonsSection() {
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun SegmentedControlsSection() {
+    var selectedPeriodName by rememberSaveable {
+        mutableStateOf(DemoPeriod.Month.name)
+    }
+
+    val selectedPeriod = DemoPeriod.valueOf(
+        selectedPeriodName,
+    )
+
+    val options = DemoPeriod.entries.map { period ->
+        NeoSegmentOption(
+            key = period,
+            label = period.name,
+        )
+    }
+
+    CatalogSection(title = "Segmented controls") {
+        NeoText(
+            text = "Selected: ${selectedPeriod.name}",
+            color = NeoTheme.colors.contentSecondary,
+        )
+
+        NeoSegmentedControl(
+            options = options,
+            selectedKey = selectedPeriod,
+            onSelectionChange = {
+                selectedPeriodName = it.name
+            },
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        NeoText(
+            text = "One option disabled",
+            style = NeoTheme.typography.label,
+        )
+
+        NeoSegmentedControl(
+            options = listOf(
+                NeoSegmentOption(
+                    key = DemoPeriod.Week,
+                    label = "Week",
+                ),
+                NeoSegmentOption(
+                    key = DemoPeriod.Month,
+                    label = "Month",
+                ),
+                NeoSegmentOption(
+                    key = DemoPeriod.Year,
+                    label = "Year",
+                    enabled = false,
+                ),
+            ),
+            selectedKey = DemoPeriod.Month,
+            onSelectionChange = {},
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        NeoText(
+            text = "Entire control disabled",
+            style = NeoTheme.typography.label,
+        )
+
+        NeoSegmentedControl(
+            options = options,
+            selectedKey = DemoPeriod.Month,
+            onSelectionChange = {},
+            modifier = Modifier.fillMaxWidth(),
+            enabled = false,
+        )
+
+        NeoText(
+            text = "Long labels — explicit vertical layout",
+            style = NeoTheme.typography.label,
+        )
+
+        NeoSegmentedControl(
+            options = listOf(
+                NeoSegmentOption(
+                    key = "local",
+                    label = "Store information on this device",
+                ),
+                NeoSegmentOption(
+                    key = "remote",
+                    label = "Use a remotely managed workspace",
+                    enabled = false,
+                ),
+            ),
+            selectedKey = "local",
+            onSelectionChange = {},
+            modifier = Modifier.fillMaxWidth(),
+            layout = NeoSegmentedControlLayout.Vertical,
+        )
     }
 }
 
