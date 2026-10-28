@@ -11,12 +11,21 @@ android {
         targetSdk = libs.versions.projectTargetSdkVersion.get().toInt()
         versionCode = libs.versions.projectVersionCode.get().toInt()
         versionName = libs.versions.projectVersion.get()
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
 dependencies {
     implementation(projects.designSystem.core)
+
     implementation(projects.core.screen)
+    implementation(projects.core.money)
+    implementation(projects.core.currencies)
+    implementation(projects.core.database)
+
+    implementation(projects.feature.accounts.domain)
+    implementation(projects.feature.accounts.data)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.foundation)
@@ -33,6 +42,10 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.core)
+
+    androidTestImplementation(libs.junit4)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.ext.junit)
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
