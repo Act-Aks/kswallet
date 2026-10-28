@@ -25,6 +25,7 @@ rootProject.name = "KsWallet"
 include(":app")
 
 include(":core:currencies")
+include(":core:database")
 include(":core:money")
 include(":core:screen")
 
