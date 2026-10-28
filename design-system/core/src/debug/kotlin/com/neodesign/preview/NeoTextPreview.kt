@@ -5,51 +5,34 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.neodesign.component.NeoText
+import com.neodesign.theme.NeoTheme
 
-@Preview(
-    name = "NeoText — light",
-    showBackground = true,
-)
+@Preview(name = "NeoText — light")
 @Composable
 private fun NeoTextLightPreview() {
-    Box(
-        modifier = Modifier
-            .background(Color.White)
-            .padding(24.dp),
-    ) {
-        NeoText(
-            text = "NeoDesign",
-            style = TextStyle(
-                color = Color.Black,
-                fontSize = 24.sp,
-            ),
-        )
-    }
+    TextSample(darkTheme = false)
 }
 
-@Preview(
-    name = "NeoText — dark",
-    showBackground = true,
-)
+@Preview(name = "NeoText — dark")
 @Composable
 private fun NeoTextDarkPreview() {
-    Box(
-        modifier = Modifier
-            .background(Color.Black)
-            .padding(24.dp),
-    ) {
-        NeoText(
-            text = "NeoDesign",
-            style = TextStyle(
-                color = Color.White,
-                fontSize = 24.sp,
-            ),
-        )
+    TextSample(darkTheme = true)
+}
+
+@Composable
+private fun TextSample(darkTheme: Boolean) {
+    NeoTheme(darkTheme = darkTheme) {
+        Box(
+            modifier = Modifier
+                .background(NeoTheme.colors.background)
+                .padding(NeoTheme.spacing.extraLarge),
+        ) {
+            NeoText(
+                text = "NeoDesign",
+                style = NeoTheme.typography.headline,
+            )
+        }
     }
 }

@@ -5,6 +5,13 @@ plugins {
 
 android {
     namespace = "com.kswallet.app"
+
+    defaultConfig {
+        applicationId = libs.versions.projectApplicationId.get()
+        targetSdk = libs.versions.projectTargetSdkVersion.get().toInt()
+        versionCode = libs.versions.projectVersionCode.get().toInt()
+        versionName = libs.versions.projectVersion.get()
+    }
 }
 
 dependencies {

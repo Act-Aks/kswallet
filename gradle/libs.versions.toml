@@ -32,6 +32,11 @@ projectApplicationName = "KsWallet"
 projectVersion = "0.1.0"
 projectVersionCode = "1"
 
+# NeoTheme catalog app metadata
+neoCatalogApplicationId = "com.neodesign.catalog"
+neoCatalogVersion = "0.1.0"
+neoCatalogVersionCode = "1"
+
 # --------------------------
 [libraries]
 # --------------------------
@@ -39,6 +44,7 @@ projectVersionCode = "1"
 # --- Compose core ---
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose" }
+androidx-compose-runtime-saveable = { group = "androidx.compose.runtime", name = "runtime-saveable", version.ref = "compose" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
 
 # --- Compose previews and tooling ---
