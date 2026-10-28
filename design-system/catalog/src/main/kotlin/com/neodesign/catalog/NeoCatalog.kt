@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
@@ -36,6 +38,7 @@ import com.neodesign.component.NeoButtonVariant
 import com.neodesign.component.NeoCard
 import com.neodesign.component.NeoCardVariant
 import com.neodesign.component.NeoIconButton
+import com.neodesign.component.NeoNavigationBar
 import com.neodesign.component.NeoSecureTextField
 import com.neodesign.component.NeoSegmentOption
 import com.neodesign.component.NeoSegmentedControl
@@ -88,40 +91,91 @@ private fun CatalogContent(
     selectedMode: CatalogThemeMode,
     onModeSelected: (CatalogThemeMode) -> Unit,
 ) {
+    var destinationName by rememberSaveable {
+        mutableStateOf(CatalogDestination.Foundations.name)
+    }
+
+    val destination = CatalogDestination.valueOf(
+        destinationName,
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(NeoTheme.colors.background)
-            .safeDrawingPadding()
-            .verticalScroll(rememberScrollState())
-            .padding(NeoTheme.spacing.extraLarge),
-        verticalArrangement = Arrangement.spacedBy(
-            NeoTheme.spacing.extraLarge,
-        ),
+            .safeDrawingPadding(),
     ) {
-        NeoText(
-            text = "NeoDesign",
-            style = NeoTheme.typography.display,
-        )
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(NeoTheme.spacing.extraLarge),
+            verticalArrangement = Arrangement.spacedBy(
+                NeoTheme.spacing.extraLarge,
+            ),
+        ) {
+            NeoText(
+                text = "NeoDesign",
+                style = NeoTheme.typography.display,
+            )
 
-        NeoText(
-            text = "An independent Compose design library.",
-            color = NeoTheme.colors.contentSecondary,
-        )
+            NeoText(
+                text = destination.name,
+                color = NeoTheme.colors.contentSecondary,
+            )
 
-        ThemeSelector(
-            selectedMode = selectedMode,
-            onModeSelected = onModeSelected,
-        )
+            ThemeSelector(
+                selectedMode = selectedMode,
+                onModeSelected = onModeSelected,
+            )
 
-        ButtonsSection()
-        SegmentedControlsSection()
-        CardsSection()
-        TextFieldsSection()
-        SecureTextFieldsSection()
-        TypographySection()
-        SurfaceSection()
-        SemanticColorsSection()
+            when (destination) {
+                CatalogDestination.Foundations -> {
+                    TypographySection()
+                    SurfaceSection()
+                    SemanticColorsSection()
+                }
+
+                CatalogDestination.Components -> {
+                    ButtonsSection()
+                    SegmentedControlsSection()
+                    CardsSection()
+                    TextFieldsSection()
+                    SecureTextFieldsSection()
+                }
+
+                CatalogDestination.Examples -> {
+                    CatalogSection(title = "Composition examples") {
+                        NeoText(
+                            text = "This destination will hold larger examples composed from NeoDesign primitives.",
+                            color = NeoTheme.colors.contentSecondary,
+                        )
+                    }
+                }
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = NeoTheme.spacing.large,
+                    vertical = NeoTheme.spacing.medium,
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            NeoNavigationBar(
+                items = catalogNavigationItems(),
+                selectedKey = destination,
+                onSelectionChange = {
+                    destinationName = it.name
+                },
+                modifier = Modifier
+                    .widthIn(max = 560.dp)
+                    .fillMaxWidth(),
+            )
+        }
     }
 }
 
