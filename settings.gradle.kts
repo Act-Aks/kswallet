@@ -33,3 +33,4 @@ include(":design-system:catalog")
 include(":design-system:core")
 
 include(":feature:accounts:domain")
+include(":feature:accounts:data")

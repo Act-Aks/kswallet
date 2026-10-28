@@ -7,11 +7,21 @@ import kotlinx.coroutines.Dispatchers
 
 object WalletDatabaseFactory {
 
-    private const val DATABASE_NAME = "kswallet.db"
+    private const val DEFAULT_DATABASE_NAME = "kswallet.db"
 
-    fun create(context: Context): WalletDatabase {
+    private val validDatabaseName =
+        Regex("[A-Za-z0-9][A-Za-z0-9_.-]*")
+
+    fun create(
+        context: Context,
+        databaseName: String = DEFAULT_DATABASE_NAME,
+    ): WalletDatabase {
+        require(validDatabaseName.matches(databaseName)) {
+            "Database name must be a simple filename."
+        }
+
         val appContext = context.applicationContext
-        val databaseFile = appContext.getDatabasePath(DATABASE_NAME)
+        val databaseFile = appContext.getDatabasePath(databaseName)
 
         return Room.databaseBuilder<WalletDatabase>(
             context = appContext,

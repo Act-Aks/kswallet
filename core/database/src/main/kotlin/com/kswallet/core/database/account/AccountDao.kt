@@ -4,10 +4,11 @@ import androidx.room3.Dao
 import androidx.room3.Insert
 import androidx.room3.OnConflictStrategy
 import androidx.room3.Query
+import androidx.room3.Transaction
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface AccountDao {
+abstract class AccountDao {
 
     @Query(
         """
@@ -16,7 +17,7 @@ interface AccountDao {
         ORDER BY name COLLATE NOCASE ASC, id ASC
         """,
     )
-    fun observeAll(): Flow<List<AccountEntity>>
+    abstract fun observeAll(): Flow<List<AccountEntity>>
 
     @Query(
         """
@@ -26,10 +27,10 @@ interface AccountDao {
         LIMIT 1
         """,
     )
-    suspend fun findById(id: String): AccountEntity?
+    abstract suspend fun findById(id: String): AccountEntity?
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insert(account: AccountEntity)
+    abstract suspend fun insert(account: AccountEntity)
 
     @Query(
         """
@@ -38,7 +39,7 @@ interface AccountDao {
         WHERE id = :id
         """,
     )
-    suspend fun rename(
+    abstract suspend fun rename(
         id: String,
         name: String,
     ): Int
@@ -50,8 +51,54 @@ interface AccountDao {
         WHERE id = :id
         """,
     )
-    suspend fun setArchived(
+    abstract suspend fun setArchived(
         id: String,
         archived: Boolean,
     ): Int
+
+    @Transaction
+    open suspend fun renameAndRead(
+        id: String,
+        name: String,
+    ): AccountEntity? {
+        val affectedRows = rename(
+            id = id,
+            name = name,
+        )
+
+        if (affectedRows == 0) {
+            return null
+        }
+
+        check(affectedRows == 1) {
+            "Renaming an account affected more than one row."
+        }
+
+        return checkNotNull(findById(id)) {
+            "Account disappeared during rename transaction."
+        }
+    }
+
+    @Transaction
+    open suspend fun setArchivedAndRead(
+        id: String,
+        archived: Boolean,
+    ): AccountEntity? {
+        val affectedRows = setArchived(
+            id = id,
+            archived = archived,
+        )
+
+        if (affectedRows == 0) {
+            return null
+        }
+
+        check(affectedRows == 1) {
+            "Updating account status affected more than one row."
+        }
+
+        return checkNotNull(findById(id)) {
+            "Account disappeared during status transaction."
+        }
+    }
 }
