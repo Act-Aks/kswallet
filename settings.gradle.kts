@@ -32,5 +32,6 @@ include(":core:screen")
 include(":design-system:catalog")
 include(":design-system:core")
 
-include(":feature:accounts:domain")
 include(":feature:accounts:data")
+include(":feature:accounts:domain")
+include(":feature:accounts:presentation")
