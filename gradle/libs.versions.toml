@@ -42,6 +42,7 @@ neoCatalogVersionCode = "1"
 # --------------------------
 
 # --- Compose core ---
+androidx-compose-animation-core = { group = "androidx.compose.animation", name = "animation-core", version.ref = "compose" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose" }
 androidx-compose-runtime-saveable = { group = "androidx.compose.runtime", name = "runtime-saveable", version.ref = "compose" }

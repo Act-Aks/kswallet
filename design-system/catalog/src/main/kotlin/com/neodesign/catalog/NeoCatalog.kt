@@ -18,6 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -25,6 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.neodesign.component.NeoButton
+import com.neodesign.component.NeoButtonVariant
+import com.neodesign.component.NeoIconButton
 import com.neodesign.component.NeoSurface
 import com.neodesign.component.NeoText
 import com.neodesign.theme.NeoTheme
@@ -92,6 +96,7 @@ private fun CatalogContent(
             onModeSelected = onModeSelected,
         )
 
+        ButtonsSection()
         TypographySection()
         SurfaceSection()
         SemanticColorsSection()
@@ -145,6 +150,110 @@ private fun ThemeSelector(
                     text = mode.name,
                     color = foreground,
                     style = NeoTheme.typography.label,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ButtonsSection() {
+    var clicks by rememberSaveable { mutableStateOf(0) }
+    var loading by remember { mutableStateOf(false) }
+
+    CatalogSection(title = "Buttons") {
+        NeoText(
+            text = "Actions received: $clicks",
+            color = NeoTheme.colors.contentSecondary,
+        )
+
+        NeoButton(
+            text = "Primary action",
+            modifier = Modifier.fillMaxWidth(),
+            onClick = { clicks++ },
+        )
+
+        NeoButton(
+            text = "Secondary action",
+            modifier = Modifier.fillMaxWidth(),
+            variant = NeoButtonVariant.Secondary,
+            onClick = { clicks++ },
+        )
+
+        NeoButton(
+            text = "Outlined action",
+            modifier = Modifier.fillMaxWidth(),
+            variant = NeoButtonVariant.Outlined,
+            onClick = { clicks++ },
+        )
+
+        NeoButton(
+            text = "Delete item",
+            modifier = Modifier.fillMaxWidth(),
+            variant = NeoButtonVariant.Destructive,
+            onClick = { clicks++ },
+        )
+
+        NeoButton(
+            text = "Disabled action",
+            modifier = Modifier.fillMaxWidth(),
+            enabled = false,
+            onClick = { clicks++ },
+        )
+
+        NeoButton(
+            text = "Save changes",
+            modifier = Modifier.fillMaxWidth(),
+            loading = loading,
+            onClick = { loading = true },
+        )
+
+        NeoButton(
+            text = if (loading) {
+                "Finish simulated loading"
+            } else {
+                "Start simulated loading"
+            },
+            modifier = Modifier.fillMaxWidth(),
+            variant = NeoButtonVariant.Outlined,
+            onClick = { loading = !loading },
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(
+                NeoTheme.spacing.medium,
+            ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            NeoIconButton(
+                contentDescription = "Add demo item",
+                onClick = { clicks++ },
+            ) {
+                NeoText(
+                    text = "+",
+                    style = NeoTheme.typography.title,
+                )
+            }
+
+            NeoIconButton(
+                contentDescription = "Add demo item",
+                variant = NeoButtonVariant.Primary,
+                onClick = { clicks++ },
+            ) {
+                NeoText(
+                    text = "+",
+                    style = NeoTheme.typography.title,
+                )
+            }
+
+            NeoIconButton(
+                contentDescription = "Add demo item",
+                enabled = false,
+                onClick = { clicks++ },
+            ) {
+                NeoText(
+                    text = "+",
+                    style = NeoTheme.typography.title,
                 )
             }
         }
