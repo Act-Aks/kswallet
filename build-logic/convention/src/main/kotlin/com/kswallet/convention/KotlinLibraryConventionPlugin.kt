@@ -1,0 +1,27 @@
+package com.kswallet.convention
+
+import com.kswallet.convention.internal.applyPlugins
+import com.kswallet.convention.internal.configureLocalTests
+import com.kswallet.convention.internal.jvmTarget
+import com.kswallet.convention.internal.projectJavaVersion
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+
+class KotlinLibraryConventionPlugin : Plugin<Project> {
+
+    override fun apply(target: Project) = with(target) {
+        applyPlugins("kotlin-jvm")
+
+        extensions.configure<KotlinJvmProjectExtension> {
+            jvmToolchain(projectJavaVersion)
+
+            compilerOptions {
+                jvmTarget.set(this@with.jvmTarget)
+            }
+        }
+
+        configureLocalTests()
+    }
+}
