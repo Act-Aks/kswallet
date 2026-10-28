@@ -29,3 +29,5 @@ include(":core:screen")
 
 include(":design-system:core")
 include(":design-system:catalog")
+
+include(":feature:accounts:domain")
