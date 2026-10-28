@@ -10,8 +10,8 @@ android {
 dependencies {
     api(libs.androidx.compose.runtime)
     api(libs.androidx.compose.ui)
-
-    implementation(libs.androidx.compose.foundation)
+    api(libs.androidx.compose.foundation)
+    
     implementation(libs.androidx.compose.animation.core)
 
     debugImplementation(libs.androidx.compose.ui.tooling)

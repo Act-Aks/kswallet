@@ -6,8 +6,10 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
@@ -20,9 +22,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.neodesign.component.NeoButton
 import com.neodesign.component.NeoButtonVariant
+import com.neodesign.component.NeoCard
+import com.neodesign.component.NeoCardVariant
 import com.neodesign.component.NeoIconButton
 import com.neodesign.component.NeoSegmentOption
 import com.neodesign.component.NeoSegmentedControl
@@ -102,6 +107,7 @@ private fun CatalogContent(
 
         ButtonsSection()
         SegmentedControlsSection()
+        CardsSection()
         TypographySection()
         SurfaceSection()
         SemanticColorsSection()
@@ -324,6 +330,102 @@ private fun SegmentedControlsSection() {
             layout = NeoSegmentedControlLayout.Vertical,
         )
     }
+}
+
+@Composable
+private fun CardsSection() {
+    var cardClicks by rememberSaveable {
+        mutableStateOf(0)
+    }
+
+    CatalogSection(title = "Cards") {
+        NeoCard(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            CardSampleContent(
+                title = "Standard card",
+                description = "A neutral container for related content.",
+            )
+        }
+
+        NeoCard(
+            modifier = Modifier.fillMaxWidth(),
+            variant = NeoCardVariant.Raised,
+        ) {
+            CardSampleContent(
+                title = "Raised tonal card",
+                description = "Uses a different surface tone, without a shadow.",
+            )
+        }
+
+        NeoCard(
+            modifier = Modifier.fillMaxWidth(),
+            variant = NeoCardVariant.Outlined,
+        ) {
+            CardSampleContent(
+                title = "Outlined card",
+                description = "A subtle boundary separates it from its surroundings.",
+            )
+        }
+
+        NeoText(
+            text = "Card actions received: $cardClicks",
+            color = NeoTheme.colors.contentSecondary,
+        )
+
+        NeoCard(
+            onClick = { cardClicks++ },
+            modifier = Modifier.fillMaxWidth(),
+            variant = NeoCardVariant.Outlined,
+            onClickLabel = "Open sample details",
+        ) {
+            CardSampleContent(
+                title = "Interactive card",
+                description = "Tap anywhere on this card to trigger its main action.",
+            )
+        }
+
+        NeoCard(
+            onClick = { cardClicks++ },
+            modifier = Modifier.fillMaxWidth(),
+            variant = NeoCardVariant.Outlined,
+            enabled = false,
+            onClickLabel = "Open sample details",
+        ) {
+            CardSampleContent(
+                title = "Disabled interactive card",
+                description = "Its content remains visible, but its main action is unavailable.",
+                disabled = true,
+            )
+        }
+    }
+}
+
+@Composable
+private fun CardSampleContent(
+    title: String,
+    description: String,
+    disabled: Boolean = false,
+) {
+    NeoText(
+        text = title,
+        style = NeoTheme.typography.title,
+    )
+
+    Spacer(
+        modifier = Modifier.height(
+            NeoTheme.spacing.small,
+        ),
+    )
+
+    NeoText(
+        text = description,
+        color = if (disabled) {
+            Color.Unspecified
+        } else {
+            NeoTheme.colors.contentSecondary
+        },
+    )
 }
 
 @Composable
