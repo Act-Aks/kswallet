@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.neodesign.component.NeoButton
 import com.neodesign.component.NeoButtonVariant
@@ -34,6 +38,7 @@ import com.neodesign.component.NeoSegmentedControl
 import com.neodesign.component.NeoSegmentedControlLayout
 import com.neodesign.component.NeoSurface
 import com.neodesign.component.NeoText
+import com.neodesign.component.NeoTextField
 import com.neodesign.theme.NeoTheme
 
 private enum class CatalogThemeMode {
@@ -108,6 +113,7 @@ private fun CatalogContent(
         ButtonsSection()
         SegmentedControlsSection()
         CardsSection()
+        TextFieldsSection()
         TypographySection()
         SurfaceSection()
         SemanticColorsSection()
@@ -426,6 +432,86 @@ private fun CardSampleContent(
             NeoTheme.colors.contentSecondary
         },
     )
+}
+
+@Composable
+private fun TextFieldsSection() {
+    val nameState = rememberTextFieldState()
+    val notesState = rememberTextFieldState()
+    val invalidState = rememberTextFieldState(
+        initialText = "Incomplete value",
+    )
+    val readOnlyState = rememberTextFieldState(
+        initialText = "Read-only information",
+    )
+    val disabledState = rememberTextFieldState(
+        initialText = "Unavailable input",
+    )
+
+    var showError by rememberSaveable {
+        mutableStateOf(true)
+    }
+
+    CatalogSection(title = "Text fields") {
+        NeoTextField(
+            state = nameState,
+            label = "Display name",
+            placeholder = "Enter a name",
+            supportingText = "Use a name that is easy to recognize.",
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+            ),
+        )
+
+        NeoTextField(
+            state = notesState,
+            label = "Notes",
+            placeholder = "Add supporting information",
+            modifier = Modifier.fillMaxWidth(),
+            lineLimits = TextFieldLineLimits.MultiLine(
+                minHeightInLines = 3,
+                maxHeightInLines = 5,
+            ),
+        )
+
+        NeoTextField(
+            state = invalidState,
+            label = "Validation example",
+            supportingText = "The value is ready for validation.",
+            errorMessage = if (showError) {
+                "Please review this value."
+            } else {
+                null
+            },
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        NeoButton(
+            text = if (showError) {
+                "Clear sample error"
+            } else {
+                "Show sample error"
+            },
+            variant = NeoButtonVariant.Outlined,
+            onClick = { showError = !showError },
+        )
+
+        NeoTextField(
+            state = readOnlyState,
+            label = "Read-only field",
+            readOnly = true,
+            supportingText = "Text can be inspected without editing.",
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        NeoTextField(
+            state = disabledState,
+            label = "Disabled field",
+            enabled = false,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
 }
 
 @Composable
