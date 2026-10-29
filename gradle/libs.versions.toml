@@ -27,6 +27,9 @@ koin = "4.2.2"
 room3 = "3.0.3"
 sqlite = "2.7.1"
 
+# Lint
+ktlint = "14.2.0"
+
 # Testing
 junit = "6.1.3"
 junit4 = "4.13.2"
@@ -97,6 +100,7 @@ android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", ve
 compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "symbol-processing-gradle-plugin", version.ref = "ksp" }
+ktlint-gradle-plugin = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlint" }
 room3-gradle-plugin = { group = "androidx.room3", name = "room3-gradle-plugin", version.ref = "room3" }
 
 # --- Testing ---
@@ -126,6 +130,7 @@ android-lint = { id = "com.android.lint", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 room3 = { id = "androidx.room3", version.ref = "room3" }
 
 # --- Project convention plugins (provided by the included build-logic build) ---
@@ -135,5 +140,6 @@ kswallet-android-library = { id = "kswallet.android.library" }
 kswallet-android-lint = { id = "kswallet.android.lint" }
 kswallet-android-room = { id = "kswallet.android.room" }
 kswallet-android-testing = { id = "kswallet.android.testing" }
+kswallet-kotlin-format = { id = "kswallet.kotlin.format" }
 kswallet-kotlin-library = { id = "kswallet.kotlin.library" }
 kswallet-kotlin-testing = { id = "kswallet.kotlin.testing" }

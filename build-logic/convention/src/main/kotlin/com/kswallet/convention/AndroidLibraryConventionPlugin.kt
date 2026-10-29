@@ -11,7 +11,7 @@ import org.gradle.kotlin.dsl.configure
 class AndroidLibraryConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) = with(target) {
-        applyPlugins("android-library", "kswallet-android-lint")
+        applyPlugins("android-library")
 
         extensions.configure<LibraryExtension> {
             configureAndroidLibrary(this@with)

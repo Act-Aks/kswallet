@@ -14,8 +14,8 @@ dependencies {
     implementation(libs.android.gradle.plugin)
     implementation(libs.compose.compiler.gradle.plugin)
     implementation(libs.kotlin.gradle.plugin)
-
     implementation(libs.ksp.gradle.plugin)
+    implementation(libs.ktlint.gradle.plugin)
     implementation(libs.room3.gradle.plugin)
 }
 
@@ -49,6 +49,11 @@ gradlePlugin {
         register("androidRoom") {
             id = "kswallet.android.room"
             implementationClass = "com.kswallet.convention.AndroidRoomConventionPlugin"
+        }
+
+        register("kotlinFormat") {
+            id = "kswallet.kotlin.format"
+            implementationClass = "com.kswallet.convention.KotlinFormatConventionPlugin"
         }
 
         register("kotlinLibrary") {

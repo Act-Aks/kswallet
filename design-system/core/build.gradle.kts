@@ -1,6 +1,9 @@
 plugins {
-    alias(libs.plugins.kswallet.android.library)
     alias(libs.plugins.kswallet.android.compose)
+    alias(libs.plugins.kswallet.android.library)
+    alias(libs.plugins.kswallet.android.lint)
+    alias(libs.plugins.kswallet.kotlin.format)
+
 }
 
 android {
