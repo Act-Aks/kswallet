@@ -17,15 +17,23 @@ internal class FakeAccountRepository : AccountRepository {
 
     var nextObservationFailure: Exception? = null
 
-    var observationStarts: Int = 0
+    var nextCreateFailure: Exception? = null
+
+    var observationStarts = 0
         private set
 
-    var activeObservers: Int = 0
+    var activeObservers = 0
         private set
+
+    var emitAfterDelay = false
+
+    private var emissionReleased = false
+
+    private val releaseSignal = kotlinx.coroutines.CompletableDeferred<Unit>()
 
     override fun observeAccounts(): Flow<List<Account>> = flow {
-        observationStarts += 1
-        activeObservers += 1
+        observationStarts++
+        activeObservers++
 
         try {
             val failure = nextObservationFailure
@@ -35,25 +43,57 @@ internal class FakeAccountRepository : AccountRepository {
                 throw failure
             }
 
+            if (emitAfterDelay) {
+                releaseSignal.await()
+            }
+
             emitAll(accounts)
         } finally {
-            activeObservers -= 1
+            activeObservers--
         }
     }
 
-    override suspend fun findById(id: AccountId): Account? =
-        error("Not used by accounts-list tests.")
+    fun releaseEmission() {
+        emissionReleased = true
+        releaseSignal.complete(Unit)
+    }
 
-    override suspend fun create(account: NewAccount): Account =
-        error("Not used by accounts-list tests.")
+    override suspend fun findById(id: AccountId): Account? =
+        accounts.value.firstOrNull { account ->
+            account.id == id
+        }
+
+    override suspend fun create(account: NewAccount): Account {
+        val failure = nextCreateFailure
+        nextCreateFailure = null
+
+        if (failure != null) {
+            throw failure
+        }
+
+        val created = Account(
+            id = AccountId.new(),
+            name = account.name,
+            currency = account.currency,
+            status = AccountStatus.Active,
+        )
+
+        accounts.value += created
+
+        return created
+    }
 
     override suspend fun rename(
         id: AccountId,
         name: AccountName,
-    ): Account? = error("Not used by accounts-list tests.")
+    ): Account? {
+        error("Not used by create-account tests.")
+    }
 
     override suspend fun setStatus(
         id: AccountId,
         status: AccountStatus,
-    ): Account? = error("Not used by accounts-list tests.")
+    ): Account? {
+        error("Not used by create-account tests.")
+    }
 }
