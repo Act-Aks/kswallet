@@ -122,6 +122,7 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 # --- First-party tool plugins (from Maven repositories) ---
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+android-lint = { id = "com.android.lint", version.ref = "agp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
@@ -131,6 +132,7 @@ room3 = { id = "androidx.room3", version.ref = "room3" }
 kswallet-android-application = { id = "kswallet.android.application" }
 kswallet-android-compose = { id = "kswallet.android.compose" }
 kswallet-android-library = { id = "kswallet.android.library" }
+kswallet-android-lint = { id = "kswallet.android.lint" }
 kswallet-android-room = { id = "kswallet.android.room" }
 kswallet-android-testing = { id = "kswallet.android.testing" }
 kswallet-kotlin-library = { id = "kswallet.kotlin.library" }

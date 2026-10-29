@@ -36,6 +36,11 @@ gradlePlugin {
             implementationClass = "com.kswallet.convention.AndroidLibraryConventionPlugin"
         }
 
+        register("androidLint") {
+            id = "kswallet.android.lint"
+            implementationClass = "com.kswallet.convention.AndroidLintConventionPlugin"
+        }
+
         register("androidTesting") {
             id = "kswallet.android.testing"
             implementationClass = "com.kswallet.convention.AndroidTestingConventionPlugin"
