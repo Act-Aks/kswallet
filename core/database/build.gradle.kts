@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kswallet.android.library)
     alias(libs.plugins.kswallet.android.room)
+    alias(libs.plugins.kswallet.android.testing)
 }
 
 android {
@@ -17,8 +18,4 @@ dependencies {
     implementation(libs.androidx.sqlite.bundled)
 
     ksp(libs.androidx.room3.compiler)
-
-    androidTestImplementation(libs.junit4)
-    androidTestImplementation(libs.androidx.test.runner)
-    androidTestImplementation(libs.androidx.test.ext.junit)
 }

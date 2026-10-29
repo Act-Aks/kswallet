@@ -13,3 +13,11 @@ internal fun Project.configureLocalTests() {
         }
     }
 }
+
+internal fun Project.configureJunitTestDependencies() {
+    testPlatform("junit-bom")
+    testImplementation("junit-jupiter")
+    testImplementation("junit-jupiter-params")
+
+    testRuntimeOnly("junit-platform-launcher")
+}

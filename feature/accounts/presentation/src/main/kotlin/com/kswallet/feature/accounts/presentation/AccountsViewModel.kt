@@ -22,12 +22,20 @@ class AccountsViewModel(
 
     override fun onAction(action: AccountsAction) {
         when (action) {
-            AccountsAction.RetryClicked -> {
-                if (state.value.content == AccountsContent.Error) {
-                    observeAccounts()
-                }
-            }
+            AccountsAction.RetryClicked -> retry()
         }
+    }
+
+    private fun retry() {
+        observationJob?.cancel()
+
+        updateState { current ->
+            current.copy(
+                content = AccountsContent.Loading,
+            )
+        }
+
+        observeAccounts()
     }
 
     private fun observeAccounts() {
@@ -61,17 +69,18 @@ class AccountsViewModel(
     }
 }
 
-private fun List<Account>.toContent(): AccountsContent = if (isEmpty()) {
-    AccountsContent.Empty
-} else {
-    AccountsContent.Content(
-        accounts = map { account ->
-            AccountListItem(
-                id = account.id.toString(),
-                name = account.name.value,
-                currencyCode = account.currency.code.value,
-                isArchived = account.isArchived,
-            )
-        },
-    )
-}
+private fun List<Account>.toContent(): AccountsContent =
+    if (isEmpty()) {
+        AccountsContent.Empty
+    } else {
+        AccountsContent.Content(
+            accounts = map { account ->
+                AccountListItem(
+                    id = account.id.toString(),
+                    name = account.name.value,
+                    currencyCode = account.currency.code.value,
+                    isArchived = account.isArchived,
+                )
+            },
+        )
+    }

@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kswallet.android.library)
+    alias(libs.plugins.kswallet.android.testing)
 }
 
 android {
@@ -17,8 +18,4 @@ dependencies {
     implementation(projects.core.money)
 
     implementation(libs.kotlinx.coroutines.core)
-
-    androidTestImplementation(libs.junit4)
-    androidTestImplementation(libs.androidx.test.runner)
-    androidTestImplementation(libs.androidx.test.ext.junit)
 }

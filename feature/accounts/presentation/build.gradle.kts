@@ -1,23 +1,32 @@
 plugins {
     alias(libs.plugins.kswallet.android.library)
+    alias(libs.plugins.kswallet.android.compose)
+    alias(libs.plugins.kswallet.android.testing)
 }
 
 android {
     namespace = "com.kswallet.feature.accounts.presentation"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 }
 
 dependencies {
     implementation(projects.core.screen)
-    implementation(projects.core.money)
-
     implementation(projects.feature.accounts.domain)
 
-    implementation(libs.kotlinx.coroutines.core)
+    implementation(projects.designSystem.core)
+
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.ui)
+
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel)
 
-    testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.junit.jupiter)
-    testImplementation(libs.kotlinx.coroutines.test)
+    implementation(libs.kotlinx.coroutines.core)
 
-    testRuntimeOnly(libs.junit.platform.launcher)
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.core)
 }

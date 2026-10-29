@@ -88,6 +88,13 @@ internal fun Project.testImplementation(alias: String) {
     add("testImplementation", alias)
 }
 
+internal fun Project.testPlatform(alias: String) {
+    dependencies.add(
+        "testImplementation",
+        dependencies.platform(lib(alias)),
+    )
+}
+
 internal fun Project.testRuntimeOnly(alias: String) {
     add("testRuntimeOnly", alias)
 }

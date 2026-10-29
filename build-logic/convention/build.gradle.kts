@@ -28,8 +28,7 @@ gradlePlugin {
 
         register("androidCompose") {
             id = "kswallet.android.compose"
-            implementationClass =
-                "com.kswallet.convention.AndroidComposeConventionPlugin"
+            implementationClass = "com.kswallet.convention.AndroidComposeConventionPlugin"
         }
 
         register("androidLibrary") {
@@ -37,15 +36,24 @@ gradlePlugin {
             implementationClass = "com.kswallet.convention.AndroidLibraryConventionPlugin"
         }
 
+        register("androidTesting") {
+            id = "kswallet.android.testing"
+            implementationClass = "com.kswallet.convention.AndroidTestingConventionPlugin"
+        }
+
         register("androidRoom") {
             id = "kswallet.android.room"
-            implementationClass =
-                "com.kswallet.convention.AndroidRoomConventionPlugin"
+            implementationClass = "com.kswallet.convention.AndroidRoomConventionPlugin"
         }
 
         register("kotlinLibrary") {
             id = "kswallet.kotlin.library"
             implementationClass = "com.kswallet.convention.KotlinLibraryConventionPlugin"
+        }
+
+        register("kotlinTesting") {
+            id = "kswallet.kotlin.testing"
+            implementationClass = "com.kswallet.convention.KotlinTestingConventionPlugin"
         }
     }
 }

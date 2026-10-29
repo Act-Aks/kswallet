@@ -8,7 +8,7 @@
 # --------------------------
 
 # Build plugins
-agp = "9.4.1"
+agp = "9.5.0"
 kotlin = "2.4.21"
 ksp = "2.3.12"
 
@@ -102,6 +102,7 @@ room3-gradle-plugin = { group = "androidx.room3", name = "room3-gradle-plugin", 
 # --- Testing ---
 junit-bom = { group = "org.junit", name = "junit-bom", version.ref = "junit" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
+junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junit" }
 junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junit" }
 
 # --- Android instrumentation testing ---
@@ -131,4 +132,6 @@ kswallet-android-application = { id = "kswallet.android.application" }
 kswallet-android-compose = { id = "kswallet.android.compose" }
 kswallet-android-library = { id = "kswallet.android.library" }
 kswallet-android-room = { id = "kswallet.android.room" }
+kswallet-android-testing = { id = "kswallet.android.testing" }
 kswallet-kotlin-library = { id = "kswallet.kotlin.library" }
+kswallet-kotlin-testing = { id = "kswallet.kotlin.testing" }

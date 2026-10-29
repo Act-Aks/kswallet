@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="accounts_title">Accounts</string>
+    <string name="accounts_loading">Loading accounts…</string>
+    <string name="accounts_empty_title">No accounts yet</string>
+    <string name="accounts_empty_description">
+        Accounts you create will appear here.
+    </string>
+    <string name="accounts_error_title">
+        Accounts could not be loaded
+    </string>
+    <string name="accounts_error_description">
+        Check your connection and try again.
+    </string>
+    <string name="accounts_retry">Retry</string>
+    <string name="accounts_status_active">Active</string>
+    <string name="accounts_status_archived">Archived</string>
+</resources>
