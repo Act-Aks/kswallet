@@ -26,6 +26,7 @@ dependencies {
 
     implementation(projects.feature.accounts.domain)
     implementation(projects.feature.accounts.data)
+    implementation(projects.feature.accounts.presentation)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.foundation)
