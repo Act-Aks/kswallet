@@ -109,18 +109,19 @@ class AccountsViewModelTest {
         }
 
     @Test
-    fun `show create account opens an empty form`() = runTest(dispatcher) {
-        runCurrent()
+    fun `show create account opens form with default currency`() =
+        runTest(dispatcher) {
+            runCurrent()
 
-        viewModel.onAction(AccountsAction.ShowCreateAccountClicked)
+            viewModel.onAction(AccountsAction.ShowCreateAccountClicked)
 
-        val form = viewModel.state.value.createAccount
+            val form = viewModel.state.value.createAccount
 
-        assertTrue(form.isVisible)
-        assertEquals("", form.name)
-        assertNull(form.selectedCurrencyCode)
-        assertFalse(form.canSubmit)
-    }
+            assertTrue(form.isVisible)
+            assertEquals("", form.name)
+            assertEquals("INR", form.selectedCurrencyCode)
+            assertFalse(form.canSubmit)
+        }
 
     @Test
     fun `dismiss create account resets the form`() = runTest(dispatcher) {
@@ -158,22 +159,18 @@ class AccountsViewModelTest {
     }
 
     @Test
-    fun `missing currency prevents submission`() = runTest(dispatcher) {
-        runCurrent()
+    fun `default currency is the first supported currency`() =
+        runTest(dispatcher) {
+            runCurrent()
 
-        viewModel.onAction(AccountsAction.ShowCreateAccountClicked)
-        viewModel.onAction(AccountsAction.NameChanged("Travel"))
+            viewModel.onAction(AccountsAction.ShowCreateAccountClicked)
 
-        viewModel.onAction(AccountsAction.SubmitCreateAccountClicked)
-        runCurrent()
-
-        val form = viewModel.state.value.createAccount
-
-        assertEquals("Choose a currency.", form.currencyError)
-        assertFalse(form.isSubmitting)
-        assertEquals(0, repository.accounts.value.size)
-    }
-
+            assertEquals(
+                "INR",
+                viewModel.state.value.createAccount.selectedCurrencyCode,
+            )
+        }
+    
     @Test
     fun `valid submission creates an account and emits event`() =
         runTest(dispatcher) {

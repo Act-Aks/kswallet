@@ -75,7 +75,7 @@ private fun AccountsScreen(
             AccountsContent.Empty -> EmptyContent()
 
             is AccountsContent.Content -> AccountsList(
-                accounts = content.accounts,
+                accounts = content.accounts, onAction = onAction
             )
 
             AccountsContent.Error -> ErrorContent(
@@ -90,12 +90,18 @@ private fun AccountsScreen(
             currencies = currencies,
             onAction = onAction,
         )
+
+        RenameAccountCard(
+            state = state.renameAccount,
+            onAction = onAction,
+        )
     }
 }
 
 @Composable
 private fun AccountsList(
     accounts: List<AccountListItem>,
+    onAction: (AccountsAction) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -107,7 +113,10 @@ private fun AccountsList(
             items = accounts,
             key = { account -> account.id },
         ) { account ->
-            AccountCard(account = account)
+            AccountCard(
+                account = account,
+                onAction = onAction,
+            )
         }
     }
 }
@@ -115,6 +124,7 @@ private fun AccountsList(
 @Composable
 private fun AccountCard(
     account: AccountListItem,
+    onAction: (AccountsAction) -> Unit,
 ) {
     NeoCard(
         modifier = Modifier.fillMaxWidth(),
@@ -142,6 +152,38 @@ private fun AccountCard(
                 },
                 color = NeoTheme.colors.contentSecondary,
             )
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(
+                    NeoTheme.spacing.medium,
+                ),
+            ) {
+                NeoButton(
+                    text = stringResource(R.string.accounts_rename),
+                    onClick = {
+                        onAction(
+                            AccountsAction.RenameClicked(account.id),
+                        )
+                    },
+                    variant = NeoButtonVariant.Outlined,
+                    modifier = Modifier.weight(1f),
+                )
+
+                NeoButton(
+                    text = if (account.isArchived) {
+                        stringResource(R.string.accounts_unarchive)
+                    } else {
+                        stringResource(R.string.accounts_archive)
+                    },
+                    onClick = {
+                        onAction(
+                            AccountsAction.ArchiveToggleClicked(account.id),
+                        )
+                    },
+                    variant = NeoButtonVariant.Outlined,
+                    modifier = Modifier.weight(1f),
+                )
+            }
         }
     }
 }
@@ -299,10 +341,9 @@ private fun NameField(
     )
 
     LaunchedEffect(nameState) {
-        snapshotFlow { nameState.text.toString() }
-            .collect { value ->
-                onAction(AccountsAction.NameChanged(value))
-            }
+        snapshotFlow { nameState.text.toString() }.collect { value ->
+            onAction(AccountsAction.NameChanged(value))
+        }
     }
 
     NeoTextField(
@@ -319,6 +360,8 @@ private fun CurrencySelector(
     currencies: List<CurrencyUnit>,
     onAction: (AccountsAction) -> Unit,
 ) {
+    val selectedCurrencyCode = state.selectedCurrencyCode ?: return
+
     NeoSegmentedControl(
         options = currencies.map { currency ->
             NeoSegmentOption(
@@ -326,7 +369,7 @@ private fun CurrencySelector(
                 label = currency.code.value,
             )
         },
-        selectedKey = state.selectedCurrencyCode.orEmpty(),
+        selectedKey = selectedCurrencyCode,
         onSelectionChange = { code ->
             onAction(AccountsAction.CurrencySelected(code))
         },
@@ -338,5 +381,72 @@ private fun CurrencySelector(
             text = state.currencyError,
             color = NeoTheme.colors.negative,
         )
+    }
+}
+
+@Composable
+private fun RenameAccountCard(
+    state: RenameAccountState,
+    onAction: (AccountsAction) -> Unit,
+) {
+    if (!state.isVisible) {
+        return
+    }
+
+    NeoCard(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                NeoTheme.spacing.medium,
+            ),
+        ) {
+            NeoText(
+                text = stringResource(R.string.accounts_rename_title),
+                style = NeoTheme.typography.title,
+            )
+
+            val renameState = rememberTextFieldState(
+                initialText = state.draftName,
+            )
+
+            LaunchedEffect(state.accountId) {
+                snapshotFlow { renameState.text.toString() }.collect { value ->
+                    onAction(AccountsAction.NameChanged(value))
+                }
+            }
+
+            NeoTextField(
+                state = renameState,
+                label = stringResource(R.string.accounts_create_name_label),
+                errorMessage = state.error,
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(
+                    NeoTheme.spacing.medium,
+                ),
+            ) {
+                NeoButton(
+                    text = stringResource(R.string.accounts_create_cancel),
+                    onClick = {
+                        onAction(AccountsAction.RenameCancelled)
+                    },
+                    variant = NeoButtonVariant.Outlined,
+                    modifier = Modifier.weight(1f),
+                )
+
+                NeoButton(
+                    text = stringResource(R.string.accounts_rename_submit),
+                    onClick = {
+                        onAction(AccountsAction.RenameSubmitted)
+                    },
+                    enabled = state.canSubmit,
+                    loading = state.isSubmitting,
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        }
     }
 }

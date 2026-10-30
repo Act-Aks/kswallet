@@ -2,7 +2,7 @@
 <resources>
     <string name="accounts_title">Accounts</string>
     <string name="accounts_loading">Loading accounts</string>
-    
+
     <string name="accounts_empty_title">No accounts yet</string>
     <string name="accounts_empty_description">Accounts you create will appear here.</string>
 
@@ -18,4 +18,10 @@
     <string name="accounts_create_name_label">Account name</string>
     <string name="accounts_create_cancel">Cancel</string>
     <string name="accounts_create_submit">Create</string>
+
+    <string name="accounts_rename">Rename</string>
+    <string name="accounts_rename_title">Rename account</string>
+    <string name="accounts_rename_submit">Rename</string>
+    <string name="accounts_archive">Archive</string>
+    <string name="accounts_unarchive">Unarchive</string>
 </resources>

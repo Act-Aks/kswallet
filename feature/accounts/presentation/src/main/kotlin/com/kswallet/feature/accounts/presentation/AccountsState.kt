@@ -5,4 +5,5 @@ import com.kswallet.core.screen.ScreenState
 data class AccountsState(
     val content: AccountsContent = AccountsContent.Loading,
     val createAccount: CreateAccountState = CreateAccountState(),
+    val renameAccount: RenameAccountState = RenameAccountState(),
 ) : ScreenState

@@ -87,13 +87,33 @@ internal class FakeAccountRepository : AccountRepository {
         id: AccountId,
         name: AccountName,
     ): Account? {
-        error("Not used by create-account tests.")
+        val updated = accounts.value.firstOrNull { account ->
+            account.id == id
+        }?.copy(name = name)
+
+        if (updated != null) {
+            accounts.value = accounts.value.map { account ->
+                if (account.id == id) updated else account
+            }
+        }
+
+        return updated
     }
 
     override suspend fun setStatus(
         id: AccountId,
         status: AccountStatus,
     ): Account? {
-        error("Not used by create-account tests.")
+        val updated = accounts.value.firstOrNull { account ->
+            account.id == id
+        }?.copy(status = status)
+
+        if (updated != null) {
+            accounts.value = accounts.value.map { account ->
+                if (account.id == id) updated else account
+            }
+        }
+
+        return updated
     }
 }
