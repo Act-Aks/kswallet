@@ -24,14 +24,14 @@ rootProject.name = "KsWallet"
 
 include(":app")
 
-include(":core:currencies")
-include(":core:database")
-include(":core:money")
-include(":core:screen")
+include(
+    ":core:currencies", ":core:database", ":core:money", ":core:navigation", ":core:screen"
+)
 
-include(":design-system:catalog")
-include(":design-system:core")
+include(
+    ":design-system:catalog", ":design-system:core"
+)
 
-include(":feature:accounts:data")
-include(":feature:accounts:domain")
-include(":feature:accounts:presentation")
+include(
+    ":feature:accounts:data", ":feature:accounts:domain", ":feature:accounts:presentation"
+)

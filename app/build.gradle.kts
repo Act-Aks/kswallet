@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kswallet.android.application)
     alias(libs.plugins.kswallet.android.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -19,13 +20,14 @@ android {
 dependencies {
     implementation(projects.designSystem.core)
 
-    implementation(projects.core.screen)
-    implementation(projects.core.money)
     implementation(projects.core.currencies)
     implementation(projects.core.database)
+    implementation(projects.core.money)
+    implementation(projects.core.navigation)
+    implementation(projects.core.screen)
 
-    implementation(projects.feature.accounts.domain)
     implementation(projects.feature.accounts.data)
+    implementation(projects.feature.accounts.domain)
     implementation(projects.feature.accounts.presentation)
 
     implementation(libs.androidx.activity.compose)
@@ -36,6 +38,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel)
+
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)

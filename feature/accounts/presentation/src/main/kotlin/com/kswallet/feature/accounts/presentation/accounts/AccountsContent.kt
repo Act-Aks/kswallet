@@ -1,4 +1,4 @@
-package com.kswallet.feature.accounts.presentation
+package com.kswallet.feature.accounts.presentation.accounts
 
 sealed interface AccountsContent {
 

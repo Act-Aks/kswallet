@@ -4,6 +4,10 @@ import androidx.lifecycle.ViewModelStore
 import com.kswallet.core.money.CurrencyCode
 import com.kswallet.core.money.CurrencyRegistry
 import com.kswallet.core.money.CurrencyUnit
+import com.kswallet.feature.accounts.presentation.accounts.AccountsAction
+import com.kswallet.feature.accounts.presentation.accounts.AccountsContent
+import com.kswallet.feature.accounts.presentation.accounts.AccountsEvent
+import com.kswallet.feature.accounts.presentation.accounts.AccountsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -170,7 +174,7 @@ class AccountsViewModelTest {
                 viewModel.state.value.createAccount.selectedCurrencyCode,
             )
         }
-    
+
     @Test
     fun `valid submission creates an account and emits event`() =
         runTest(dispatcher) {
