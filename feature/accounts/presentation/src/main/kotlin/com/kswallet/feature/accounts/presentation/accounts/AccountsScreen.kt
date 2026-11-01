@@ -30,6 +30,14 @@ fun AccountsRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
+    ObserveAsEvents(viewModel.events) { event ->
+        when (event) {
+            is AccountsEvent.OpenEditor -> onAddAccount()
+            is AccountsEvent.OpenAccountDetail -> onOpenAccount(event.id)
+            is AccountsEvent.ShowMessage -> message = event.message
+        }
+    }
+
     NeoTheme {
         AccountsScreen(
             state = state,

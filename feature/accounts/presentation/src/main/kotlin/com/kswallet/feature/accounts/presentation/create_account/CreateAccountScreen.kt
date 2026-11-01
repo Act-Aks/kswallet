@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kswallet.core.money.CurrencyRegistry
 import com.kswallet.core.money.CurrencyUnit
+import com.kswallet.core.screen.ObserveAsEvents
 import com.kswallet.feature.accounts.presentation.R
 import com.neodesign.component.NeoButton
 import com.neodesign.component.NeoSegmentOption
@@ -35,11 +36,9 @@ fun CreateAccountRoot(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val currencyRegistry = koinInject<CurrencyRegistry>()
 
-    LaunchedEffect(viewModel) {
-        viewModel.events.collect { event ->
-            when (event) {
-                CreateAccountEvent.AccountCreated -> onAccountCreated()
-            }
+    ObserveAsEvents(events = viewModel.events) { event ->
+        when (event) {
+            CreateAccountEvent.AccountCreated -> onAccountCreated()
         }
     }
 
