@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.kswallet.android.compose)
     alias(libs.plugins.kswallet.android.library)
     alias(libs.plugins.kswallet.android.lint)
     alias(libs.plugins.kswallet.android.testing)
@@ -15,4 +16,7 @@ android {
 
 dependencies {
     api(libs.androidx.navigation3.runtime)
+
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.kotlinx.serialization.core)
 }
