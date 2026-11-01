@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kswallet.core.screen.ObserveAsEvents
 import com.kswallet.feature.accounts.presentation.R
 import com.neodesign.component.NeoButton
 import com.neodesign.component.NeoButtonVariant
@@ -32,32 +33,24 @@ fun AccountsRoot(
 
     ObserveAsEvents(viewModel.events) { event ->
         when (event) {
-            is AccountsEvent.OpenEditor -> onAddAccount()
-            is AccountsEvent.OpenAccountDetail -> onOpenAccount(event.id)
-            is AccountsEvent.ShowMessage -> message = event.message
+            is AccountsEvent.OpenCreateAccount -> onCreateAccountClick()
+            is AccountsEvent.OpenAccountDetails -> onAccountClick(event.id)
         }
     }
 
-    NeoTheme {
-        AccountsScreen(
-            state = state,
-            onCreateAccountClick = onCreateAccountClick,
-            onAccountClick = onAccountClick,
-            onAction = viewModel::onAction,
-        )
-    }
+    AccountsScreen(
+        state = state,
+        onAction = viewModel::onAction,
+    )
 }
 
 @Composable
 private fun AccountsScreen(
     state: AccountsState,
-    onCreateAccountClick: () -> Unit,
-    onAccountClick: (String) -> Unit,
     onAction: (AccountsAction) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(NeoTheme.colors.background)
             .safeDrawingPadding()
@@ -73,14 +66,13 @@ private fun AccountsScreen(
 
         when (val content = state.content) {
             AccountsContent.Loading -> LoadingContent()
-
             AccountsContent.Empty -> EmptyContent(
-                onCreateAccountClick = onCreateAccountClick,
+                onCreateAccountClick = { onAction(AccountsAction.CreateAccountClicked) },
             )
 
             is AccountsContent.Content -> AccountsList(
                 accounts = content.accounts,
-                onAccountClick = onAccountClick,
+                onAccountClick = { id -> onAction(AccountsAction.AccountClicked(id)) },
             )
 
             AccountsContent.Error -> ErrorContent(
@@ -92,7 +84,7 @@ private fun AccountsScreen(
 
         NeoButton(
             text = stringResource(R.string.accounts_create),
-            onClick = onCreateAccountClick,
+            onClick = { onAction(AccountsAction.CreateAccountClicked) },
             modifier = Modifier.fillMaxWidth(),
         )
     }
@@ -162,9 +154,7 @@ private fun AccountCard(
 
 @Composable
 private fun LoadingContent() {
-    NeoCard(
-        modifier = Modifier.fillMaxWidth(),
-    ) {
+    NeoCard(modifier = Modifier.fillMaxWidth()) {
         NeoText(
             text = stringResource(R.string.accounts_loading),
             style = NeoTheme.typography.headline,
@@ -173,12 +163,8 @@ private fun LoadingContent() {
 }
 
 @Composable
-private fun EmptyContent(
-    onCreateAccountClick: () -> Unit,
-) {
-    NeoCard(
-        modifier = Modifier.fillMaxWidth(),
-    ) {
+private fun EmptyContent(onCreateAccountClick: () -> Unit) {
+    NeoCard(modifier = Modifier.fillMaxWidth()) {
         Column(
             verticalArrangement = Arrangement.spacedBy(
                 NeoTheme.spacing.medium,
@@ -204,9 +190,7 @@ private fun EmptyContent(
 }
 
 @Composable
-private fun ErrorContent(
-    onRetry: () -> Unit,
-) {
+private fun ErrorContent(onRetry: () -> Unit) {
     NeoCard(
         modifier = Modifier.fillMaxWidth(),
     ) {

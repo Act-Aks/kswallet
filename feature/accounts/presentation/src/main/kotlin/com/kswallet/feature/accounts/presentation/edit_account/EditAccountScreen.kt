@@ -37,7 +37,7 @@ fun EditAccountRoot(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    ObserveAsEvents(events = viewModel.events) { event ->
+    ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             EditAccountEvent.AccountUpdated -> onAccountUpdated()
         }

@@ -36,7 +36,7 @@ fun CreateAccountRoot(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val currencyRegistry = koinInject<CurrencyRegistry>()
 
-    ObserveAsEvents(events = viewModel.events) { event ->
+    ObserveAsEvents(viewModel.events) { event ->
         when (event) {
             CreateAccountEvent.AccountCreated -> onAccountCreated()
         }

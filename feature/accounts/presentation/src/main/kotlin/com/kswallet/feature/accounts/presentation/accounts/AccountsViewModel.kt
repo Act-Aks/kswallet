@@ -23,10 +23,8 @@ class AccountsViewModel(
     override fun onAction(action: AccountsAction) {
         when (action) {
             AccountsAction.RetryClicked -> observeAccounts()
-
-            AccountsAction.CreateAccountClicked -> Unit
-
-            is AccountsAction.AccountClicked -> Unit
+            AccountsAction.CreateAccountClicked -> openCreateAccount()
+            is AccountsAction.AccountClicked -> openAccountDetails(action.id)
         }
     }
 
@@ -41,14 +39,13 @@ class AccountsViewModel(
 
         observationJob = viewModelScope.launch {
             try {
-                accountRepository.observeAccounts()
-                    .collect { accounts ->
-                        updateState { current ->
-                            current.copy(
-                                content = accounts.toContent(),
-                            )
-                        }
+                accountRepository.observeAccounts().collect { accounts ->
+                    updateState { current ->
+                        current.copy(
+                            content = accounts.toContent(),
+                        )
                     }
+                }
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (_: Exception) {
@@ -61,19 +58,30 @@ class AccountsViewModel(
         }
     }
 
-    private fun List<Account>.toContent(): AccountsContent =
-        if (isEmpty()) {
-            AccountsContent.Empty
-        } else {
-            AccountsContent.Content(
-                accounts = map { account ->
-                    AccountListItem(
-                        id = account.id.toString(),
-                        name = account.name.value,
-                        currencyCode = account.currency.code.value,
-                        isArchived = account.isArchived,
-                    )
-                },
-            )
+    private fun List<Account>.toContent(): AccountsContent = if (isEmpty()) {
+        AccountsContent.Empty
+    } else {
+        AccountsContent.Content(
+            accounts = map { account ->
+                AccountListItem(
+                    id = account.id.toString(),
+                    name = account.name.value,
+                    currencyCode = account.currency.code.value,
+                    isArchived = account.isArchived,
+                )
+            },
+        )
+    }
+
+    private fun openAccountDetails(id: String) {
+        viewModelScope.launch {
+            sendEvent(AccountsEvent.OpenAccountDetails(id))
         }
+    }
+
+    private fun openCreateAccount() {
+        viewModelScope.launch {
+            sendEvent(AccountsEvent.OpenCreateAccount)
+        }
+    }
 }
