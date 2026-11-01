@@ -2,27 +2,25 @@ package com.kswallet.feature.accounts.presentation
 
 import androidx.lifecycle.ViewModelStore
 import com.kswallet.core.money.CurrencyCode
-import com.kswallet.core.money.CurrencyRegistry
 import com.kswallet.core.money.CurrencyUnit
+import com.kswallet.feature.accounts.domain.model.Account
+import com.kswallet.feature.accounts.domain.model.AccountId
+import com.kswallet.feature.accounts.domain.model.AccountName
+import com.kswallet.feature.accounts.domain.model.AccountNameResult
+import com.kswallet.feature.accounts.domain.model.AccountStatus
+import com.kswallet.feature.accounts.presentation.accounts.AccountListItem
 import com.kswallet.feature.accounts.presentation.accounts.AccountsAction
 import com.kswallet.feature.accounts.presentation.accounts.AccountsContent
-import com.kswallet.feature.accounts.presentation.accounts.AccountsEvent
 import com.kswallet.feature.accounts.presentation.accounts.AccountsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNull
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -35,13 +33,6 @@ class AccountsViewModelTest {
     private lateinit var viewModelStore: ViewModelStore
     private lateinit var viewModel: AccountsViewModel
 
-    private val currencyRegistry = FakeCurrencyRegistry(
-        listOf(
-            currency("INR", scale = 2),
-            currency("USD", scale = 2),
-        ),
-    )
-
     @BeforeEach
     fun setUp() {
         Dispatchers.setMain(dispatcher)
@@ -51,7 +42,6 @@ class AccountsViewModelTest {
 
         viewModel = AccountsViewModel(
             accountRepository = repository,
-            currencyRegistry = currencyRegistry,
         )
 
         viewModelStore.put(AccountsViewModel::class.java, viewModel)
@@ -93,10 +83,12 @@ class AccountsViewModelTest {
 
             val delayedViewModel = AccountsViewModel(
                 accountRepository = repository,
-                currencyRegistry = currencyRegistry,
             )
 
-            viewModelStore.put(AccountsViewModel::class.java, delayedViewModel)
+            viewModelStore.put(
+                AccountsViewModel::class.java,
+                delayedViewModel,
+            )
 
             assertEquals(
                 AccountsContent.Loading,
@@ -113,154 +105,78 @@ class AccountsViewModelTest {
         }
 
     @Test
-    fun `show create account opens form with default currency`() =
+    fun `accounts map to list items preserving order and archive status`() =
         runTest(dispatcher) {
             runCurrent()
 
-            viewModel.onAction(AccountsAction.ShowCreateAccountClicked)
+            val archived = account(
+                name = "Archived wallet",
+                isArchived = true,
+            )
 
-            val form = viewModel.state.value.createAccount
+            val active = account(
+                name = "Active wallet",
+                isArchived = false,
+            )
 
-            assertTrue(form.isVisible)
-            assertEquals("", form.name)
-            assertEquals("INR", form.selectedCurrencyCode)
-            assertFalse(form.canSubmit)
+            repository.accounts.value = listOf(archived, active)
+
+            runCurrent()
+
+            assertEquals(
+                AccountsContent.Content(
+                    accounts = listOf(
+                        AccountListItem(
+                            id = archived.id.toString(),
+                            name = "Archived wallet",
+                            currencyCode = "INR",
+                            isArchived = true,
+                        ),
+                        AccountListItem(
+                            id = active.id.toString(),
+                            name = "Active wallet",
+                            currencyCode = "INR",
+                            isArchived = false,
+                        ),
+                    ),
+                ),
+                viewModel.state.value.content,
+            )
         }
 
     @Test
-    fun `dismiss create account resets the form`() = runTest(dispatcher) {
+    fun `retry restarts observation`() = runTest(dispatcher) {
         runCurrent()
 
-        viewModel.onAction(AccountsAction.ShowCreateAccountClicked)
-        viewModel.onAction(AccountsAction.NameChanged("Travel"))
-        viewModel.onAction(AccountsAction.CurrencySelected("INR"))
+        viewModel.onAction(AccountsAction.RetryClicked)
+        runCurrent()
 
-        viewModel.onAction(AccountsAction.DismissCreateAccountClicked)
-
-        val form = viewModel.state.value.createAccount
-
-        assertFalse(form.isVisible)
-        assertEquals("", form.name)
-        assertNull(form.selectedCurrencyCode)
+        assertEquals(2, repository.observationStarts)
+        assertEquals(1, repository.activeObservers)
     }
 
-    @Test
-    fun `invalid name prevents submission`() = runTest(dispatcher) {
-        runCurrent()
-
-        viewModel.onAction(AccountsAction.ShowCreateAccountClicked)
-        viewModel.onAction(AccountsAction.NameChanged(""))
-        viewModel.onAction(AccountsAction.CurrencySelected("INR"))
-
-        viewModel.onAction(AccountsAction.SubmitCreateAccountClicked)
-        runCurrent()
-
-        val form = viewModel.state.value.createAccount
-
-        assertEquals("Enter a valid account name.", form.nameError)
-        assertFalse(form.isSubmitting)
-        assertEquals(0, repository.accounts.value.size)
-    }
-
-    @Test
-    fun `default currency is the first supported currency`() =
-        runTest(dispatcher) {
-            runCurrent()
-
-            viewModel.onAction(AccountsAction.ShowCreateAccountClicked)
-
-            assertEquals(
-                "INR",
-                viewModel.state.value.createAccount.selectedCurrencyCode,
-            )
-        }
-
-    @Test
-    fun `valid submission creates an account and emits event`() =
-        runTest(dispatcher) {
-            runCurrent()
-
-            val event = async {
-                viewModel.events.first()
-            }
-
-            viewModel.onAction(AccountsAction.ShowCreateAccountClicked)
-            viewModel.onAction(AccountsAction.NameChanged("Travel"))
-            viewModel.onAction(AccountsAction.CurrencySelected("INR"))
-
-            viewModel.onAction(AccountsAction.SubmitCreateAccountClicked)
-            advanceUntilIdle()
-
-            val form = viewModel.state.value.createAccount
-
-            assertFalse(form.isVisible)
-            assertEquals("", form.name)
-            assertNull(form.selectedCurrencyCode)
-
-            assertEquals(1, repository.accounts.value.size)
-            assertEquals(
-                "Travel",
-                repository.accounts.value.first().name.value,
-            )
-            assertEquals(
-                "INR",
-                repository.accounts.value.first().currency.code.value,
-            )
-
-            assertEquals(
-                AccountsEvent.AccountCreated,
-                event.await(),
-            )
-        }
-
-    @Test
-    fun `repository failure shows submission error and retains form`() =
-        runTest(dispatcher) {
-            runCurrent()
-
-            repository.nextCreateFailure =
-                IllegalStateException("Storage unavailable")
-
-            viewModel.onAction(AccountsAction.ShowCreateAccountClicked)
-            viewModel.onAction(AccountsAction.NameChanged("Travel"))
-            viewModel.onAction(AccountsAction.CurrencySelected("INR"))
-
-            viewModel.onAction(AccountsAction.SubmitCreateAccountClicked)
-            advanceUntilIdle()
-
-            val form = viewModel.state.value.createAccount
-
-            assertTrue(form.isVisible)
-            assertFalse(form.isSubmitting)
-            assertEquals(
-                "Could not create the account.",
-                form.submissionError,
-            )
-            assertEquals(0, repository.accounts.value.size)
-        }
-
-    private fun currency(
-        code: String,
-        scale: Int,
-    ): CurrencyUnit = CurrencyUnit(
-        code = CurrencyCode.of(code),
-        minorUnitScale = scale,
+    private fun account(
+        name: String,
+        isArchived: Boolean,
+    ): Account = Account(
+        id = AccountId.new(),
+        name = validName(name),
+        currency = CurrencyUnit(
+            code = CurrencyCode.of("INR"),
+            minorUnitScale = 2,
+        ),
+        status = if (isArchived) {
+            AccountStatus.Archived
+        } else {
+            AccountStatus.Active
+        },
     )
 
-    private class FakeCurrencyRegistry(
-        private val currencies: List<CurrencyUnit>,
-    ) : CurrencyRegistry {
+    private fun validName(value: String): AccountName =
+        when (val result = AccountName.parse(value)) {
+            is AccountNameResult.Valid -> result.name
 
-        private val currenciesByCode = currencies.associateBy { currency ->
-            currency.code
+            is AccountNameResult.Invalid ->
+                error("Invalid test account name: ${result.reason}")
         }
-
-        override fun find(code: CurrencyCode): CurrencyUnit? =
-            currenciesByCode[code]
-
-        override fun supportedCurrencies(): List<CurrencyUnit> =
-            currencies.sortedBy { currency ->
-                currency.code.value
-            }
-    }
 }

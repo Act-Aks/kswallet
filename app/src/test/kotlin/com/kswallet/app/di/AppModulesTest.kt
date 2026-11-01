@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelStore
 import com.kswallet.app.foundation.FoundationAction
 import com.kswallet.app.foundation.FoundationCounterPolicy
 import com.kswallet.app.foundation.FoundationViewModel
+import com.kswallet.feature.accounts.domain.model.AccountId
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -59,7 +60,9 @@ class AppModulesTest {
             includes(*appModules.toTypedArray())
         }
 
-        completeModule.verify()
+        completeModule.verify(
+            extraTypes = listOf(AccountId::class),
+        )
     }
 
     @Test
