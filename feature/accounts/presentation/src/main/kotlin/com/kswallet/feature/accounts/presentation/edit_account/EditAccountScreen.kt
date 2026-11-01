@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kswallet.core.screen.ObserveAsEvents
-import com.kswallet.feature.accounts.domain.model.AccountId
 import com.kswallet.feature.accounts.presentation.R
 import com.neodesign.component.NeoButton
 import com.neodesign.component.NeoButtonVariant

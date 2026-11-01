@@ -1,5 +1,6 @@
 package com.kswallet.feature.accounts.domain.model
 
+import com.kswallet.core.identity.AccountId
 import com.kswallet.core.money.CurrencyUnit
 
 data class Account(

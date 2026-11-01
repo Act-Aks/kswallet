@@ -1,11 +1,11 @@
 package com.kswallet.feature.accounts.data.mapper
 
 import com.kswallet.core.database.account.AccountEntity
+import com.kswallet.core.identity.AccountId
 import com.kswallet.core.money.CurrencyCode
 import com.kswallet.core.money.CurrencyUnit
 import com.kswallet.feature.accounts.data.error.MalformedAccountRecordException
 import com.kswallet.feature.accounts.domain.model.Account
-import com.kswallet.feature.accounts.domain.model.AccountId
 import com.kswallet.feature.accounts.domain.model.AccountName
 import com.kswallet.feature.accounts.domain.model.AccountNameResult
 import com.kswallet.feature.accounts.domain.model.AccountStatus

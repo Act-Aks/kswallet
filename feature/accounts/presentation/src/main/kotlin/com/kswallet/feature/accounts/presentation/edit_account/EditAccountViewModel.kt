@@ -2,7 +2,6 @@ package com.kswallet.feature.accounts.presentation.edit_account
 
 import androidx.lifecycle.viewModelScope
 import com.kswallet.core.screen.ScreenViewModel
-import com.kswallet.feature.accounts.domain.model.AccountId
 import com.kswallet.feature.accounts.domain.model.AccountName
 import com.kswallet.feature.accounts.domain.model.AccountNameResult
 import com.kswallet.feature.accounts.domain.model.AccountStatus

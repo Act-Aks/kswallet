@@ -25,13 +25,25 @@ rootProject.name = "KsWallet"
 include(":app")
 
 include(
-    ":core:currencies", ":core:database", ":core:money", ":core:navigation", ":core:screen"
+    ":core:currencies",
+    ":core:database",
+    ":core:identity",
+    ":core:money",
+    ":core:navigation",
+    ":core:screen",
 )
 
 include(
-    ":design-system:catalog", ":design-system:core"
+    ":design-system:catalog",
+    ":design-system:core",
 )
 
 include(
-    ":feature:accounts:data", ":feature:accounts:domain", ":feature:accounts:presentation"
+    ":feature:accounts:data",
+    ":feature:accounts:domain",
+    ":feature:accounts:presentation",
+)
+
+include(
+    ":feature:transactions:domain",
 )

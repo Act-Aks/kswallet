@@ -1,10 +1,10 @@
 package com.kswallet.feature.accounts.presentation
 
 import androidx.lifecycle.ViewModelStore
+import com.kswallet.core.identity.AccountId
 import com.kswallet.core.money.CurrencyCode
 import com.kswallet.core.money.CurrencyUnit
 import com.kswallet.feature.accounts.domain.model.Account
-import com.kswallet.feature.accounts.domain.model.AccountId
 import com.kswallet.feature.accounts.domain.model.AccountName
 import com.kswallet.feature.accounts.domain.model.AccountNameResult
 import com.kswallet.feature.accounts.domain.model.AccountStatus

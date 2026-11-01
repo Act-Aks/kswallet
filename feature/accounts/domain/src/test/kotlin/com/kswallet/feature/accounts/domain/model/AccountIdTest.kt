@@ -1,5 +1,6 @@
 package com.kswallet.feature.accounts.domain.model
 
+import com.kswallet.core.identity.AccountId
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test

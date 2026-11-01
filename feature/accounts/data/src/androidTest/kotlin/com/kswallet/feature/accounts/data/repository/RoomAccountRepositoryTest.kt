@@ -7,12 +7,12 @@ import com.kswallet.core.database.WalletDatabase
 import com.kswallet.core.database.WalletDatabaseFactory
 import com.kswallet.core.database.account.AccountDao
 import com.kswallet.core.database.account.AccountEntity
+import com.kswallet.core.identity.AccountId
 import com.kswallet.core.money.CurrencyCode
 import com.kswallet.core.money.CurrencyRegistry
 import com.kswallet.core.money.CurrencyUnit
 import com.kswallet.feature.accounts.data.error.AccountCurrencyRejectedException
 import com.kswallet.feature.accounts.data.error.MalformedAccountRecordException
-import com.kswallet.feature.accounts.domain.model.AccountId
 import com.kswallet.feature.accounts.domain.model.AccountName
 import com.kswallet.feature.accounts.domain.model.AccountNameResult
 import com.kswallet.feature.accounts.domain.model.AccountStatus

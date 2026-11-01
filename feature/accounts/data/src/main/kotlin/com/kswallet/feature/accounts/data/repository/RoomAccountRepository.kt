@@ -7,7 +7,6 @@ import com.kswallet.feature.accounts.data.error.AccountCurrencyRejectedException
 import com.kswallet.feature.accounts.data.mapper.toDomain
 import com.kswallet.feature.accounts.data.mapper.toEntity
 import com.kswallet.feature.accounts.domain.model.Account
-import com.kswallet.feature.accounts.domain.model.AccountId
 import com.kswallet.feature.accounts.domain.model.AccountName
 import com.kswallet.feature.accounts.domain.model.AccountStatus
 import com.kswallet.feature.accounts.domain.model.NewAccount

@@ -1,7 +1,6 @@
 package com.kswallet.feature.accounts.presentation
 
 import com.kswallet.feature.accounts.domain.model.Account
-import com.kswallet.feature.accounts.domain.model.AccountId
 import com.kswallet.feature.accounts.domain.model.AccountName
 import com.kswallet.feature.accounts.domain.model.AccountStatus
 import com.kswallet.feature.accounts.domain.model.NewAccount
