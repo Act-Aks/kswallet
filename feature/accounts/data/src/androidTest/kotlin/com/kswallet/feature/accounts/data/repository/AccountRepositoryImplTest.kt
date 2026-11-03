@@ -5,8 +5,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.kswallet.core.database.WalletDatabase
 import com.kswallet.core.database.WalletDatabaseFactory
-import com.kswallet.core.database.account.AccountDao
-import com.kswallet.core.database.account.AccountEntity
+import com.kswallet.core.database.dao.AccountDao
+import com.kswallet.core.database.entity.AccountEntity
 import com.kswallet.core.identity.AccountId
 import com.kswallet.core.money.CurrencyCode
 import com.kswallet.core.money.CurrencyRegistry
@@ -35,13 +35,13 @@ import java.util.UUID
 import kotlin.time.Duration.Companion.milliseconds
 
 @RunWith(AndroidJUnit4::class)
-class RoomAccountRepositoryTest {
+class AccountRepositoryImplTest {
 
     private lateinit var context: Context
     private lateinit var databaseName: String
     private lateinit var database: WalletDatabase
     private lateinit var dao: AccountDao
-    private lateinit var repository: RoomAccountRepository
+    private lateinit var repository: AccountRepositoryImpl
 
     private val inr = currency("INR", 2)
 
@@ -60,7 +60,7 @@ class RoomAccountRepositoryTest {
 
         dao = database.accountDao()
 
-        repository = RoomAccountRepository(
+        repository = AccountRepositoryImpl(
             accountDao = dao,
             currencyRegistry = registryOf(inr),
         )

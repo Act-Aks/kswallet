@@ -23,10 +23,11 @@ lifecycleNavigation3 = "2.12.0-alpha05"
 
 # Kotlin externals
 coroutines = "1.11.0"
-serialization = "1.9.0"
+serialization = "1.12.0"
 
 # DI
 koin = "4.2.2"
+koinCompilerPlugin = "1.2.1"
 
 # Database
 room3 = "3.0.3"
@@ -86,10 +87,13 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "serialization" }
 
 # --- Koin ---
-koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
-koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
-koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
+koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android" }
+koin-annotations = { group = "io.insert-koin", name = "koin-annotations" }
+koin-compose = { group = "io.insert-koin", name = "koin-compose" }
+koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel" }
+koin-core = { group = "io.insert-koin", name = "koin-core" }
+koin-test = { group = "io.insert-koin", name = "koin-test" }
 
 # --- Room ---
 androidx-room3-runtime = { group = "androidx.room3", name = "room3-runtime", version.ref = "room3" }
@@ -146,14 +150,18 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 room3 = { id = "androidx.room3", version.ref = "room3" }
+koin-compiler = { id = "io.insert-koin.compiler.plugin", version.ref = "koinCompilerPlugin" }
 
 # --- Project convention plugins (provided by the included build-logic build) ---
 kswallet-android-application = { id = "kswallet.android.application" }
 kswallet-android-compose = { id = "kswallet.android.compose" }
+kswallet-android-compose-di = { id = "kswallet.android.compose.di" }
+kswallet-android-di = { id = "kswallet.android.di" }
 kswallet-android-library = { id = "kswallet.android.library" }
 kswallet-android-lint = { id = "kswallet.android.lint" }
 kswallet-android-room = { id = "kswallet.android.room" }
 kswallet-android-testing = { id = "kswallet.android.testing" }
+kswallet-kotlin-di = { id = "kswallet.kotlin.di" }
 kswallet-kotlin-format = { id = "kswallet.kotlin.format" }
 kswallet-kotlin-library = { id = "kswallet.kotlin.library" }
 kswallet-kotlin-testing = { id = "kswallet.kotlin.testing" }

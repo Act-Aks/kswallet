@@ -1,8 +1,10 @@
 package com.kswallet.convention
 
 import com.android.build.api.dsl.ApplicationExtension
+import com.kswallet.convention.internal.androidTestImplementation
 import com.kswallet.convention.internal.applyPlugins
 import com.kswallet.convention.internal.configureAndroidApplication
+import com.kswallet.convention.internal.configureJunitTestDependencies
 import com.kswallet.convention.internal.configureLocalTests
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -18,5 +20,10 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
         }
 
         configureLocalTests()
+        configureJunitTestDependencies()
+
+        androidTestImplementation("junit4")
+        androidTestImplementation("androidx-test-runner")
+        androidTestImplementation("androidx-test-ext-junit")
     }
 }

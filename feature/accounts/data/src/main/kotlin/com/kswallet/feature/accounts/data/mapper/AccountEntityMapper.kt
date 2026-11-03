@@ -1,6 +1,6 @@
 package com.kswallet.feature.accounts.data.mapper
 
-import com.kswallet.core.database.account.AccountEntity
+import com.kswallet.core.database.entity.AccountEntity
 import com.kswallet.core.identity.AccountId
 import com.kswallet.core.money.CurrencyCode
 import com.kswallet.core.money.CurrencyUnit

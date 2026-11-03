@@ -31,6 +31,16 @@ gradlePlugin {
             implementationClass = "com.kswallet.convention.AndroidComposeConventionPlugin"
         }
 
+        register("androidComposeDi") {
+            id = "kswallet.android.compose.di"
+            implementationClass = "com.kswallet.convention.AndroidComposeDiConventionPlugin"
+        }
+
+        register("androidDi") {
+            id = "kswallet.android.di"
+            implementationClass = "com.kswallet.convention.AndroidDiConventionPlugin"
+        }
+
         register("androidLibrary") {
             id = "kswallet.android.library"
             implementationClass = "com.kswallet.convention.AndroidLibraryConventionPlugin"
@@ -41,6 +51,7 @@ gradlePlugin {
             implementationClass = "com.kswallet.convention.AndroidLintConventionPlugin"
         }
 
+
         register("androidTesting") {
             id = "kswallet.android.testing"
             implementationClass = "com.kswallet.convention.AndroidTestingConventionPlugin"
@@ -49,6 +60,11 @@ gradlePlugin {
         register("androidRoom") {
             id = "kswallet.android.room"
             implementationClass = "com.kswallet.convention.AndroidRoomConventionPlugin"
+        }
+
+        register("kotlinDi") {
+            id = "kswallet.kotlin.di"
+            implementationClass = "com.kswallet.convention.KotlinDiConventionPlugin"
         }
 
         register("kotlinFormat") {

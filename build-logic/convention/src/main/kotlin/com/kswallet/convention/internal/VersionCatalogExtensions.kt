@@ -84,6 +84,13 @@ internal fun Project.implementation(alias: String) {
     add("implementation", alias)
 }
 
+internal fun Project.implementationPlatform(alias: String) {
+    dependencies.add(
+        "implementation",
+        dependencies.platform(lib(alias)),
+    )
+}
+
 internal fun Project.testImplementation(alias: String) {
     add("testImplementation", alias)
 }

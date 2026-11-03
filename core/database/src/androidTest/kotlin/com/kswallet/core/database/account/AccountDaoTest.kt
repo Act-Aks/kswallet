@@ -4,6 +4,8 @@ import androidx.sqlite.SQLiteException
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.kswallet.core.database.WalletDatabase
 import com.kswallet.core.database.WalletDatabaseFactory
+import com.kswallet.core.database.dao.AccountDao
+import com.kswallet.core.database.entity.AccountEntity
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first

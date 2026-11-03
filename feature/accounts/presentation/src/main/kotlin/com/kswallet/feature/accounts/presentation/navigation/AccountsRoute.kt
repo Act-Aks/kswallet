@@ -1,4 +1,4 @@
-package com.kswallet.app.ui.navigation
+package com.kswallet.feature.accounts.presentation.navigation
 
 import com.kswallet.core.navigation.KsWalletRoute
 import kotlinx.serialization.Serializable

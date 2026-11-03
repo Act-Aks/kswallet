@@ -1,10 +1,11 @@
-package com.kswallet.core.database.account
+package com.kswallet.core.database.dao
 
 import androidx.room3.Dao
 import androidx.room3.Insert
 import androidx.room3.OnConflictStrategy
 import androidx.room3.Query
 import androidx.room3.Transaction
+import com.kswallet.core.database.entity.AccountEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,5 +1,6 @@
 package com.kswallet.feature.accounts.presentation
 
+import com.kswallet.core.identity.AccountId
 import com.kswallet.feature.accounts.domain.model.Account
 import com.kswallet.feature.accounts.domain.model.AccountName
 import com.kswallet.feature.accounts.domain.model.AccountStatus
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 
-internal class FakeAccountRepository : AccountRepository {
+internal class FakeAccountRepositoryImpl : AccountRepository {
 
     val accounts = MutableStateFlow<List<Account>>(emptyList())
 

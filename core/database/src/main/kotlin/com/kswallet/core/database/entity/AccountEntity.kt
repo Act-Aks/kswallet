@@ -1,4 +1,4 @@
-package com.kswallet.core.database.account
+package com.kswallet.core.database.entity
 
 import androidx.room3.ColumnInfo
 import androidx.room3.Entity

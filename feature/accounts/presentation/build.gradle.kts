@@ -1,6 +1,7 @@
 plugins {
-    alias(libs.plugins.kswallet.android.compose)
     alias(libs.plugins.kswallet.android.library)
+    alias(libs.plugins.kswallet.android.compose)
+    alias(libs.plugins.kswallet.android.compose.di)
     alias(libs.plugins.kswallet.android.lint)
     alias(libs.plugins.kswallet.android.testing)
     alias(libs.plugins.kswallet.kotlin.format)
@@ -16,9 +17,9 @@ android {
 
 dependencies {
     implementation(projects.core.screen)
-    implementation(projects.feature.accounts.domain)
-
+    implementation(projects.core.navigation)
     implementation(projects.designSystem.core)
+    implementation(projects.feature.accounts.domain)
 
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.runtime)
@@ -29,8 +30,7 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.core)
 
-    implementation(libs.koin.androidx.compose)
-    implementation(libs.koin.core)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 
     testImplementation(libs.kotlinx.coroutines.test)
 }

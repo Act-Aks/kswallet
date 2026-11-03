@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModelStore
 import com.kswallet.core.money.CurrencyCode
 import com.kswallet.core.money.CurrencyRegistry
 import com.kswallet.core.money.CurrencyUnit
-import com.kswallet.feature.accounts.presentation.FakeAccountRepository
+import com.kswallet.feature.accounts.presentation.FakeAccountRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -24,7 +24,7 @@ class CreateAccountViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()
 
-    private lateinit var repository: FakeAccountRepository
+    private lateinit var repository: FakeAccountRepositoryImpl
     private lateinit var viewModelStore: ViewModelStore
     private lateinit var viewModel: CreateAccountViewModel
 
@@ -39,7 +39,7 @@ class CreateAccountViewModelTest {
     fun setUp() {
         Dispatchers.setMain(dispatcher)
 
-        repository = FakeAccountRepository()
+        repository = FakeAccountRepositoryImpl()
         viewModelStore = ViewModelStore()
 
         viewModel = CreateAccountViewModel(

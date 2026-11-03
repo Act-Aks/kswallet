@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kswallet.android.application)
     alias(libs.plugins.kswallet.android.compose)
+    alias(libs.plugins.kswallet.android.compose.di)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -41,22 +42,11 @@ dependencies {
 
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
 
-    implementation(libs.koin.android)
-    implementation(libs.koin.androidx.compose)
-    implementation(libs.koin.core)
-
-    androidTestImplementation(libs.junit4)
-    androidTestImplementation(libs.androidx.test.runner)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-
-    testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.junit.jupiter)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.koin.test)
-
-    testRuntimeOnly(libs.junit.platform.launcher)
 }

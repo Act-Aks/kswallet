@@ -22,5 +22,15 @@ value class TransactionTimestamp(
         fun of(value: Instant): TransactionTimestamp = TransactionTimestamp(
             value = value,
         )
+
+        /**
+         * Reconstructs a timestamp previously persisted by the app.
+         *
+         * Unlike [of], this does not reject timestamps that are in the future
+         * relative to the current device clock. This prevents stored data from
+         * becoming unreadable if the device clock changes.
+         */
+        fun fromStored(value: Instant): TransactionTimestamp =
+            TransactionTimestamp(value)
     }
 }

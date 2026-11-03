@@ -1,6 +1,7 @@
 package com.kswallet.feature.accounts.presentation.edit_account
 
 import androidx.lifecycle.viewModelScope
+import com.kswallet.core.identity.AccountId
 import com.kswallet.core.screen.ScreenViewModel
 import com.kswallet.feature.accounts.domain.model.AccountName
 import com.kswallet.feature.accounts.domain.model.AccountNameResult
@@ -8,10 +9,11 @@ import com.kswallet.feature.accounts.domain.model.AccountStatus
 import com.kswallet.feature.accounts.domain.repository.AccountRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.InjectedParam
 
 class EditAccountViewModel(
+    @InjectedParam private val accountId: AccountId,
     private val accountRepository: AccountRepository,
-    private val accountId: AccountId,
 ) : ScreenViewModel<EditAccountState, EditAccountAction, EditAccountEvent>(
     initialState = EditAccountState(),
 ) {

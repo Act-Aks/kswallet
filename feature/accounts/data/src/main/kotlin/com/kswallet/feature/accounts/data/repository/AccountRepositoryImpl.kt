@@ -1,6 +1,7 @@
 package com.kswallet.feature.accounts.data.repository
 
-import com.kswallet.core.database.account.AccountDao
+import com.kswallet.core.database.dao.AccountDao
+import com.kswallet.core.identity.AccountId
 import com.kswallet.core.money.CurrencyRegistry
 import com.kswallet.core.money.CurrencyUnit
 import com.kswallet.feature.accounts.data.error.AccountCurrencyRejectedException
@@ -14,7 +15,7 @@ import com.kswallet.feature.accounts.domain.repository.AccountRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class RoomAccountRepository(
+class AccountRepositoryImpl(
     private val accountDao: AccountDao,
     private val currencyRegistry: CurrencyRegistry,
 ) : AccountRepository {

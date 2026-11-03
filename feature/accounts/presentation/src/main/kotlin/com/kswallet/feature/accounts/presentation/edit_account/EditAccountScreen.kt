@@ -15,6 +15,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kswallet.core.identity.AccountId
 import com.kswallet.core.screen.ObserveAsEvents
 import com.kswallet.feature.accounts.presentation.R
 import com.neodesign.component.NeoButton

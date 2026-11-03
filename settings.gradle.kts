@@ -45,5 +45,6 @@ include(
 )
 
 include(
+    ":feature:transactions:data",
     ":feature:transactions:domain",
 )

@@ -29,7 +29,7 @@ class AccountsViewModelTest {
 
     private val dispatcher = StandardTestDispatcher()
 
-    private lateinit var repository: FakeAccountRepository
+    private lateinit var repository: FakeAccountRepositoryImpl
     private lateinit var viewModelStore: ViewModelStore
     private lateinit var viewModel: AccountsViewModel
 
@@ -37,7 +37,7 @@ class AccountsViewModelTest {
     fun setUp() {
         Dispatchers.setMain(dispatcher)
 
-        repository = FakeAccountRepository()
+        repository = FakeAccountRepositoryImpl()
         viewModelStore = ViewModelStore()
 
         viewModel = AccountsViewModel(

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.kswallet.core.database.WalletDatabase
-import com.kswallet.core.database.account.AccountDao
+import com.kswallet.core.database.dao.AccountDao
 import com.kswallet.core.money.CurrencyCode
 import com.kswallet.core.money.CurrencyRegistry
 import com.kswallet.feature.accounts.domain.model.AccountName

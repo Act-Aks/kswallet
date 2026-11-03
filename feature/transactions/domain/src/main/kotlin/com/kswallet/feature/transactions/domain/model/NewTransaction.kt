@@ -5,7 +5,7 @@ import com.kswallet.core.money.Money
 
 data class NewTransaction(
     val accountId: AccountId,
-    val direction: TransactionType,
+    val type: TransactionType,
     val amount: Money,
     val timestamp: TransactionTimestamp,
     val note: TransactionNote? = null,
